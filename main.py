@@ -131,13 +131,17 @@ def dashboard():
         return redirect("/login")
 
 
-@app.route("/Control", methods=['POST', 'GET'])
-def Control():
+@app.route("/control", methods=['POST', 'GET'])
+def control():
     print('adddsd')
 
 @app.route("/options", methods=['POST', 'GET'])
 def options():
     return render_template('options.html', version=version)
+
+@app.route("/alerts", methods=['POST', 'GET'])
+def alerts():
+    return render_template('alerts.html', version=version)
 
 def insert():
     import random
