@@ -39,7 +39,7 @@ def logout():
 def login():
     if 'user' not in session:
         if request.method == 'POST':
-            name = request.form["user"]
+            name = request.form["user"].lower()
             password = hashlib.md5(request.form["password"].encode('utf-8')).hexdigest()
             if name == '':
                 flash("Enter username and password")
@@ -53,8 +53,8 @@ def login():
                 if result is None:
                     flash("Wrong username or password")
                     return render_template('login.html', version=version)
-                getpass = result["UserPassword"]
-                getrole = result["Role"]
+                getpass = result[0]
+                getrole = result[1]
                 cursor.close()
                 connection.close()
             except Exception as E:
@@ -83,22 +83,61 @@ def dashboard():
     if 'user' in session:
         if request.method == 'GET':
             connection.connect()
-            SQLrequest = """SELECT DATETIME, temp, ph, tds FROM `data`"""
+            SQLrequest = """SELECT DATE_FORMAT(DATETIME, '%D %b %H:%i'), temp, ph, tds FROM `data` ORDER BY id ASC LIMIT 48"""
+            min_temp_request = """SELECT min_temp FROM options"""
+            max_temp_request = """SELECT max_temp FROM options"""
+            min_ph_request = """SELECT min_ph FROM options"""
+            max_ph_request = """SELECT max_ph FROM options"""
+            current = """SELECT temp, ph, tds FROM `data` ORDER BY id DESC LIMIT 1"""
             try:
                 with connection.cursor() as cursor:
                     cursor.execute(SQLrequest)
                 result = cursor.fetchall()
-                print(result)
+
+                with connection.cursor() as cursor:
+                    cursor.execute(min_temp_request)
+                min = cursor.fetchone()[0]
+                min_temp = [min for i in range(48)]
+
+                with connection.cursor() as cursor:
+                    cursor.execute(max_temp_request)
+                max = cursor.fetchone()[0]
+                max_temp = [max for i in range(48)]
+
+                with connection.cursor() as cursor:
+                    cursor.execute(min_ph_request)
+                minph = cursor.fetchone()[0]
+                min_ph = [minph for i in range(48)]
+
+                with connection.cursor() as cursor:
+                    cursor.execute(max_ph_request)
+                maxph = cursor.fetchone()[0]
+                max_ph = [maxph for i in range(48)]
+
+                with connection.cursor() as cursor:
+                    cursor.execute(current)
+                current = cursor.fetchone()
+
+
             except Exception as E:
                 return render_template('aquarium.html', version=version)
 
 
-            return render_template('aquarium.html', version=version, result=result)
+            return render_template('aquarium.html', version=version, result=result, min_temp=min_temp, max_temp=max_temp, min_ph=min_ph, max_ph=max_ph, current=current)
         else:
             return render_template('aquarium.html', version=version, result=None)
     else:
         flash("You are not logged in")
         return redirect("/login")
+
+
+@app.route("/Control", methods=['POST', 'GET'])
+def Control():
+    print('adddsd')
+
+@app.route("/options", methods=['POST', 'GET'])
+def options():
+    return render_template('options.html', version=version)
 
 def insert():
     import random

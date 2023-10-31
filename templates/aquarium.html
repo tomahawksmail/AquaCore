@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+{% block title %}SmartHome CORE ver.{{ version }}{% endblock %}
+
+
+{% block head %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>
+    setTimeout(function () {location.reload();}, 600000);
+</script>
+<style>
+    INPUT[type="text"] {
+         background-color: #525f7f;
+         color: #b1b1b1;
+         border:0px solid #b1b1b1;
+     border-radius:7px;
+    }
+</style>
+{% endblock %}
+
+
+{% block content %}
+
+
+<form method="POST" action="aquarium">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card card-chart">
+                <div class="card-header">
+                    <div class="col-sm-6 text-left">
+                        <h5 class="card-title">72 hours values</h5>
+                    </div>
+                    <div class="card-body">
+                        <div>
+                            <canvas id="temp" height="236"></canvas>
+                            <script>
+
+                                var ctx = document.getElementById('temp'); //canvas context
+
+                                    new Chart(ctx, {
+                                    type: 'line',
+                                    data: {
+                                    labels: [{% for item in result %} "{{item[0]}}",  {% endfor %}],
+                                    datasets: [{
+                                        borderColor: "rgba(255,255,255,0.7)",
+                                        label: 'Temperature, °C',
+                                        data: [{% for item in result %} "{{item[1]}}",  {% endfor %}],
+                                        borderWidth: 1,
+                                        tension: 0.3},
+                                        {
+                                        borderColor: "rgba(0,255,0,0.7)",
+                                        label: '{{max_temp[0]}} Maximum, °C',
+                                        data: [{% for item in max_temp %} "{{item}}",  {% endfor %}],
+                                        borderWidth: 1,
+                                        pointStyle: 'circle',
+                                        pointRadius: 0,
+                                        tension: 0.3},
+                                        {
+                                        borderColor: "rgba(0,255,0,0.7)",
+                                        label: '{{min_temp[0]}} Minimum, °C',
+                                        data: [{% for item in min_temp %} "{{item}}",  {% endfor %}],
+                                        borderWidth: 1,
+                                        pointStyle: 'circle',
+                                        pointRadius: 0,
+                                        tension: 0.3}
+                                        ]},
+                                    options: {
+                                    responsive: true,
+                                    maintainAspectRatio: false,
+                                    indexAxis: 'x',
+                                    }
+                                });
+                            </script>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div>
+                            <canvas id="ph" height="236"></canvas>
+                            <script>
+                                const ctx2 = document.getElementById('ph'); //canvas context
+                                    new Chart(ctx2, {
+                                    type: 'line',
+                                    data: {
+                                    labels: [{% for item in result %} "{{item[0]}}",  {% endfor %}],
+                                    datasets: [{
+                                        borderColor: "rgba(255,255,255,0.7)",
+                                        label: 'PH',
+                                        data: [{% for item in result %} "{{item[2]}}",  {% endfor %}],
+                                        borderWidth: 1,
+                                        tension: 0.3},
+                                        {
+                                        borderColor: "rgba(0,255,0,0.7)",
+                                        label: 'Maximum, PH',
+                                        data: [{% for item in max_ph %} "{{item}}",  {% endfor %}],
+                                        borderWidth: 1,
+                                        pointStyle: 'circle',
+                                        pointRadius: 0,
+                                        tension: 0.3},
+                                        {
+                                        borderColor: "rgba(0,255,0,0.7)",
+                                        label: 'Minimum, PH',
+                                        data: [{% for item in min_ph %} "{{item}}",  {% endfor %}],
+                                        borderWidth: 1,
+                                        pointStyle: 'circle',
+                                        pointRadius: 0,
+                                        tension: 0.3}
+                                        ]},
+                                    options: {
+                                    responsive: true,
+                                    maintainAspectRatio: false,
+                                    indexAxis: 'x',
+                                    }
+                                });
+                            </script>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div>
+                            <canvas id="tds" height="236"></canvas>
+                            <script>
+                                const ctx3 = document.getElementById('tds'); //canvas context
+                                    new Chart(ctx3, {
+                                    type: 'line',
+                                    data: {
+                                    labels: [{% for item in result %} "{{item[0]}}",  {% endfor %}],
+                                    datasets: [{
+                                        borderColor: "rgba(255,255,255,0.7)",
+                                        label: 'TDS',
+                                        data: [{% for item in result %} "{{item[3]}}",  {% endfor %}],
+                                        borderWidth: 1,
+                                        tension: 0.3}]},
+                                    options: {
+                                    responsive: true,
+                                    maintainAspectRatio: false,
+                                    indexAxis: 'x',
+                                    }
+                                });
+                            </script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</form>
+
+{% endblock %}
+
+{% block footer %}
+
+{% endblock %}
