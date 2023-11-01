@@ -83,11 +83,12 @@ def dashboard():
     if 'user' in session:
         if request.method == 'GET':
             connection.connect()
-            SQLrequest = """SELECT DATE_FORMAT(DATETIME, '%D %b %H:%i'), temp, ph, tds FROM `data` ORDER BY id ASC LIMIT 48"""
+            SQLrequest = """SELECT DATE_FORMAT(DATETIME, '%D %H:%i'), temp, ph, tds FROM `data` ORDER BY id ASC LIMIT 48"""
             min_temp_request = """SELECT min_temp FROM options"""
             max_temp_request = """SELECT max_temp FROM options"""
             min_ph_request = """SELECT min_ph FROM options"""
             max_ph_request = """SELECT max_ph FROM options"""
+            tds_request = """SELECT tds FROM options"""
             current = """SELECT temp, ph, tds FROM `data` ORDER BY id DESC LIMIT 1"""
             try:
                 with connection.cursor() as cursor:
@@ -115,6 +116,11 @@ def dashboard():
                 max_ph = [maxph for i in range(48)]
 
                 with connection.cursor() as cursor:
+                    cursor.execute(tds_request)
+                tds = cursor.fetchone()[0]
+                tds = [tds for i in range(48)]
+
+                with connection.cursor() as cursor:
                     cursor.execute(current)
                 current = cursor.fetchone()
 
@@ -123,7 +129,7 @@ def dashboard():
                 return render_template('aquarium.html', version=version)
 
 
-            return render_template('aquarium.html', version=version, result=result, min_temp=min_temp, max_temp=max_temp, min_ph=min_ph, max_ph=max_ph, current=current)
+            return render_template('aquarium.html', version=version, result=result, min_temp=min_temp, max_temp=max_temp, min_ph=min_ph, max_ph=max_ph, tds=tds, current=current)
         else:
             return render_template('aquarium.html', version=version, result=None)
     else:
@@ -137,7 +143,20 @@ def control():
 
 @app.route("/options", methods=['POST', 'GET'])
 def options():
-    return render_template('options.html', version=version)
+    if 'user' in session:
+        if request.method == 'GET':
+            connection.connect()
+            SQLrequest = """SELECT * FROM options"""
+            try:
+                with connection.cursor() as cursor:
+                    cursor.execute(SQLrequest)
+                result = cursor.fetchone()
+                print(result)
+            except Exception as E:
+                print(E)
+        elif request.method == 'POST':
+            print("dvdsv")
+    return render_template('options.html', version=version, result=result)
 
 @app.route("/alerts", methods=['POST', 'GET'])
 def alerts():

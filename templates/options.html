@@ -1,0 +1,198 @@
+{% extends "base.html" %}
+{% block title %}SmartHome CORE ver.{{ version }}{% endblock %}
+
+
+{% block head %}
+<style>
+    hr { background-color: white; height: 1px; border: 0; }
+    .clocklet-color-example { background-color: #dce1e4; border: none; }
+
+    /* minute - dial, hand, selected tick, hovered tick */
+    .clocklet-color-example .clocklet-dial--minute { background-color: #fcf0e8; }
+    .clocklet-color-example .clocklet-hand--minute { background-color: #f5bb95; }
+    .clocklet-color-example .clocklet-tick--minute.clocklet-tick--selected { background-color: #f2a470; }
+    .clocklet-color-example.clocklet--hoverable:not(.clocklet--dragging) .clocklet-tick--minute:hover { background-color: #f5bb95; }
+
+    /* hour - dial, hand, selected tick, hovered tick */
+    .clocklet-color-example .clocklet-dial--hour { background-color: #e9fdf1; }
+    .clocklet-color-example .clocklet-hand--hour { background-color: #98f5bd; }
+    .clocklet-color-example .clocklet-tick--hour.clocklet-tick--selected { background-color: #44ee88; }
+    .clocklet-color-example.clocklet--hoverable:not(.clocklet--dragging) .clocklet-tick--hour:hover { background-color: #98f5bd; }
+
+    /* hand origin */
+    .clocklet-color-example .clocklet-hand-origin { background-color: #f1e369; }
+
+    /* ampm */
+    .clocklet-color-example .clocklet-ampm::before { background-color: #44eedd; }
+    .clocklet-color-example .clocklet-ampm:hover::before { background-color: #97f5ec; }
+    .clocklet-color-example .clocklet-ampm[data-clocklet-ampm="pm"]::before { background-color: #dd44ee; }
+    .clocklet-color-example .clocklet-ampm[data-clocklet-ampm="pm"]:hover::before { background-color: #eda1f6; }
+</style>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>
+    setTimeout(function () {location.reload();}, 600000);
+</script>
+<style>
+    INPUT[type="text"] {
+         background-color: #525f7f;
+         color: #b1b1b1;
+         border:0px solid #b1b1b1;
+     border-radius:7px;
+    }
+</style>
+{% endblock %}
+
+
+{% block content %}
+
+
+<form method="POST" action="options">
+
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="card card-chart">
+                <div class="card-header">
+                    <div class="col-sm-6 text-left">
+                        <h5 class="card-title">POWER control</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-area">
+                            <table class="tables">
+                                <tr>
+                                    <th>ON</th>
+                                    <th>OFF</th>
+                                    <th>Name</th>
+                                </tr>
+                                <tr>
+                                    <td><input data-clocklet="class-name: clocklet-color-example; format: hh:mm a"
+                                               value="02:55 pm"></td>
+                                    <td><input data-clocklet="class-name: clocklet-color-example; format: hh:mm a"
+                                               value="02:55 pm"></td>
+                                    <td>CO2</td>
+                                </tr>
+                                <tr>
+                                    <td><input data-clocklet="class-name: clocklet-color-example; format: hh:mm a"
+                                               value="02:55 pm"><br></td>
+                                    <td><input data-clocklet="class-name: clocklet-color-example; format: hh:mm a"
+                                               value="02:55 pm"><br></td>
+                                    <td>O2</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="number" size="3" name="heater" min="1" max="10"
+                                               value={{result[0][3]}}>
+                                        °C<br></td>
+                                    <td></td>
+                                    <td>Heating control</td>
+                                </tr>
+                            </table>
+                            <hr>
+                            <table>
+                                <tr>
+                                    <th>CO2</th>
+                                    <th>O2</th>
+                                    <th>Heater</th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="custom-switch custom-switch-label-onoff">
+                                            <input class="custom-switch-input" id="co2" type="checkbox">
+                                            <label class="custom-switch-btn" for="co2"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="custom-switch custom-switch-label-onoff">
+                                            <input class="custom-switch-input" id="o2" type="checkbox">
+                                            <label class="custom-switch-btn" for="o2"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="custom-switch custom-switch-label-onoff">
+                                            <input class="custom-switch-input" id="heater" type="checkbox">
+                                            <label class="custom-switch-btn" for="heater"></label>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card card-chart">
+                <div class="card-header">
+                    <div class="col-sm-4 text-left">
+                        <h5 class="card-title">Light control</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-area">
+                            <table class="tables">
+                                <tr>
+                                    <th>ON</th>
+                                    <th>OFF</th>
+                                    <th>Name</th>
+                                </tr>
+                                <tr>
+                                    <td><input data-clocklet="class-name: clocklet-color-example; format: hh:mm a"
+                                               value="02:55 pm"></td>
+                                    <td><input data-clocklet="class-name: clocklet-color-example; format: hh:mm a"
+                                               value="02:55 pm"></td>
+                                    <td>Master Light</td>
+                                </tr>
+                                <tr>
+                                    <td><input data-clocklet="class-name: clocklet-color-example; format: hh:mm a"
+                                               value="02:55 pm"><br></td>
+                                    <td><input data-clocklet="class-name: clocklet-color-example; format: hh:mm a"
+                                               value="02:55 pm"><br></td>
+                                    <td>Red Light</td>
+                                </tr>
+                                <tr>
+                                    <td><input data-clocklet="class-name: clocklet-color-example; format: hh:mm a"
+                                               value="02:55 pm"><br></td>
+                                    <td><input data-clocklet="class-name: clocklet-color-example; format: hh:mm a"
+                                               value="02:55 pm"><br></td>
+                                    <td>Blue Light</td>
+                                </tr>
+                                <tr>
+                                    <td><input data-clocklet="class-name: clocklet-color-example; format: hh:mm a"
+                                               value="02:55 pm"><br></td>
+                                    <td><input data-clocklet="class-name: clocklet-color-example; format: hh:mm a"
+                                               value="02:55 pm"><br></td>
+                                    <td>Moon Light</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+
+        <div class="col-lg-12">
+            <div class="card card-chart">
+                <div class="card-header">
+                    <div class="col-sm-6 text-left">
+                        <h5 class="card-title">System options</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-area">
+                            <label for="select">History size</label>
+                            <input type="number" size="3" name="select" min="1" max="168" value={{result[0]}}> h<br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <input type="submit" value="Apply" name="submit"><br>
+    <script src="https://cdn.jsdelivr.net/npm/clocklet"></script>
+</form>
+
+{% endblock %}
+
+{% block footer %}
+
+{% endblock %}
