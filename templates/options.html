@@ -4,8 +4,15 @@
 
 {% block head %}
 <style>
-    hr { background-color: white; height: 1px; border: 0; }
-    .clocklet-color-example { background-color: #dce1e4; border: none; }
+    input{
+    color: #fff;
+    background-color: #1d253b;
+    text-align: center;
+    border-radius: 5px;
+
+}
+    hr { background-color: #525f7f; height: 1px; border: 0; }
+    .clocklet-color-example { background-color: #525f7f; border: none; }
 
     /* minute - dial, hand, selected tick, hovered tick */
     .clocklet-color-example .clocklet-dial--minute { background-color: #fcf0e8; }
@@ -71,7 +78,7 @@
                                     <td>CO2</td>
                                 </tr>
                                 <tr>
-                                   <td><input data-clocklet="class-name: clocklet-color-example; format: hh:mm a"
+                                    <td><input data-clocklet="class-name: clocklet-color-example; format: hh:mm a"
                                                value={{result[9]}} name="O2_on"></td>
                                     <td><input data-clocklet="class-name: clocklet-color-example; format: hh:mm a"
                                                value={{result[10]}} name="O2_off"></td>
@@ -80,14 +87,14 @@
                                 <tr>
                                     <td></td>
                                     <td>
-                                        <input type="number" size="3" name="heater" min="1" max="10"
+                                        <input type="number" size="3" name="heater" min="1" max="30"
                                                value={{result[6]}}>
                                         °C<br></td>
                                     <td>Heating control</td>
                                 </tr>
                             </table>
                             <hr>
-                           <table class="table_light">
+                            <table class="table_light">
                                 <tr>
                                     <th>CO2</th>
                                     <th>O2</th>
@@ -128,7 +135,7 @@
                     </div>
                     <div class="card-body">
                         <div class="chart-area">
-                            <table class="tables">
+                            <table class="table_light">
                                 <tr>
                                     <th>ON</th>
                                     <th>OFF</th>
@@ -136,30 +143,30 @@
                                 </tr>
                                 <tr>
                                     <td><input data-clocklet="class-name: clocklet-color-example; format: hh:mm a"
-                                               value="02:55 pm"></td>
+                                               value={{result[11]}}></td>
                                     <td><input data-clocklet="class-name: clocklet-color-example; format: hh:mm a"
-                                               value="02:55 pm"></td>
+                                               value={{result[12]}}></td>
                                     <td>Master Light</td>
                                 </tr>
                                 <tr>
                                     <td><input data-clocklet="class-name: clocklet-color-example; format: hh:mm a"
-                                               value="02:55 pm"><br></td>
+                                               value={{result[13]}}><br></td>
                                     <td><input data-clocklet="class-name: clocklet-color-example; format: hh:mm a"
-                                               value="02:55 pm"><br></td>
-                                    <td>Red Light</td>
+                                               value={{result[14]}}><br></td>
+                                    <td>Red Light 675nm</td>
                                 </tr>
                                 <tr>
                                     <td><input data-clocklet="class-name: clocklet-color-example; format: hh:mm a"
-                                               value="02:55 pm"><br></td>
+                                               value={{result[15]}}><br></td>
                                     <td><input data-clocklet="class-name: clocklet-color-example; format: hh:mm a"
-                                               value="02:55 pm"><br></td>
-                                    <td>Blue Light</td>
+                                               value={{result[16]}}><br></td>
+                                    <td>Blue Light 425nm</td>
                                 </tr>
                                 <tr>
                                     <td><input data-clocklet="class-name: clocklet-color-example; format: hh:mm a"
-                                               value="02:55 pm"><br></td>
+                                               value={{result[17]}}><br></td>
                                     <td><input data-clocklet="class-name: clocklet-color-example; format: hh:mm a"
-                                               value="02:55 pm"><br></td>
+                                               value={{result[18]}}><br></td>
                                     <td>Moon Light</td>
                                 </tr>
                             </table>
@@ -170,8 +177,7 @@
         </div>
     </div>
     <div class="row">
-
-        <div class="col-lg-12">
+        <div class="col-lg-4">
             <div class="card card-chart">
                 <div class="card-header">
                     <div class="col-sm-6 text-left">
@@ -186,8 +192,22 @@
                 </div>
             </div>
         </div>
+        <div class="col-lg-4">
+            <div class="card card-chart">
+                <div class="card-header">
+                    <div class="col-sm-6 text-left">
+                        <h5 class="card-title">Hardware status</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-area">
+                            <label>WiFi signal</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <input type="submit" value="Apply" name="submit"><br>
+    <input type="submit" value="Apply" name="submit" class="blue_button"><br>
     <script src="https://cdn.jsdelivr.net/npm/clocklet"></script>
 </form>
 
