@@ -57,7 +57,7 @@
                     </div>
                     <div class="card-body">
                         <div class="chart-area">
-                            <table class="tables">
+                            <table class="table_light">
                                 <tr>
                                     <th>ON</th>
                                     <th>OFF</th>
@@ -65,29 +65,29 @@
                                 </tr>
                                 <tr>
                                     <td><input data-clocklet="class-name: clocklet-color-example; format: hh:mm a"
-                                               value="02:55 pm"></td>
+                                               value={{result[7]}} name="CO2_on"></td>
                                     <td><input data-clocklet="class-name: clocklet-color-example; format: hh:mm a"
-                                               value="02:55 pm"></td>
+                                               value={{result[8]}} name="CO2_off"></td>
                                     <td>CO2</td>
                                 </tr>
                                 <tr>
+                                   <td><input data-clocklet="class-name: clocklet-color-example; format: hh:mm a"
+                                               value={{result[9]}} name="O2_on"></td>
                                     <td><input data-clocklet="class-name: clocklet-color-example; format: hh:mm a"
-                                               value="02:55 pm"><br></td>
-                                    <td><input data-clocklet="class-name: clocklet-color-example; format: hh:mm a"
-                                               value="02:55 pm"><br></td>
+                                               value={{result[10]}} name="O2_off"></td>
                                     <td>O2</td>
                                 </tr>
                                 <tr>
+                                    <td></td>
                                     <td>
                                         <input type="number" size="3" name="heater" min="1" max="10"
-                                               value={{result[0][3]}}>
+                                               value={{result[6]}}>
                                         °C<br></td>
-                                    <td></td>
                                     <td>Heating control</td>
                                 </tr>
                             </table>
                             <hr>
-                            <table>
+                           <table class="table_light">
                                 <tr>
                                     <th>CO2</th>
                                     <th>O2</th>

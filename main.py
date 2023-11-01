@@ -137,9 +137,6 @@ def dashboard():
         return redirect("/login")
 
 
-@app.route("/control", methods=['POST', 'GET'])
-def control():
-    print('adddsd')
 
 @app.route("/options", methods=['POST', 'GET'])
 def options():
