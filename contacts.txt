@@ -39,3 +39,6 @@ board	    socket / number  -   Description
 38 - GPIO        R1 / 9
 39 - GND
 40- GPIO        R1 / 10
+
+
+light 6500K
