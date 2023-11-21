@@ -105,7 +105,7 @@
                                     <th>Heater</th>
                                 </tr>
                                 <tr>
-                                    <td>{{ status[0]}}
+                                    <td>
                                         <div class="custom-switch custom-switch-label-onoff">
                                             <input class="custom-switch-input" id="co2" type="checkbox" {{ status[0]}}>
                                             <label class="custom-switch-btn" for="co2"></label>
@@ -113,13 +113,13 @@
                                     </td>
                                     <td>
                                         <div class="custom-switch custom-switch-label-onoff">
-                                            <input class="custom-switch-input" id="o2" type="checkbox" {{ o2_status}}>
+                                            <input class="custom-switch-input" id="o2" type="checkbox" {{ status[1]}}>
                                             <label class="custom-switch-btn" for="o2"></label>
                                         </div>
                                     </td>
                                     <td>
                                         <div class="custom-switch custom-switch-label-onoff">
-                                            <input class="custom-switch-input" id="heater" type="checkbox" {{ heater_status}}>
+                                            <input class="custom-switch-input" id="heater" type="checkbox" {{ status[2]}}>
                                             <label class="custom-switch-btn" for="heater"></label>
                                         </div>
                                     </td>
