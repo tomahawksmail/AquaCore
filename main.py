@@ -90,6 +90,7 @@ def dashboard():
             max_ph_request = """SELECT max_ph FROM options"""
             tds_request = """SELECT tds FROM options"""
             current = """SELECT temp, ph, tds FROM `data` ORDER BY id DESC LIMIT 1"""
+
             try:
                 with connection.cursor() as cursor:
                     cursor.execute(SQLrequest)
@@ -125,8 +126,14 @@ def dashboard():
                 current = cursor.fetchone()
 
 
+
+
+
             except Exception as E:
                 return render_template('aquarium.html', version=version)
+            else:
+                cursor.close()
+                connection.close()
 
 
             return render_template('aquarium.html', version=version, result=result, min_temp=min_temp, max_temp=max_temp, min_ph=min_ph, max_ph=max_ph, tds=tds, current=current)
@@ -144,20 +151,29 @@ def options():
         if request.method == 'GET':
             connection.connect()
             SQLrequest = """SELECT * FROM options"""
+            status = """SELECT * FROM status"""
             try:
                 with connection.cursor() as cursor:
                     cursor.execute(SQLrequest)
                 result = cursor.fetchone()
-                print(result)
+                with connection.cursor() as cursor:
+                    cursor.execute(status)
+                status = cursor.fetchall()[0]
+
+                print(status)
             except Exception as E:
                 print(E)
         elif request.method == 'POST':
             print("dvdsv")
-    return render_template('options.html', version=version, result=result)
+    return render_template('options.html', version=version, result=result, status=status)
 
 @app.route("/alerts", methods=['POST', 'GET'])
 def alerts():
     return render_template('alerts.html', version=version)
+
+@app.route("/core_dashboard", methods=['POST', 'GET'])
+def core_dashboard():
+    return render_template('core_dashboard.html', version=version)
 
 def insert():
     import random

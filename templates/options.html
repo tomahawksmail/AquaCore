@@ -69,6 +69,7 @@
                                     <th>ON</th>
                                     <th>OFF</th>
                                     <th>Name</th>
+                                    <th>PIN</th>
                                 </tr>
                                 <tr>
                                     <td><input data-clocklet="class-name: clocklet-color-example; format: hh:mm a"
@@ -76,6 +77,7 @@
                                     <td><input data-clocklet="class-name: clocklet-color-example; format: hh:mm a"
                                                value={{result[8]}} name="CO2_off"></td>
                                     <td>CO2</td>
+                                    <td>123</td>
                                 </tr>
                                 <tr>
                                     <td><input data-clocklet="class-name: clocklet-color-example; format: hh:mm a"
@@ -83,6 +85,7 @@
                                     <td><input data-clocklet="class-name: clocklet-color-example; format: hh:mm a"
                                                value={{result[10]}} name="O2_off"></td>
                                     <td>O2</td>
+                                    <td>123</td>
                                 </tr>
                                 <tr>
                                     <td></td>
@@ -91,6 +94,7 @@
                                                value={{result[6]}}>
                                         °C<br></td>
                                     <td>Heating control</td>
+                                    <td>123</td>
                                 </tr>
                             </table>
                             <hr>
@@ -101,21 +105,21 @@
                                     <th>Heater</th>
                                 </tr>
                                 <tr>
-                                    <td>
+                                    <td>{{ status[0]}}
                                         <div class="custom-switch custom-switch-label-onoff">
-                                            <input class="custom-switch-input" id="co2" type="checkbox">
+                                            <input class="custom-switch-input" id="co2" type="checkbox" {{ status[0]}}>
                                             <label class="custom-switch-btn" for="co2"></label>
                                         </div>
                                     </td>
                                     <td>
                                         <div class="custom-switch custom-switch-label-onoff">
-                                            <input class="custom-switch-input" id="o2" type="checkbox">
+                                            <input class="custom-switch-input" id="o2" type="checkbox" {{ o2_status}}>
                                             <label class="custom-switch-btn" for="o2"></label>
                                         </div>
                                     </td>
                                     <td>
                                         <div class="custom-switch custom-switch-label-onoff">
-                                            <input class="custom-switch-input" id="heater" type="checkbox">
+                                            <input class="custom-switch-input" id="heater" type="checkbox" {{ heater_status}}>
                                             <label class="custom-switch-btn" for="heater"></label>
                                         </div>
                                     </td>
@@ -140,6 +144,8 @@
                                     <th>ON</th>
                                     <th>OFF</th>
                                     <th>Name</th>
+                                    <th>PIN</th>
+
                                 </tr>
                                 <tr>
                                     <td><input data-clocklet="class-name: clocklet-color-example; format: hh:mm a"
@@ -147,6 +153,7 @@
                                     <td><input data-clocklet="class-name: clocklet-color-example; format: hh:mm a"
                                                value={{result[12]}}></td>
                                     <td>Master Light</td>
+                                    <td>123</td>
                                 </tr>
                                 <tr>
                                     <td><input data-clocklet="class-name: clocklet-color-example; format: hh:mm a"
@@ -154,6 +161,7 @@
                                     <td><input data-clocklet="class-name: clocklet-color-example; format: hh:mm a"
                                                value={{result[14]}}><br></td>
                                     <td>Red Light 675nm</td>
+                                    <td>123</td>
                                 </tr>
                                 <tr>
                                     <td><input data-clocklet="class-name: clocklet-color-example; format: hh:mm a"
@@ -161,6 +169,7 @@
                                     <td><input data-clocklet="class-name: clocklet-color-example; format: hh:mm a"
                                                value={{result[16]}}><br></td>
                                     <td>Blue Light 425nm</td>
+                                    <td>123</td>
                                 </tr>
                                 <tr>
                                     <td><input data-clocklet="class-name: clocklet-color-example; format: hh:mm a"
@@ -168,6 +177,15 @@
                                     <td><input data-clocklet="class-name: clocklet-color-example; format: hh:mm a"
                                                value={{result[18]}}><br></td>
                                     <td>Moon Light</td>
+                                    <td>123</td>
+                                </tr>
+                                <tr>
+                                    <td><input data-clocklet="class-name: clocklet-color-example; format: hh:mm a"
+                                               value={{result[17]}}><br></td>
+                                    <td><input data-clocklet="class-name: clocklet-color-example; format: hh:mm a"
+                                               value={{result[18]}}><br></td>
+                                    <td>Projector Light</td>
+                                    <td>123</td>
                                 </tr>
                             </table>
                         </div>
