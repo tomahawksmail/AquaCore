@@ -152,21 +152,13 @@ def getDatatoOptions():
 
 
 def setData(formstatus, formoptions):
-    SQL = """UPDATE `status` SET %s=%s"""
-    for i in formstatus:
-        print(i)
-
 
     try:
         with connection.cursor() as cursor:
             for i in formstatus:
-                if i == 'on':
-                    i = 'checked'
-                else:
-                    i = 'unchecked'
-                    print(i)
-                    cursor.execute(SQL, (i[0], i[1]))
-            connection.commit()
+                SQL = f"UPDATE `status` SET {i[0]} = '{'checked' if i[1] == 'on' else 'unchecked'}'"
+                cursor.execute(SQL)
+                connection.commit()
             cursor.close()
             connection.close()
     except Exception as E:
@@ -213,20 +205,13 @@ def options():
                 formoptions.append(('BlueL_on', request.form.get("BlueL_on")))
                 formoptions.append(('BlueL_off', request.form.get("BlueL_off")))
 
+                formstatus.append(('MoonL_status', request.form.get("MoonL_status")))
+                formoptions.append(('MoonL_on', request.form.get("MoonL_on")))
+                formoptions.append(('MoonL_off', request.form.get("MoonL_off")))
 
-                MoonL_status = request.form.get("MoonL_status")
-                formstatus.append(('MoonL_status', MoonL_status))
-                MoonL_on = request.form.get("MoonL_on")
-                formstatus.append(('MoonL_on', MoonL_on))
-                MoonL_off = request.form.get("MoonL_off")
-                formstatus.append(('MoonL_off', MoonL_off))
-
-                ProjectorL_status = request.form.get("ProjectorL_status")
-                formstatus.append(('ProjectorL_status', ProjectorL_status))
-                ProjectorL_on = request.form.get("ProjectorL_on")
-                formstatus.append(('ProjectorL_on', ProjectorL_on))
-                ProjectorL_off = request.form.get("ProjectorL_off")
-                formstatus.append(('ProjectorL_off', ProjectorL_off))
+                formstatus.append(('ProjectorL_status', request.form.get("ProjectorL_status")))
+                formoptions.append(('ProjectorL_on', request.form.get("ProjectorL_on")))
+                formoptions.append(('ProjectorL_off', request.form.get("ProjectorL_off")))
 
                 setData(formstatus, formoptions)
 
