@@ -14295,7 +14295,7 @@ fieldset[disabled] .btn-link.active {
 }
 
 .dropdown-menu .dropdown-header:not([href]):not([tabindex]) {
-  color: rgba(182, 182, 182, 0.6);
+  color: #3798db;
   font-size: 0.62475rem;
   text-transform: uppercase;
   font-weight: 600;
@@ -14310,7 +14310,7 @@ fieldset[disabled] .btn-link.active {
 }
 
 .dropdown-menu.dropdown-primary .dropdown-header:not([href]):not([tabindex]) {
-  color: rgba(255, 255, 255, 0.8);
+  color: #3798db;
 }
 
 .dropdown-menu.dropdown-primary .dropdown-item {
