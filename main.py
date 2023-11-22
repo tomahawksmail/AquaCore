@@ -192,41 +192,27 @@ def options():
                 formstatus.append(('CO2_off', request.form.get("CO2_off")))
 
                 # o2
-                o2 = request.form.get("o2")
-                formstatus.append(('o2', o2))
-                o2_on = request.form.get("o2_on")
-                formstatus.append(('o2_on', o2_on))
-                o2_off = request.form.get("o2_off")
-                formstatus.append(('o2_off', o2_off))
+                formstatus.append(('o2', request.form.get("o2")))
+                formstatus.append(('o2_on', request.form.get("o2_on")))
+                formstatus.append(('o2_off', request.form.get("o2_off")))
 
                 # heater
-                heater_status = request.form.get("heater_status")
-                formstatus.append(('heater_status', heater_status))
-                heater = request.form.get("heater")
-                formstatus.append(('heater', heater))
+                formstatus.append(('heater_status', request.form.get("heater_status")))
+                formstatus.append(('heater', request.form.get("heater")))
 
                 # light
                 # Master Light
-                Master_light_status = request.form.get("Master_light_status")
-                formstatus.append(('Master_light_status', Master_light_status))
-                Master_light_on = request.form.get("Master_light_on")
-                formstatus.append(('Master_light_on', Master_light_on))
-                Master_light_off = request.form.get("Master_light_off")
-                formstatus.append(('Master_light_off', Master_light_off))
+                formstatus.append(('Master_light_status', request.form.get("Master_light_status")))
+                formstatus.append(('Master_light_on', request.form.get("Master_light_on")))
+                formstatus.append(('Master_light_off', request.form.get("Master_light_off")))
 
-                RedL_status = request.form.get("RedL_status")
-                formstatus.append(('RedL_status', RedL_status))
-                RedL_on = request.form.get("RedL_on")
-                formstatus.append(('RedL_on', RedL_on))
-                RedL_off = request.form.get("RedL_off")
-                formstatus.append(('RedL_off', RedL_off))
+                formstatus.append(('RedL_status', request.form.get("RedL_status")))
+                formstatus.append(('RedL_on', request.form.get("RedL_on")))
+                formstatus.append(('RedL_off', request.form.get("RedL_off")))
 
-                BlueL_status = request.form.get("BlueL_status")
-                formstatus.append(('BlueL_status', BlueL_status))
-                BlueL_on = request.form.get("BlueL_on")
-                formstatus.append(('BlueL_on', BlueL_on))
-                BlueL_off = request.form.get("BlueL_off")
-                formstatus.append(('BlueL_off', BlueL_off))
+                formstatus.append(('BlueL_status', request.form.get("BlueL_status")))
+                formstatus.append(('BlueL_on', request.form.get("BlueL_on")))
+                formstatus.append(('BlueL_off', request.form.get("BlueL_off")))
 
                 MoonL_status = request.form.get("MoonL_status")
                 formstatus.append(('MoonL_status', MoonL_status))
