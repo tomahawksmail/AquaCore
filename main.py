@@ -151,28 +151,26 @@ def getDatatoOptions():
     return result
 
 
-def setData(formstatus):
-
+def setData(formstatus, formoptions):
+    SQL = """UPDATE `status` SET %s=%s"""
     for i in formstatus:
         print(i)
-    # statuslistDB = getDatatoOptions()
-    # print(statuslistDB)
-    #
-    # SQL = """UPDATE `status` SET %s=%s"""
-    # try:
-    #     with connection.cursor() as cursor:
-    #         for i in formstatus:
-    #             if i == 'on':
-    #                 i = 'checked'
-    #             else:
-    #                 i = 'unchecked'
-    #                 print(i)
-    # #             cursor.execute(SQL, ( , i))
-    # #         connection.commit()
-    #         cursor.close()
-    #         connection.close()
-    # except Exception as E:
-    #     print(E)
+
+
+    try:
+        with connection.cursor() as cursor:
+            for i in formstatus:
+                if i == 'on':
+                    i = 'checked'
+                else:
+                    i = 'unchecked'
+                    print(i)
+                    cursor.execute(SQL, (i[0], i[1]))
+            connection.commit()
+            cursor.close()
+            connection.close()
+    except Exception as E:
+        print(E)
 
 
 @app.route("/options", methods=['POST', 'GET'])
@@ -184,35 +182,37 @@ def options():
         elif request.method == 'POST':
             if "submit" in request.form:
                 formstatus = []
+                formoptions = []
                 # get all data from form and save to list "formstatus"
 
                 # co2
-                formstatus.append(('co2', request.form.get("co2")))
-                formstatus.append(('CO2_on', request.form.get("CO2_on")))
-                formstatus.append(('CO2_off', request.form.get("CO2_off")))
+                formstatus.append(('co2_status', request.form.get("co2")))
+                formoptions.append(('co2_on', request.form.get("co2_on")))
+                formoptions.append(('co2_off', request.form.get("co2_off")))
 
                 # o2
-                formstatus.append(('o2', request.form.get("o2")))
-                formstatus.append(('o2_on', request.form.get("o2_on")))
-                formstatus.append(('o2_off', request.form.get("o2_off")))
+                formstatus.append(('o2_status', request.form.get("o2")))
+                formoptions.append(('o2_on', request.form.get("o2_on")))
+                formoptions.append(('o2_off', request.form.get("o2_off")))
 
                 # heater
                 formstatus.append(('heater_status', request.form.get("heater_status")))
-                formstatus.append(('heater', request.form.get("heater")))
+                formoptions.append(('heater', request.form.get("heater")))
 
                 # light
                 # Master Light
                 formstatus.append(('Master_light_status', request.form.get("Master_light_status")))
-                formstatus.append(('Master_light_on', request.form.get("Master_light_on")))
-                formstatus.append(('Master_light_off', request.form.get("Master_light_off")))
+                formoptions.append(('Master_light_on', request.form.get("Master_light_on")))
+                formoptions.append(('Master_light_off', request.form.get("Master_light_off")))
 
                 formstatus.append(('RedL_status', request.form.get("RedL_status")))
-                formstatus.append(('RedL_on', request.form.get("RedL_on")))
-                formstatus.append(('RedL_off', request.form.get("RedL_off")))
+                formoptions.append(('RedL_on', request.form.get("RedL_on")))
+                formoptions.append(('RedL_off', request.form.get("RedL_off")))
 
                 formstatus.append(('BlueL_status', request.form.get("BlueL_status")))
-                formstatus.append(('BlueL_on', request.form.get("BlueL_on")))
-                formstatus.append(('BlueL_off', request.form.get("BlueL_off")))
+                formoptions.append(('BlueL_on', request.form.get("BlueL_on")))
+                formoptions.append(('BlueL_off', request.form.get("BlueL_off")))
+
 
                 MoonL_status = request.form.get("MoonL_status")
                 formstatus.append(('MoonL_status', MoonL_status))
@@ -228,7 +228,7 @@ def options():
                 ProjectorL_off = request.form.get("ProjectorL_off")
                 formstatus.append(('ProjectorL_off', ProjectorL_off))
 
-                setData(formstatus)
+                setData(formstatus, formoptions)
 
                 result = getDatatoOptions()
                 return render_template('options.html', version=version, result=result[0], status=result[1])
