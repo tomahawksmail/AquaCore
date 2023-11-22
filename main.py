@@ -163,6 +163,7 @@ def setData(formstatus, formoptions):
         with connection.cursor() as cursor:
             for i in formoptions:
                 SQL = f"UPDATE `options` SET {i[0]} = '{i[1]}'"
+                print(SQL)
                 cursor.execute(SQL)
             connection.commit()
             cursor.close()
@@ -176,7 +177,6 @@ def options():
     if 'user' in session:
         if request.method == 'GET':
             result = getDatatoOptions()
-            print(result[1])
             return render_template('options.html', version=version, result=result[0], status=result[1])
         elif request.method == 'POST':
             if "submit" in request.form:
