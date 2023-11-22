@@ -34,7 +34,6 @@ def logout():
     return redirect("/login")
 
 
-
 @app.route("/login", methods=['POST', 'GET'])
 def login():
     if 'user' not in session:
@@ -71,10 +70,6 @@ def login():
             return render_template('login.html', version=version)
     else:
         return redirect("/aquarium")
-
-
-
-
 
 
 # @app.route("/aquarium", methods=['POST', 'GET'])
@@ -155,6 +150,31 @@ def getDatatoOptions():
         connection.close()
     return result
 
+
+def setData(formstatus):
+    print(formstatus)
+    for i in formstatus:
+        print(i)
+    # statuslistDB = getDatatoOptions()
+    # print(statuslistDB)
+    #
+    # SQL = """UPDATE `status` SET %s=%s"""
+    # try:
+    #     with connection.cursor() as cursor:
+    #         for i in formstatus:
+    #             if i == 'on':
+    #                 i = 'checked'
+    #             else:
+    #                 i = 'unchecked'
+    #                 print(i)
+    # #             cursor.execute(SQL, ( , i))
+    # #         connection.commit()
+    #         cursor.close()
+    #         connection.close()
+    # except Exception as E:
+    #     print(E)
+
+
 @app.route("/options", methods=['POST', 'GET'])
 def options():
     if 'user' in session:
@@ -163,27 +183,48 @@ def options():
             return render_template('options.html', version=version, result=result[0], status=result[1])
         elif request.method == 'POST':
             if "submit" in request.form:
+                # get all data from form and save to list "formstatus"
+                formstatus = []
                 co2 = request.form.get("co2")
+                formstatus.append(('co2', co2))
                 o2 = request.form.get("o2")
+                formstatus.append(('o2', o2))
                 heater_status = request.form.get("heater_status")
+                formstatus.append(('heater_status', heater_status))
                 Master_light_status = request.form.get("Master_light_status")
-                print(co2, o2, heater_status, Master_light_status)
+                formstatus.append(('Master_light_status', Master_light_status))
+                RedL_status = request.form.get("RedL_status")
+                formstatus.append(('RedL_status', RedL_status))
+                BlueL_status = request.form.get("BlueL_status")
+                formstatus.append(('BlueL_status', BlueL_status))
+                MoonL_status = request.form.get("MoonL_status")
+                formstatus.append(('MoonL_status', MoonL_status))
+                ProjectorL_status = request.form.get("ProjectorL_status")
+                formstatus.append(('ProjectorL_status', ProjectorL_status))
+
+                Master_light_on = request.form.get("Master_light_on")
+                formstatus.append(('Master_light_on', Master_light_on))
+
+
+
+                setData(formstatus)
+
                 result = getDatatoOptions()
                 return render_template('options.html', version=version, result=result[0], status=result[1])
     else:
         flash("You are not logged in")
         return redirect("/login")
+
+
 @app.route("/alerts", methods=['POST', 'GET'])
 def alerts():
     return render_template('alerts.html', version=version)
+
 
 @app.route("/core_dashboard", methods=['POST', 'GET'])
 def core_dashboard():
     return render_template('core_dashboard.html', version=version)
 
 
-
-
 if __name__ == "__main__":
-
     app.run(debug=True, host='0.0.0.0', port=5555)
