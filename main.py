@@ -152,7 +152,7 @@ def getDatatoOptions():
 
 
 def setData(formstatus):
-    print(formstatus)
+
     for i in formstatus:
         print(i)
     # statuslistDB = getDatatoOptions()
@@ -183,16 +183,13 @@ def options():
             return render_template('options.html', version=version, result=result[0], status=result[1])
         elif request.method == 'POST':
             if "submit" in request.form:
+                formstatus = []
                 # get all data from form and save to list "formstatus"
 
                 # co2
-                formstatus = []
-                co2 = request.form.get("co2")
-                formstatus.append(('co2', co2))
-                CO2_on = request.form.get("CO2_on")
-                formstatus.append(('CO2_on', CO2_on))
-                CO2_off = request.form.get("CO2_off")
-                formstatus.append(('CO2_off', CO2_off))
+                formstatus.append(('co2', request.form.get("co2")))
+                formstatus.append(('CO2_on', request.form.get("CO2_on")))
+                formstatus.append(('CO2_off', request.form.get("CO2_off")))
 
                 # o2
                 o2 = request.form.get("o2")
@@ -208,31 +205,42 @@ def options():
                 heater = request.form.get("heater")
                 formstatus.append(('heater', heater))
 
-
-
-
-
-
-
-
-
+                # light
+                # Master Light
                 Master_light_status = request.form.get("Master_light_status")
                 formstatus.append(('Master_light_status', Master_light_status))
-                RedL_status = request.form.get("RedL_status")
-                formstatus.append(('RedL_status', RedL_status))
-                BlueL_status = request.form.get("BlueL_status")
-                formstatus.append(('BlueL_status', BlueL_status))
-                MoonL_status = request.form.get("MoonL_status")
-                formstatus.append(('MoonL_status', MoonL_status))
-                ProjectorL_status = request.form.get("ProjectorL_status")
-                formstatus.append(('ProjectorL_status', ProjectorL_status))
-
-
-
                 Master_light_on = request.form.get("Master_light_on")
                 formstatus.append(('Master_light_on', Master_light_on))
+                Master_light_off = request.form.get("Master_light_off")
+                formstatus.append(('Master_light_off', Master_light_off))
 
+                RedL_status = request.form.get("RedL_status")
+                formstatus.append(('RedL_status', RedL_status))
+                RedL_on = request.form.get("RedL_on")
+                formstatus.append(('RedL_on', RedL_on))
+                RedL_off = request.form.get("RedL_off")
+                formstatus.append(('RedL_off', RedL_off))
 
+                BlueL_status = request.form.get("BlueL_status")
+                formstatus.append(('BlueL_status', BlueL_status))
+                BlueL_on = request.form.get("BlueL_on")
+                formstatus.append(('BlueL_on', BlueL_on))
+                BlueL_off = request.form.get("BlueL_off")
+                formstatus.append(('BlueL_off', BlueL_off))
+
+                MoonL_status = request.form.get("MoonL_status")
+                formstatus.append(('MoonL_status', MoonL_status))
+                MoonL_on = request.form.get("MoonL_on")
+                formstatus.append(('MoonL_on', MoonL_on))
+                MoonL_off = request.form.get("MoonL_off")
+                formstatus.append(('MoonL_off', MoonL_off))
+
+                ProjectorL_status = request.form.get("ProjectorL_status")
+                formstatus.append(('ProjectorL_status', ProjectorL_status))
+                ProjectorL_on = request.form.get("ProjectorL_on")
+                formstatus.append(('ProjectorL_on', ProjectorL_on))
+                ProjectorL_off = request.form.get("ProjectorL_off")
+                formstatus.append(('ProjectorL_off', ProjectorL_off))
 
                 setData(formstatus)
 
