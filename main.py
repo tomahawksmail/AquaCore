@@ -184,13 +184,38 @@ def options():
         elif request.method == 'POST':
             if "submit" in request.form:
                 # get all data from form and save to list "formstatus"
+
+                # co2
                 formstatus = []
                 co2 = request.form.get("co2")
                 formstatus.append(('co2', co2))
+                CO2_on = request.form.get("CO2_on")
+                formstatus.append(('CO2_on', CO2_on))
+                CO2_off = request.form.get("CO2_off")
+                formstatus.append(('CO2_off', CO2_off))
+
+                # o2
                 o2 = request.form.get("o2")
                 formstatus.append(('o2', o2))
+                o2_on = request.form.get("o2_on")
+                formstatus.append(('o2_on', o2_on))
+                o2_off = request.form.get("o2_off")
+                formstatus.append(('o2_off', o2_off))
+
+                # heater
                 heater_status = request.form.get("heater_status")
                 formstatus.append(('heater_status', heater_status))
+                heater = request.form.get("heater")
+                formstatus.append(('heater', heater))
+
+
+
+
+
+
+
+
+
                 Master_light_status = request.form.get("Master_light_status")
                 formstatus.append(('Master_light_status', Master_light_status))
                 RedL_status = request.form.get("RedL_status")
@@ -201,6 +226,8 @@ def options():
                 formstatus.append(('MoonL_status', MoonL_status))
                 ProjectorL_status = request.form.get("ProjectorL_status")
                 formstatus.append(('ProjectorL_status', ProjectorL_status))
+
+
 
                 Master_light_on = request.form.get("Master_light_on")
                 formstatus.append(('Master_light_on', Master_light_on))
