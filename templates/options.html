@@ -106,16 +106,16 @@
                                 <tr>
                                     <td>
                                         <div class="custom-switch custom-switch-label-onoff">
-                                            <input class="custom-switch-input" name="heater_status" id="heater"
+                                            <input class="custom-switch-input" name="heater_status" id="heater_status"
                                                    type="checkbox" {{
                                                    status[2]}}>
-                                            <label class="custom-switch-btn" for="heater"></label>
+                                            <label class="custom-switch-btn" for="heater_status"></label>
                                         </div>
                                     </td>
                                     <td>Heating control</td>
                                     <td>123</td>
                                     <td>
-                                        <input type="number" size="3" name="heater" min="1" max="30"
+                                        <input type="number" step=1 name="heater_temp" min="16" max="30"
                                                value={{result[6]}}>
                                         °C<br></td>
                                     <td></td>

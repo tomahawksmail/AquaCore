@@ -142,7 +142,6 @@ def getDatatoOptions():
         with connection.cursor() as cursor:
             cursor.execute(status)
         status = cursor.fetchall()[0]
-        print(status)
         result = (options, status)
     except Exception as E:
         print(E)
@@ -158,6 +157,12 @@ def setData(formstatus, formoptions):
         with connection.cursor() as cursor:
             for i in formstatus:
                 SQL = f"UPDATE `status` SET {i[0]} = '{'checked' if i[1] == 'on' else 'unchecked'}'"
+                cursor.execute(SQL)
+            connection.commit()
+            cursor.close()
+        with connection.cursor() as cursor:
+            for i in formoptions:
+                SQL = f"UPDATE `options` SET {i[0]} = '{i[1]}'"
                 cursor.execute(SQL)
             connection.commit()
             cursor.close()
@@ -191,7 +196,7 @@ def options():
 
                 # heater
                 formstatus.append(('heater_status', request.form.get("heater_status")))
-                formoptions.append(('heater', request.form.get("heater")))
+                formoptions.append(('heater_temp', request.form.get("heater_temp")))
 
                 # light
                 # Master Light
