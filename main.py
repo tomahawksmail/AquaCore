@@ -142,6 +142,7 @@ def getDatatoOptions():
         with connection.cursor() as cursor:
             cursor.execute(status)
         status = cursor.fetchall()[0]
+        print(status)
         result = (options, status)
     except Exception as E:
         print(E)
@@ -152,13 +153,13 @@ def getDatatoOptions():
 
 
 def setData(formstatus, formoptions):
-
     try:
+        connection.connect()
         with connection.cursor() as cursor:
             for i in formstatus:
                 SQL = f"UPDATE `status` SET {i[0]} = '{'checked' if i[1] == 'on' else 'unchecked'}'"
                 cursor.execute(SQL)
-                connection.commit()
+            connection.commit()
             cursor.close()
             connection.close()
     except Exception as E:
@@ -170,6 +171,7 @@ def options():
     if 'user' in session:
         if request.method == 'GET':
             result = getDatatoOptions()
+            print(result[1])
             return render_template('options.html', version=version, result=result[0], status=result[1])
         elif request.method == 'POST':
             if "submit" in request.form:
@@ -193,7 +195,7 @@ def options():
 
                 # light
                 # Master Light
-                formstatus.append(('Master_light_status', request.form.get("Master_light_status")))
+                formstatus.append(('MasterL_status', request.form.get("MasterL_status")))
                 formoptions.append(('Master_light_on', request.form.get("Master_light_on")))
                 formoptions.append(('Master_light_off', request.form.get("Master_light_off")))
 
@@ -209,7 +211,7 @@ def options():
                 formoptions.append(('MoonL_on', request.form.get("MoonL_on")))
                 formoptions.append(('MoonL_off', request.form.get("MoonL_off")))
 
-                formstatus.append(('ProjectorL_status', request.form.get("ProjectorL_status")))
+                formstatus.append(('Projector_status', request.form.get("Projector_status")))
                 formoptions.append(('ProjectorL_on', request.form.get("ProjectorL_on")))
                 formoptions.append(('ProjectorL_off', request.form.get("ProjectorL_off")))
 
