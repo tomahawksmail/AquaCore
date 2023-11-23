@@ -253,7 +253,20 @@ def options():
 
 @app.route("/alerts", methods=['POST', 'GET'])
 def alerts():
-    return render_template('alerts.html', version=version)
+    SQLrequest = """SELECT * FROM loging"""
+
+    try:
+        connection.connect()
+        with connection.cursor() as cursor:
+            cursor.execute(SQLrequest)
+        log = cursor.fetchall()
+        print(log)
+    except Exception as E:
+        print(E)
+    else:
+        cursor.close()
+        connection.close()
+    return render_template('alerts.html', version=version, log=log)
 
 
 @app.route("/core_dashboard", methods=['POST', 'GET'])
