@@ -59,6 +59,7 @@ def login():
                 connection.close()
             except Exception as E:
                 flash("Something wrong...")
+                log(E)
                 return redirect("/login")
             if password != getpass:
                 flash("Wrong username or password")
@@ -76,7 +77,6 @@ def login():
 
 @app.route("/aquarium", methods=['POST', 'GET'])
 def dashboard():
-    # insert()
     if 'user' in session:
         if request.method == 'GET':
             connection.connect()
@@ -122,6 +122,7 @@ def dashboard():
                     cursor.execute(current)
                 current = cursor.fetchone()
             except Exception as E:
+                log(E)
                 return render_template('aquarium.html', version=version)
             else:
                 cursor.close()
@@ -141,12 +142,11 @@ def log(event):
         with connection.cursor() as cursor:
             cursor.execute(SQLrequest, (session['user'], event, datetime.now()))
             connection.commit()
+            cursor.close()
+            connection.close()
     except Exception as E:
-        print(E)
-    else:
-        cursor.close()
-    finally:
-        connection.close()
+        log(E)
+
 
 def getDatatoOptions():
     SQLrequest = """SELECT * FROM options"""
@@ -160,11 +160,10 @@ def getDatatoOptions():
             cursor.execute(status)
         status = cursor.fetchall()[0]
         result = (options, status)
-    except Exception as E:
-        print(E)
-    else:
         cursor.close()
         connection.close()
+    except Exception as E:
+        log(E)
     return result
 
 
@@ -183,12 +182,11 @@ def setData(formstatus, formoptions):
                 log("change some parameters")
                 cursor.execute(SQL)
             connection.commit()
+            cursor.close()
+            connection.close()
     except Exception as E:
-        print(E)
-    else:
-        cursor.close()
-    finally:
-        connection.close()
+        log(E)
+
 
 
 @app.route("/options", methods=['POST', 'GET'])
@@ -253,19 +251,16 @@ def options():
 
 @app.route("/alerts", methods=['POST', 'GET'])
 def alerts():
-    SQLrequest = """SELECT * FROM loging"""
-
+    SQLrequest = """SELECT * FROM loging ORDER BY id LIMIT 50"""
     try:
         connection.connect()
         with connection.cursor() as cursor:
             cursor.execute(SQLrequest)
         log = cursor.fetchall()
-        print(log)
-    except Exception as E:
-        print(E)
-    else:
         cursor.close()
         connection.close()
+    except Exception as E:
+        log(E)
     return render_template('alerts.html', version=version, log=log)
 
 
