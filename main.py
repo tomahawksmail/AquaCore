@@ -30,6 +30,7 @@ def start():
 
 @app.route("/logout", methods=['POST', 'GET'])
 def logout():
+    log("logout")
     session.pop('user', None)
     return redirect("/login")
 
@@ -65,6 +66,7 @@ def login():
             else:
                 session['user'] = request.form['user']
                 session['role'] = getrole
+                log("login")
                 return redirect("/aquarium")
         else:
             return render_template('login.html', version=version)
@@ -72,64 +74,79 @@ def login():
         return redirect("/aquarium")
 
 
-# @app.route("/aquarium", methods=['POST', 'GET'])
-# def dashboard():
-#     # insert()
-#     if 'user' in session:
-#         if request.method == 'GET':
-#             connection.connect()
-#             SQLrequest = """SELECT DATE_FORMAT(DATETIME, '%D %H:%i'), temp, ph, tds FROM `data` ORDER BY id ASC LIMIT 48"""
-#             min_temp_request = """SELECT min_temp FROM options"""
-#             max_temp_request = """SELECT max_temp FROM options"""
-#             min_ph_request = """SELECT min_ph FROM options"""
-#             max_ph_request = """SELECT max_ph FROM options"""
-#             tds_request = """SELECT tds FROM options"""
-#             current = """SELECT temp, ph, tds FROM `data` ORDER BY id DESC LIMIT 1"""
-#
-#             try:
-#                 with connection.cursor() as cursor:
-#                     cursor.execute(SQLrequest)
-#                 result = cursor.fetchall()
-#
-#                 with connection.cursor() as cursor:
-#                     cursor.execute(min_temp_request)
-#                 min = cursor.fetchone()[0]
-#                 min_temp = [min for i in range(48)]
-#
-#                 with connection.cursor() as cursor:
-#                     cursor.execute(max_temp_request)
-#                 max = cursor.fetchone()[0]
-#                 max_temp = [max for i in range(48)]
-#
-#                 with connection.cursor() as cursor:
-#                     cursor.execute(min_ph_request)
-#                 minph = cursor.fetchone()[0]
-#                 min_ph = [minph for i in range(48)]
-#
-#                 with connection.cursor() as cursor:
-#                     cursor.execute(max_ph_request)
-#                 maxph = cursor.fetchone()[0]
-#                 max_ph = [maxph for i in range(48)]
-#
-#                 with connection.cursor() as cursor:
-#                     cursor.execute(tds_request)
-#                 tds = cursor.fetchone()[0]
-#                 tds = [tds for i in range(48)]
-#
-#                 with connection.cursor() as cursor:
-#                     cursor.execute(current)
-#                 current = cursor.fetchone()
-#             except Exception as E:
-#                 return render_template('aquarium.html', version=version)
-#             else:
-#                 cursor.close()
-#                 connection.close()
-#             return render_template('aquarium.html', version=version, result=result, min_temp=min_temp, max_temp=max_temp, min_ph=min_ph, max_ph=max_ph, tds=tds, current=current)
-#         else:
-#             return render_template('aquarium.html', version=version, result=None)
-#     else:
-#         flash("You are not logged in")
-#         return redirect("/login")
+@app.route("/aquarium", methods=['POST', 'GET'])
+def dashboard():
+    # insert()
+    if 'user' in session:
+        if request.method == 'GET':
+            connection.connect()
+            SQLrequest = """SELECT DATE_FORMAT(DATETIME, '%D %H:%i'), temp, ph, tds FROM `data` ORDER BY id ASC LIMIT 48"""
+            min_temp_request = """SELECT min_temp FROM options"""
+            max_temp_request = """SELECT max_temp FROM options"""
+            min_ph_request = """SELECT min_ph FROM options"""
+            max_ph_request = """SELECT max_ph FROM options"""
+            tds_request = """SELECT tds FROM options"""
+            current = """SELECT temp, ph, tds FROM `data` ORDER BY id DESC LIMIT 1"""
+
+            try:
+                with connection.cursor() as cursor:
+                    cursor.execute(SQLrequest)
+                result = cursor.fetchall()
+
+                with connection.cursor() as cursor:
+                    cursor.execute(min_temp_request)
+                min = cursor.fetchone()[0]
+                min_temp = [min for i in range(48)]
+
+                with connection.cursor() as cursor:
+                    cursor.execute(max_temp_request)
+                max = cursor.fetchone()[0]
+                max_temp = [max for i in range(48)]
+
+                with connection.cursor() as cursor:
+                    cursor.execute(min_ph_request)
+                minph = cursor.fetchone()[0]
+                min_ph = [minph for i in range(48)]
+
+                with connection.cursor() as cursor:
+                    cursor.execute(max_ph_request)
+                maxph = cursor.fetchone()[0]
+                max_ph = [maxph for i in range(48)]
+
+                with connection.cursor() as cursor:
+                    cursor.execute(tds_request)
+                tds = cursor.fetchone()[0]
+                tds = [tds for i in range(48)]
+
+                with connection.cursor() as cursor:
+                    cursor.execute(current)
+                current = cursor.fetchone()
+            except Exception as E:
+                return render_template('aquarium.html', version=version)
+            else:
+                cursor.close()
+                connection.close()
+            return render_template('aquarium.html', version=version, result=result, min_temp=min_temp, max_temp=max_temp, min_ph=min_ph, max_ph=max_ph, tds=tds, current=current)
+        else:
+            return render_template('aquarium.html', version=version, result=None)
+    else:
+        flash("You are not logged in")
+        return redirect("/login")
+
+def log(event):
+    connection.connect()
+    SQLrequest = """insert into loging (User, Event, Datetime) values (%s, %s, %s)"""
+    try:
+        connection.connect()
+        with connection.cursor() as cursor:
+            cursor.execute(SQLrequest, (session['user'], event, datetime.now()))
+            connection.commit()
+    except Exception as E:
+        print(E)
+    else:
+        cursor.close()
+    finally:
+        connection.close()
 
 def getDatatoOptions():
     SQLrequest = """SELECT * FROM options"""
@@ -163,13 +180,15 @@ def setData(formstatus, formoptions):
         with connection.cursor() as cursor:
             for i in formoptions:
                 SQL = f"UPDATE `options` SET {i[0]} = '{i[1]}'"
-                print(SQL)
+                log("change some parameters")
                 cursor.execute(SQL)
             connection.commit()
-            cursor.close()
-            connection.close()
     except Exception as E:
         print(E)
+    else:
+        cursor.close()
+    finally:
+        connection.close()
 
 
 @app.route("/options", methods=['POST', 'GET'])
@@ -197,6 +216,9 @@ def options():
                 # heater
                 formstatus.append(('heater_status', request.form.get("heater_status")))
                 formoptions.append(('heater_temp', request.form.get("heater_temp")))
+
+                # heater
+                formoptions.append(('history', request.form.get("history")))
 
                 # light
                 # Master Light

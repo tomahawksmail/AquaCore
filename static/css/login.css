@@ -6,35 +6,38 @@ body {
 }
 
 h1 {
-    color: #0a0c0d;
+    color: #3798db;
     text-transform: uppercase;
     padding-left: 40px;
-    font-family: "Arial Unicode MS";
-    text-shadow: 0 0 10px #2fdfe1;
+    font-family: cursive;
+    text-align: center;
+    text-shadow: #374444;
 
 }
 
 h2 {
-    color: #2fdfe1;
+    color: #3798db;
     text-transform: uppercase;
     font-size: 12px;
     text-align: right;
     font-family: trebuchet ms;
+    text-shadow: 1 1 10px #3798db;
 }
 
 h3 {
-    color: #2fdfe1;
+    color: #3798db;
     text-transform: uppercase;
     font-size: 10px;
     text-align: left;
     font-family: trebuchet ms;
+    text-shadow: 1 1 10px #3798db;
 }
 
 .form {
-    border-radius: 10px;
-    padding: 50px;
-    background-color: rgba(0, 0, 0, .5) #0d2909;
-    box-shadow: 0 0 30px #2fdfe1;
+    border-radius: 15px;
+    padding: 30px;
+    background-color: rgba(0, 0, 0, .5) #0a0c0d;
+    box-shadow: 0 0 55px #3798db;
     position: fixed;
     top: 50%;
     left: 50%;
@@ -45,28 +48,44 @@ h3 {
 }
 
 .form input {
-    box-shadow: 0 0 20px #2fdfe1;
+    box-shadow: 0 0 20px #3798db;
 
 
 }
 
 .form input[type="text"] {
-    padding-left: 60px;
+    padding-left: 80px;
     border-radius: 4px;
     width: 240px;
-    height: 30px;
+    height: 40px;
+    color: #3798db;
+    font-family: cursive;
+    box-shadow: 0 0 20px #3798db;
 }
 
 .form input[type="password"] {
-    padding-left: 60px;
+    padding-left: 80px;
     border-radius: 4px;
     width: 240px;
-    height: 30px;
+    height: 40px;
+    font-family: cursive;
+    color: #3798db;
+    box-shadow: 0 0 20px #3798db;
 }
 
 .form input[type="submit"] {
     border-radius: 4px;
-    width: 310px;
-    height: 30px;
+    text-align: center;
+    width:330px;
+    height: 40px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    color: #fff;
+    background-image: -moz-linear-gradient(top, #3798db, #2c7cd2);
+    background-image: -o-linear-gradient(top, #3798db, #2c7cd2);
+    background-image: -ms-linear-gradient(top, #3798db, #2c7cd2);
+    background-image: -webkit-linear-gradient(top, #3798db, #2c7cd2);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #3798db), color-stop(1, #2c7cd2));
+    box-shadow: 0 0 20px #3798db;
 
 }
