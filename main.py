@@ -251,7 +251,7 @@ def options():
 
 @app.route("/alerts", methods=['POST', 'GET'])
 def alerts():
-    SQLrequest = """SELECT * FROM loging ORDER BY id LIMIT 50"""
+    SQLrequest = """SELECT * FROM loging ORDER BY id LIMIT 30"""
     try:
         connection.connect()
         with connection.cursor() as cursor:
