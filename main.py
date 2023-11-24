@@ -159,6 +159,7 @@ def getDatatoOptions():
         with connection.cursor() as cursor:
             cursor.execute(status)
         status = cursor.fetchall()[0]
+        print(status)
         result = (options, status)
         cursor.close()
         connection.close()
@@ -215,8 +216,14 @@ def options():
                 formstatus.append(('heater_status', request.form.get("heater_status")))
                 formoptions.append(('heater_temp', request.form.get("heater_temp")))
 
-                # heater
+                # UV
+                formstatus.append(('UV_status', request.form.get("UV_status")))
+                formoptions.append(('UV_on', request.form.get("UV_on")))
+                formoptions.append(('UV_off', request.form.get("UV_off")))
+
+                # history
                 formoptions.append(('history', request.form.get("history")))
+
 
                 # light
                 # Master Light

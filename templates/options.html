@@ -110,6 +110,22 @@
                                         °C<br></td>
                                     <td></td>
                                 </tr>
+                                <tr>
+                                    <td>
+                                        <div class="custom-switch custom-switch-label-onoff">
+                                            <input class="custom-switch-input" name="UV_status" id="UV_status" type="checkbox"
+                                                   {{status[3]}}>
+                                            <label class="custom-switch-btn" for="UV_status"></label>
+                                        </div>
+                                    </td>
+                                    <td>UV</td>
+                                    <td>P15/15</td>
+                                    <td><input data-clocklet="class-name: clocklet-color-example; format: HH:mm"
+                                               value={{result[9]}} name="UV_on"></td>
+                                    <td><input data-clocklet="class-name: clocklet-color-example; format: HH:mm"
+                                               value={{result[10]}} name="UV_off"></td>
+
+                                </tr>
                             </table>
                         </div>
                     </div>
@@ -156,7 +172,7 @@
                                         <div class="custom-switch custom-switch-label-onoff">
                                             <input class="custom-switch-input" name="MasterL_status"
                                                    id="MasterL_status" type="checkbox" {{
-                                                   status[3]}}>
+                                                   status[4]}}>
                                             <label class="custom-switch-btn" for="MasterL_status"></label>
                                         </div>
                                     </td>
@@ -171,7 +187,7 @@
                                     <td>
                                         <div class="custom-switch custom-switch-label-onoff">
                                             <input class="custom-switch-input" name="RedL_status" id="Red Light 675nm" type="checkbox" {{
-                                                   status[4]}}>
+                                                   status[5]}}>
                                             <label class="custom-switch-btn" for="Red Light 675nm"></label>
                                         </div>
                                     </td>
@@ -186,7 +202,7 @@
                                     <td>
                                         <div class="custom-switch custom-switch-label-onoff">
                                             <input class="custom-switch-input" name="BlueL_status" id="Blue Light 425nm" type="checkbox" {{
-                                                   status[5]}}>
+                                                   status[6]}}>
                                             <label class="custom-switch-btn" for="Blue Light 425nm"></label>
                                         </div>
                                     </td>
@@ -201,7 +217,7 @@
                                     <td>
                                         <div class="custom-switch custom-switch-label-onoff">
                                             <input class="custom-switch-input" name="MoonL_status" id="Moon Light" type="checkbox" {{
-                                                   status[6]}}>
+                                                   status[7]}}>
                                             <label class="custom-switch-btn" for="Moon Light"></label>
                                         </div>
                                     </td>
@@ -216,8 +232,8 @@
                                 <tr>
                                     <td>
                                         <div class="custom-switch custom-switch-label-onoff">
-                                            <input class="custom-switch-input" name="Projector_status" id="Projector_status" type="checkbox" {{
-                                                   status[7]}}>
+                                            <input class="custom-switch-input" name="Projector_status" id="Projector_status" type="checkbox"
+                                                   {{status[8]}}>
                                             <label class="custom-switch-btn" for="Projector_status"></label>
                                         </div>
                                     </td>
