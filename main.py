@@ -156,8 +156,6 @@ def getDatatoOptions():
         with connection.cursor() as cursor:
             cursor.execute(SQLrequest)
         options = cursor.fetchone()
-        for i in options:
-            print(i)
         with connection.cursor() as cursor:
             cursor.execute(status)
         status = cursor.fetchall()[0]
@@ -170,17 +168,19 @@ def getDatatoOptions():
 
 
 def setData(formstatus, formoptions):
+    for i in formoptions:
+        print(i)
     try:
         connection.connect()
         with connection.cursor() as cursor:
             for i in formstatus:
                 SQL = f"UPDATE `status` SET {i[0]} = '{'checked' if i[1] == 'on' else 'unchecked'}'"
                 cursor.execute(SQL)
-            connection.commit()
-            cursor.close()
-        with connection.cursor() as cursor:
+
             for i in formoptions:
+                print(i)
                 SQL = f"UPDATE `options` SET {i[0]} = '{i[1]}'"
+                print(SQL)
                 log("change some parameters")
                 cursor.execute(SQL)
             connection.commit()
@@ -205,6 +205,18 @@ def options():
                 # history
                 formoptions.append(('history', request.form.get("history")))
 
+                # temp
+                formoptions.append(('min_temp', request.form.get("min_temp")))
+                formoptions.append(('max_temp', request.form.get("max_temp")))
+
+                # ph
+                formoptions.append(('min_ph', request.form.get("min_ph")))
+                formoptions.append(('max_ph', request.form.get("max_ph")))
+
+                # tds
+                formoptions.append(('tds', request.form.get("tds")))
+
+
                 # co2
                 formstatus.append(('co2_status', request.form.get("co2")))
                 formoptions.append(('co2_on', request.form.get("co2_on")))
@@ -223,7 +235,6 @@ def options():
                 formstatus.append(('UV_status', request.form.get("UV_status")))
                 formoptions.append(('UV_on', request.form.get("UV_on")))
                 formoptions.append(('UV_off', request.form.get("UV_off")))
-
 
 
 
