@@ -1,0 +1,21 @@
+table.table_light_left {
+    border-collapse: collapse;
+    width: 100%;
+    text-align: center;
+
+
+}
+
+
+
+
+table.table_light_left th {
+    border-bottom: 1px solid #fff;
+    text-align: left;
+
+   }
+
+table.table_light_left td {
+    text-align: left;
+
+   }

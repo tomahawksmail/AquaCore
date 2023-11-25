@@ -73,9 +73,9 @@
                                     <td>CO2</td>
                                     <td>P13/40</td>
                                     <td><input data-clocklet="class-name: clocklet-color-example; format: HH:mm"
-                                               value={{result[7]}} name="co2_on"></td>
+                                               value={{result[6]}} name="co2_on"></td>
                                     <td><input data-clocklet="class-name: clocklet-color-example; format: HH:mm"
-                                               value={{result[8]}} name="co2_off"></td>
+                                               value={{result[7]}} name="co2_off"></td>
                                 </tr>
                                 <tr>
                                     <td>
@@ -88,9 +88,9 @@
                                     <td>O2</td>
                                     <td>P14/38</td>
                                     <td><input data-clocklet="class-name: clocklet-color-example; format: HH:mm"
-                                               value={{result[9]}} name="o2_on"></td>
+                                               value={{result[8]}} name="o2_on"></td>
                                     <td><input data-clocklet="class-name: clocklet-color-example; format: HH:mm"
-                                               value={{result[10]}} name="o2_off"></td>
+                                               value={{result[9]}} name="o2_off"></td>
 
                                 </tr>
                                 <tr>
@@ -106,14 +106,15 @@
                                     <td>PC12/36</td>
                                     <td>
                                         <input type="number" step=1 name="heater_temp" min="16" max="30"
-                                               value={{result[6]}}>
+                                               value={{result[10]}}>
                                         °C<br></td>
                                     <td></td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <div class="custom-switch custom-switch-label-onoff">
-                                            <input class="custom-switch-input" name="UV_status" id="UV_status" type="checkbox"
+                                            <input class="custom-switch-input" name="UV_status" id="UV_status"
+                                                   type="checkbox"
                                                    {{status[3]}}>
                                             <label class="custom-switch-btn" for="UV_status"></label>
                                         </div>
@@ -121,9 +122,9 @@
                                     <td>UV</td>
                                     <td>P15/15</td>
                                     <td><input data-clocklet="class-name: clocklet-color-example; format: HH:mm"
-                                               value={{result[9]}} name="UV_on"></td>
+                                               value={{result[11]}} name="UV_on"></td>
                                     <td><input data-clocklet="class-name: clocklet-color-example; format: HH:mm"
-                                               value={{result[10]}} name="UV_off"></td>
+                                               value={{result[12]}} name="UV_off"></td>
 
                                 </tr>
                             </table>
@@ -140,9 +141,66 @@
                     </div>
                     <div class="card-body">
                         <div class="chart-area">
-                            <label for="history">History size</label>
-                            <input type="number" size="3" id="history" name="history" min="1" max="168"
-                                   value={{result[0]}}> h<br>
+                            <table class="table_light_left">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Value</th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        History size
+                                    </td>
+                                    <td>
+                                        <input type="number" size="4" name="history" min="1" max="168"
+                                               value={{result[0]}}> h
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        min temp
+                                    </td>
+                                    <td>
+                                        <input type="number" size="4" name="min_temp" min="1" max="30"
+                                               value={{result[1]}}> °C
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        max temp
+                                    </td>
+                                    <td>
+                                        <input type="number" size="4" name="max_temp" min="1" max="30"
+                                       value={{result[2]}}> °C
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        min ph
+                                    </td>
+                                    <td>
+                                        <input type="number" size="4" name="min_ph" min="1" max="14" step="0.1"
+                                       value={{result[3]}}>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        max ph
+                                    </td>
+                                    <td>
+                                        <input type="number" size="4" name="max_ph" min="1" max="14" step="0.1"
+                                       value={{result[4]}}>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        tds
+                                    </td>
+                                    <td>
+                                        <input type="number" size="4" name="tds" min="0" max="1000"
+                                       value={{result[5]}}>
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -179,14 +237,15 @@
                                     <td>Master Light</td>
                                     <td>PH2/11</td>
                                     <td><input data-clocklet="class-name: clocklet-color-example; format: HH:mm"
-                                               value={{result[11]}} name="Master_light_on"></td>
+                                               value={{result[13]}} name="Master_light_on"></td>
                                     <td><input data-clocklet="class-name: clocklet-color-example; format: HH:mm"
-                                               value={{result[12]}} name="Master_light_off"></td>
+                                               value={{result[14]}} name="Master_light_off"></td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <div class="custom-switch custom-switch-label-onoff">
-                                            <input class="custom-switch-input" name="RedL_status" id="Red Light 675nm" type="checkbox" {{
+                                            <input class="custom-switch-input" name="RedL_status" id="Red Light 675nm"
+                                                   type="checkbox" {{
                                                    status[5]}}>
                                             <label class="custom-switch-btn" for="Red Light 675nm"></label>
                                         </div>
@@ -194,14 +253,15 @@
                                     <td>Red Light 675nm</td>
                                     <td>P15/15</td>
                                     <td><input data-clocklet="class-name: clocklet-color-example; format: HH:mm"
-                                               value={{result[13]}} name="RedL_on"><br></td>
+                                               value={{result[15]}} name="RedL_on"><br></td>
                                     <td><input data-clocklet="class-name: clocklet-color-example; format: HH:mm"
-                                               value={{result[14]}} name="RedL_off"><br></td>
+                                               value={{result[16]}} name="RedL_off"><br></td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <div class="custom-switch custom-switch-label-onoff">
-                                            <input class="custom-switch-input" name="BlueL_status" id="Blue Light 425nm" type="checkbox" {{
+                                            <input class="custom-switch-input" name="BlueL_status" id="Blue Light 425nm"
+                                                   type="checkbox" {{
                                                    status[6]}}>
                                             <label class="custom-switch-btn" for="Blue Light 425nm"></label>
                                         </div>
@@ -209,14 +269,15 @@
                                     <td>Blue Light 425nm</td>
                                     <td>PH7/19</td>
                                     <td><input data-clocklet="class-name: clocklet-color-example; format: HH:mm"
-                                               value={{result[15]}} name="BlueL_on"><br></td>
+                                               value={{result[17]}} name="BlueL_on"><br></td>
                                     <td><input data-clocklet="class-name: clocklet-color-example; format: HH:mm"
-                                               value={{result[16]}} name="BlueL_off"><br></td>
+                                               value={{result[18]}} name="BlueL_off"><br></td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <div class="custom-switch custom-switch-label-onoff">
-                                            <input class="custom-switch-input" name="MoonL_status" id="Moon Light" type="checkbox" {{
+                                            <input class="custom-switch-input" name="MoonL_status" id="Moon Light"
+                                                   type="checkbox" {{
                                                    status[7]}}>
                                             <label class="custom-switch-btn" for="Moon Light"></label>
                                         </div>
@@ -224,15 +285,16 @@
                                     <td>Moon Light</td>
                                     <td>PH8/21</td>
                                     <td><input data-clocklet="class-name: clocklet-color-example; format: HH:mm"
-                                               value={{result[17]}} name="MoonL_on"><br></td>
+                                               value={{result[19]}} name="MoonL_on"><br></td>
                                     <td><input data-clocklet="class-name: clocklet-color-example; format: HH:mm"
-                                               value={{result[18]}} name="MoonL_off"><br></td>
+                                               value={{result[20]}} name="MoonL_off"><br></td>
 
                                 </tr>
                                 <tr>
                                     <td>
                                         <div class="custom-switch custom-switch-label-onoff">
-                                            <input class="custom-switch-input" name="Projector_status" id="Projector_status" type="checkbox"
+                                            <input class="custom-switch-input" name="Projector_status"
+                                                   id="Projector_status" type="checkbox"
                                                    {{status[8]}}>
                                             <label class="custom-switch-btn" for="Projector_status"></label>
                                         </div>
@@ -240,9 +302,9 @@
                                     <td>Projector Light</td>
                                     <td>PI0/29</td>
                                     <td><input data-clocklet="class-name: clocklet-color-example; format: HH:mm"
-                                               value={{result[17]}} name="ProjectorL_on"></td>
+                                               value={{result[21]}} name="ProjectorL_on"></td>
                                     <td><input data-clocklet="class-name: clocklet-color-example; format: HH:mm"
-                                               value={{result[18]}} name="ProjectorL_off"></td>
+                                               value={{result[22]}} name="ProjectorL_off"></td>
                                 </tr>
                             </table>
                         </div>

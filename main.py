@@ -156,10 +156,11 @@ def getDatatoOptions():
         with connection.cursor() as cursor:
             cursor.execute(SQLrequest)
         options = cursor.fetchone()
+        for i in options:
+            print(i)
         with connection.cursor() as cursor:
             cursor.execute(status)
         status = cursor.fetchall()[0]
-        print(status)
         result = (options, status)
         cursor.close()
         connection.close()
@@ -201,6 +202,8 @@ def options():
                 formstatus = []
                 formoptions = []
                 # get all data from form and save to list "formstatus"
+                # history
+                formoptions.append(('history', request.form.get("history")))
 
                 # co2
                 formstatus.append(('co2_status', request.form.get("co2")))
@@ -221,8 +224,7 @@ def options():
                 formoptions.append(('UV_on', request.form.get("UV_on")))
                 formoptions.append(('UV_off', request.form.get("UV_off")))
 
-                # history
-                formoptions.append(('history', request.form.get("history")))
+
 
 
                 # light
