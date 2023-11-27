@@ -96,6 +96,21 @@
                                 <tr>
                                     <td>
                                         <div class="custom-switch custom-switch-label-onoff">
+                                            <input class="custom-switch-input" name="UV_status" id="UV_status"
+                                                   type="checkbox"
+                                                   {{status[3]}}>
+                                            <label class="custom-switch-btn" for="UV_status"></label>
+                                        </div>
+                                    </td>
+                                    <td>UV</td>
+                                    <td>P15/15</td>
+                                    <td><input data-clocklet="class-name: clocklet-color-example; format: HH:mm"
+                                               value={{result[11]}} name="UV_on"></td>
+                                    <td><input data-clocklet="class-name: clocklet-color-example; format: HH:mm"
+                                               value={{result[12]}} name="UV_off"></td>
+                                <tr>
+                                    <td>
+                                        <div class="custom-switch custom-switch-label-onoff">
                                             <input class="custom-switch-input" name="heater_status" id="heater_status"
                                                    type="checkbox" {{
                                                    status[2]}}>
@@ -110,21 +125,7 @@
                                         °C<br></td>
                                     <td></td>
                                 </tr>
-                                <tr>
-                                    <td>
-                                        <div class="custom-switch custom-switch-label-onoff">
-                                            <input class="custom-switch-input" name="UV_status" id="UV_status"
-                                                   type="checkbox"
-                                                   {{status[3]}}>
-                                            <label class="custom-switch-btn" for="UV_status"></label>
-                                        </div>
-                                    </td>
-                                    <td>UV</td>
-                                    <td>P15/15</td>
-                                    <td><input data-clocklet="class-name: clocklet-color-example; format: HH:mm"
-                                               value={{result[11]}} name="UV_on"></td>
-                                    <td><input data-clocklet="class-name: clocklet-color-example; format: HH:mm"
-                                               value={{result[12]}} name="UV_off"></td>
+
 
                                 </tr>
                             </table>
@@ -145,22 +146,24 @@
                                 <tr>
                                     <th>Name</th>
                                     <th>Value</th>
+
                                 </tr>
                                 <tr>
                                     <td>
                                         History size
                                     </td>
                                     <td>
-                                        <input type="number" size="4" name="history" min="1" max="168"
+                                        <input type="number" size="4" name="history" min="1" max="168" style="width: 7em"
                                                value={{result[0]}}> h
                                     </td>
+
                                 </tr>
                                 <tr>
                                     <td>
                                         min temp
                                     </td>
                                     <td>
-                                        <input type="number" size="4" name="min_temp" min="1" max="30"
+                                        <input type="number" size="4" name="min_temp" min="1" max="30" style="width: 7em"
                                                value={{result[1]}}> °C
                                     </td>
                                 </tr>
@@ -169,7 +172,7 @@
                                         max temp
                                     </td>
                                     <td>
-                                        <input type="number" size="4" name="max_temp" min="1" max="30"
+                                        <input type="number" size="4" name="max_temp" min="1" max="30" style="width: 7em"
                                        value={{result[2]}}> °C
                                     </td>
                                 </tr>
@@ -178,7 +181,7 @@
                                         min ph
                                     </td>
                                     <td>
-                                        <input type="number" size="4" name="min_ph" min="1" max="14" step="0.1"
+                                        <input type="number" size="4" name="min_ph" min="1" max="14" step="0.1" style="width: 7em"
                                        value={{result[3]}}>
                                     </td>
                                 </tr>
@@ -187,7 +190,7 @@
                                         max ph
                                     </td>
                                     <td>
-                                        <input type="number" size="4" name="max_ph" min="1" max="14" step="0.1"
+                                        <input type="number" size="4" name="max_ph" min="1" max="14" step="0.1" style="width: 7em"
                                        value={{result[4]}}>
                                     </td>
                                 </tr>
@@ -196,7 +199,7 @@
                                         tds
                                     </td>
                                     <td>
-                                        <input type="number" size="4" name="tds" min="0" max="1000"
+                                        <input type="number" size="4" name="tds" min="0" max="1000" style="width: 7em"
                                        value={{result[5]}}>
                                     </td>
                                 </tr>

@@ -176,6 +176,8 @@ def setData(formstatus, formoptions):
             for i in formstatus:
                 SQL = f"UPDATE `status` SET {i[0]} = '{'checked' if i[1] == 'on' else 'unchecked'}'"
                 cursor.execute(SQL)
+                connection.commit()
+
 
             for i in formoptions:
                 print(i)
