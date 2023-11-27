@@ -184,13 +184,13 @@ sup {
 }
 
 a {
-  color: #7e54e1;
+  color: #fff;
   text-decoration: none;
   background-color: transparent;
 }
 
 a:hover {
-  color: #8a5cc2;
+  color: #fff;
   text-decoration: none;
 }
 
@@ -568,7 +568,7 @@ mark,
 
 code {
   font-size: 87.5%;
-  color: #f3a4b5;
+  color: #fff;
   word-break: break-word;
 }
 
@@ -16516,13 +16516,13 @@ h6 {
 }
 
 a {
-  color: #ba54f5;
+  color: #328cca;
   font-weight: 300;
 }
 
 a:hover,
 a:focus {
-  color: #e14eca;
+  color: #fff;
 }
 
 h1,
@@ -19889,7 +19889,7 @@ Copyright (c) 2015 Daniel Eden
 }
 
 .white-content .footer .copyright {
-  color: #1d253b;
+  color: #fff;
 }
 
 .white-content .progress-container .progress,
@@ -19930,16 +19930,16 @@ Copyright (c) 2015 Daniel Eden
 }
 
 .white-content .full-page .footer ul li a {
-  color: #1d253b;
+  color: #fff;
 }
 
 .white-content .full-page .footer .copyright {
-  color: #1d253b;
+  color: #fff;
 }
 
 .white-content .nav-pills .nav-item .nav-link:not(.active) {
   background: #d3d7e9;
-  color: #1d253b;
+  color: #fff;
 }
 
 .white-content .nav-pills .nav-item .nav-link:not(.active):hover {
