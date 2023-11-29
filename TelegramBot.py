@@ -4,19 +4,21 @@ import sys
 from dotenv import load_dotenv
 import os
 from aiogram import Bot, Dispatcher, Router, types
+from aiogram.methods import SendMessage
 from aiogram.enums import ParseMode
 from aiogram.filters import CommandStart
 from aiogram.types import Message
 from aiogram.utils.markdown import hbold
-
-
+from time import sleep
 load_dotenv()
-
+# @Aquacore_bot id=6775200253 - 'Aquacore'
 # Bot token can be obtained via https://t.me/BotFather
 TOKEN = os.environ.get('BOTTOKEN')
 
 # All handlers should be attached to the Router (or Dispatcher)
 dp = Dispatcher()
+
+
 
 
 @dp.message(CommandStart())
@@ -33,8 +35,12 @@ async def command_start_handler(message: Message) -> None:
         [types.KeyboardButton(text="С пюрешкой")],
         [types.KeyboardButton(text="Без пюрешки")]
     ]
+
     keyboard = types.ReplyKeyboardMarkup(keyboard=kb)
     await message.answer("Как подавать котлеты?", reply_markup=keyboard)
+    await Bot.send_message(6775200253, "sgsgfds")
+
+
     # await message.answer(f"Hello, {hbold(message.from_user.full_name)}!")
 
 
@@ -60,6 +66,11 @@ async def main() -> None:
     await dp.start_polling(bot)
 
 
+
+
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, stream=sys.stdout)
+
     asyncio.run(main())
+
+

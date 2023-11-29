@@ -42,3 +42,9 @@ board	    socket / number  -   Description
 
 
 light 6500K
+sudo orangepi-config
+
+sudo nmcli dev wifi
+sudo nmcli dev wifi connect wifi_name password wifi_password
+
+sudo create_ap -n wlan0 AquaCore orangepi --no-virt

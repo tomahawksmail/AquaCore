@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, session, send_file, redirect, flash
 from datetime import datetime
 import os
+path = 'lock'
 from dotenv import load_dotenv
 import pymysql
 import hashlib
@@ -21,6 +22,16 @@ connection = pymysql.connect(host=os.environ.get('HOST'),
 version = os.environ.get('VERSION')
 app.secret_key = os.environ.get('SECRET_KEY')
 app.config['SESSION_PERMANENT'] = False
+
+
+
+
+
+
+
+@app.route("/AP", methods=['POST', 'GET'])
+def AP():
+    return render_template('AP.html', version=version)
 
 
 @app.route("/", methods=['POST', 'GET'])
@@ -135,17 +146,19 @@ def dashboard():
         return redirect("/login")
 
 def log(event):
-    connection.connect()
-    SQLrequest = """insert into loging (User, Event, Datetime) values (%s, %s, %s)"""
     try:
         connection.connect()
         with connection.cursor() as cursor:
+            SQLrequest = """insert into loging (User, Event, Datetime) values (%s, %s, %s)"""
             cursor.execute(SQLrequest, (session['user'], event, datetime.now()))
             connection.commit()
-            cursor.close()
-            connection.close()
+
     except Exception as E:
         log(E)
+
+        # cursor.close()
+        connection.close()
+
 
 
 def getDatatoOptions():
@@ -167,9 +180,22 @@ def getDatatoOptions():
     return result
 
 
-def setData(formstatus, formoptions):
-    for i in formoptions:
-        print(i)
+def setDataOptions(formoptions):
+    try:
+        connection.connect()
+        with connection.cursor() as cursor:
+            for i in formoptions:
+                SQL = f"UPDATE `options` SET {i[0]} = '{i[1]}'"
+                event = f"SET {i[0]} = {i[1]}"
+                log(event)
+                cursor.execute(SQL)
+                connection.commit()
+            cursor.close()
+        connection.close()
+    except Exception as E:
+        log(E)
+
+def setDataStatus(formstatus):
     try:
         connection.connect()
         with connection.cursor() as cursor:
@@ -177,17 +203,8 @@ def setData(formstatus, formoptions):
                 SQL = f"UPDATE `status` SET {i[0]} = '{'checked' if i[1] == 'on' else 'unchecked'}'"
                 cursor.execute(SQL)
                 connection.commit()
-
-
-            for i in formoptions:
-                print(i)
-                SQL = f"UPDATE `options` SET {i[0]} = '{i[1]}'"
-                print(SQL)
-                log("change some parameters")
-                cursor.execute(SQL)
-            connection.commit()
             cursor.close()
-            connection.close()
+        connection.close()
     except Exception as E:
         log(E)
 
@@ -262,7 +279,8 @@ def options():
                 formoptions.append(('ProjectorL_on', request.form.get("ProjectorL_on")))
                 formoptions.append(('ProjectorL_off', request.form.get("ProjectorL_off")))
 
-                setData(formstatus, formoptions)
+                setDataOptions(formoptions)
+                setDataStatus(formstatus)
 
                 result = getDatatoOptions()
                 return render_template('options.html', version=version, result=result[0], status=result[1])
@@ -273,7 +291,7 @@ def options():
 
 @app.route("/alerts", methods=['POST', 'GET'])
 def alerts():
-    SQLrequest = """SELECT * FROM loging ORDER BY id LIMIT 30"""
+    SQLrequest = """SELECT * FROM loging ORDER BY id DESC LIMIT 30"""
     try:
         connection.connect()
         with connection.cursor() as cursor:
@@ -291,5 +309,7 @@ def core_dashboard():
     return render_template('core_dashboard.html', version=version)
 
 
+
+
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0', port=5555)
+    app.run(debug=True, host='0.0.0.0', port=80, threaded=True)
