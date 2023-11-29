@@ -29,9 +29,9 @@ app.config['SESSION_PERMANENT'] = False
 
 
 
-@app.route("/AP", methods=['POST', 'GET'])
-def AP():
-    return render_template('AP.html', version=version)
+@app.route("/ap", methods=['POST', 'GET'])
+def ap():
+    return render_template('ap.html', version=version)
 
 
 @app.route("/", methods=['POST', 'GET'])
@@ -313,3 +313,6 @@ def core_dashboard():
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port=80, threaded=True)
+    if not os.path.isfile('lock'):
+        app.run(debug=False, passthrough_errors=True, use_reloader=False, host='0.0.0.0', port=80)
+
