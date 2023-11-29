@@ -38,7 +38,6 @@ class base{
         for (let i = 0; i < touches.length; i++) {
             let touch = touches[i];
             touchendX = touch.clientX;
-           
         }
         return touchendX;
     }
