@@ -20,7 +20,6 @@ if not hasattr(psutil.Process, "cpu_num"):
 def load():
     data = []
 
-    data.append(datetime.now())
 
     data.append(int(psutil.cpu_freq()[0]))
     # data.append(int(psutil.cpu_freq()[1]))
@@ -93,7 +92,7 @@ def insert_data_to_SQL():
     disk_write_count, disk_read_bytes, disk_write_bytes, disk_read_time, disk_write_time, disk_busy_time, 
     disk_usage_total, disk_usage_used, disk_usage_free, disk_usage_percent) 
     values
-    (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, 
+    (now(), %s, %s, %s, %s, %s, %s, %s, %s, %s, 
      %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, 
      %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
      %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
