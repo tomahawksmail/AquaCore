@@ -20,6 +20,7 @@ if not hasattr(psutil.Process, "cpu_num"):
 def load():
     data = []
     num_cpus = psutil.cpu_count()
+    uptime = (time.time() - psutil.boot_time()) / 60
 
     data.append(datetime.now())
 
@@ -42,40 +43,45 @@ def load():
     data.append(int(psutil.virtual_memory()[7]))  # buffers
     data.append(int(psutil.virtual_memory()[8]))  # cached
     data.append(int(psutil.virtual_memory()[9]))  # shared
-    data.append(int(psutil.virtual_memory()[10]))  # slab
+    data.append((psutil.virtual_memory()[10]))  # slab
 
+    data.append(psutil.sensors_temperatures().get('cpu_thermal')[0][1])  # cpu_thermal_cur
+    data.append(psutil.sensors_temperatures().get('cpu_thermal')[0][2])  # cpu_thermal_high
+    data.append(psutil.sensors_temperatures().get('cpu_thermal')[0][3])  # cpu_thermal_crit
+    data.append(psutil.sensors_temperatures().get('gpu_thermal')[0][1])  # gpu_thermal_cur
+    data.append(psutil.sensors_temperatures().get('gpu_thermal')[0][2])  # gpu_thermal_high
+    data.append(psutil.sensors_temperatures().get('gpu_thermal')[0][3])  # gpu_thermal_crit
+    data.append(psutil.sensors_temperatures().get('ve_thermal')[0][1])  # ve_thermal_cur
+    data.append(psutil.sensors_temperatures().get('ddr_thermal')[0][1])  # gpu_thermal_cur
 
+    data.append(psutil.net_io_counters()[0])  # net_bytes_sent
+    data.append(psutil.net_io_counters()[1])  # net_bytes_recv
+    data.append(psutil.net_io_counters()[2])  # net_packets_sent
+    data.append(psutil.net_io_counters()[3])  # net_packets_recv
+    data.append(psutil.net_io_counters()[4])  # net_errin
+    data.append(psutil.net_io_counters()[5])  # net_errout
+    data.append(psutil.net_io_counters()[6])  # net_dropin
+    data.append(psutil.net_io_counters()[7])  # net_dropout
 
+    data.append(psutil.disk_io_counters()[0])  # disk_read_count
+    data.append(psutil.disk_io_counters()[1])  # disk_write_count
+    data.append(psutil.disk_io_counters()[2])  # disk_read_bytes
+    data.append(psutil.disk_io_counters()[3])  # disk_write_bytes
+    data.append(psutil.disk_io_counters()[4])  # disk_read_time
+    data.append(psutil.disk_io_counters()[5])  # disk_write_time
+    data.append(psutil.disk_io_counters()[8])  # disk_busy_time
 
+    data.append(psutil.disk_usage("/")[0])  # disk_usage_total
+    data.append(psutil.disk_usage("/")[1])  # disk_usage_used
+    data.append(psutil.disk_usage("/")[2])  # disk_usage_free
+    data.append(psutil.disk_usage("/")[3])  # disk_usage_percent
 
-    return data
-
-
-# # Обработчик оперативки, возвращает список RAM
-def memload():
-    virtual_memory = psutil.virtual_memory()
-    RAM = list(virtual_memory)
-    RAM.insert(0, datetime.now())
-    return RAM
-#
-# # Обработчик температуры, возвращает список temp
-# def temperature():
-#     temp = []
-#     if not hasattr(psutil, "sensors_temperatures"):
-#         sys.exit("platform not supported")
-#     temps = psutil.sensors_temperatures()
-#     if not temps:
-#         sys.exit("can't read any temperature")
-#     for name, entries in temps.items():
-#         for entry in entries:
-#             temp.append(datetime.now())
-#             temp.append(entry.current)
-#             return temp
-#
+    return data, num_cpus, uptime
 
 def insert_data_to_SQL():
-    cpu = load()
-    print(cpu)
+    data = load()
+    print(data)
+    # print(cpu)
     # SQLrequest = """SELECT * FROM loging ORDER BY id DESC LIMIT 30"""
     # try:
     #     connection.connect()
