@@ -57,11 +57,11 @@ class base{
 
 const root = new base();
 
-sidebar.addEventListener('touchstart', function(event) {
+content.addEventListener('touchstart', function(event) {
     root.getStart(event);
 });
 
-sidebar.addEventListener('touchend', function(event) {
+content.addEventListener('touchend', function(event) {
     root.getEnd(event);
     root.handleGesure();
 });
