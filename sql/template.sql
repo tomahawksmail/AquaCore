@@ -14,7 +14,23 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
--- Dumping data for table AquaCore.data: ~24 rows (approximately)
+
+-- Dumping database structure for AquaCore
+CREATE DATABASE IF NOT EXISTS `AquaCore` /*!40100 DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci */;
+USE `AquaCore`;
+
+-- Dumping structure for table AquaCore.data
+CREATE TABLE IF NOT EXISTS `data` (
+  `Id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `Datetime` datetime DEFAULT NULL,
+  `temp` float unsigned DEFAULT NULL,
+  `ph` float unsigned DEFAULT NULL,
+  `tds` float unsigned DEFAULT NULL,
+  PRIMARY KEY (`Id`) USING BTREE,
+  KEY `Datetime` (`Datetime`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- Dumping data for table AquaCore.data: ~25 rows (approximately)
 INSERT INTO `data` (`Id`, `Datetime`, `temp`, `ph`, `tds`) VALUES
 	(177, '2023-10-27 00:00:00', 32, 6, 728),
 	(178, '2023-10-27 01:00:00', 26, 6, 320),
@@ -42,7 +58,16 @@ INSERT INTO `data` (`Id`, `Datetime`, `temp`, `ph`, `tds`) VALUES
 	(200, '2023-10-27 23:00:00', 30, 5, 544),
 	(201, '2023-11-22 16:00:00', 21, 7, 200);
 
--- Dumping data for table AquaCore.loging: ~623 rows (approximately)
+-- Dumping structure for table AquaCore.loging
+CREATE TABLE IF NOT EXISTS `loging` (
+  `Id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `User` varchar(50) DEFAULT NULL,
+  `Event` varchar(255) DEFAULT NULL,
+  `Datetime` datetime DEFAULT NULL,
+  PRIMARY KEY (`Id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- Dumping data for table AquaCore.loging: ~640 rows (approximately)
 INSERT INTO `loging` (`Id`, `User`, `Event`, `Datetime`) VALUES
 	(1, 'admin', 'logout', '2023-11-22 16:26:10'),
 	(2, 'admin', 'login', '2023-11-22 16:26:16'),
@@ -685,17 +710,120 @@ INSERT INTO `loging` (`Id`, `User`, `Event`, `Datetime`) VALUES
 	(639, 'Admin', 'login', '2023-11-29 10:35:27'),
 	(640, 'skhashimi', 'login', '2023-11-29 12:45:21');
 
+-- Dumping structure for table AquaCore.options
+CREATE TABLE IF NOT EXISTS `options` (
+  `history` int(11) DEFAULT NULL,
+  `min_temp` float unsigned DEFAULT NULL,
+  `max_temp` float unsigned DEFAULT NULL,
+  `min_ph` float unsigned DEFAULT NULL,
+  `max_ph` float unsigned DEFAULT NULL,
+  `tds` float unsigned DEFAULT NULL,
+  `co2_on` time DEFAULT NULL,
+  `co2_off` time DEFAULT NULL,
+  `o2_on` time DEFAULT NULL,
+  `o2_off` time DEFAULT NULL,
+  `heater_temp` float unsigned DEFAULT NULL,
+  `UV_on` time DEFAULT NULL,
+  `UV_off` time DEFAULT NULL,
+  `Master_light_on` time DEFAULT NULL,
+  `Master_light_off` time DEFAULT NULL,
+  `RedL_on` time DEFAULT NULL,
+  `RedL_off` time DEFAULT NULL,
+  `BlueL_on` time DEFAULT NULL,
+  `BlueL_off` time DEFAULT NULL,
+  `MoonL_on` time DEFAULT NULL,
+  `MoonL_off` time DEFAULT NULL,
+  `ProjectorL_on` time DEFAULT NULL,
+  `ProjectorL_off` time DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
 -- Dumping data for table AquaCore.options: ~1 rows (approximately)
 INSERT INTO `options` (`history`, `min_temp`, `max_temp`, `min_ph`, `max_ph`, `tds`, `co2_on`, `co2_off`, `o2_on`, `o2_off`, `heater_temp`, `UV_on`, `UV_off`, `Master_light_on`, `Master_light_off`, `RedL_on`, `RedL_off`, `BlueL_on`, `BlueL_off`, `MoonL_on`, `MoonL_off`, `ProjectorL_on`, `ProjectorL_off`) VALUES
 	(46, 20, 26, 6, 7.1, 250, '07:00:00', '10:00:00', '08:00:00', '06:00:00', 23, '03:00:00', '05:00:00', '08:00:00', '20:00:00', '01:00:00', '02:00:00', '01:00:00', '02:00:00', '20:00:00', '22:00:00', '10:00:00', '14:00:00');
 
+-- Dumping structure for table AquaCore.psutil
+CREATE TABLE IF NOT EXISTS `psutil` (
+  `Id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `Datetime` datetime DEFAULT NULL,
+  `scpufreq_cur` int(11) unsigned DEFAULT NULL,
+  `scpufreq_min` int(11) unsigned DEFAULT NULL,
+  `scpufreq_max` int(11) unsigned DEFAULT NULL,
+  `cpus_percent_0` int(11) unsigned DEFAULT NULL,
+  `cpus_percent_1` int(11) unsigned DEFAULT NULL,
+  `cpus_percent_2` int(11) unsigned DEFAULT NULL,
+  `cpus_percent_3` int(11) unsigned DEFAULT NULL,
+  `RAM_total` int(11) unsigned DEFAULT NULL,
+  `RAM_available` int(11) unsigned DEFAULT NULL,
+  `RAM_percent` int(11) unsigned DEFAULT NULL,
+  `RAM_used` int(11) unsigned DEFAULT NULL,
+  `RAM_free` int(11) unsigned DEFAULT NULL,
+  `RAM_active` int(11) unsigned DEFAULT NULL,
+  `RAM_inactive` int(11) unsigned DEFAULT NULL,
+  `RAM_buffers` int(11) unsigned DEFAULT NULL,
+  `RAM_cached` int(11) unsigned DEFAULT NULL,
+  `RAM_shared` int(11) unsigned DEFAULT NULL,
+  `RAM_slab` int(11) unsigned DEFAULT NULL,
+  `cpu_thermal_cur` int(11) unsigned DEFAULT NULL,
+  `cpu_thermal_high` int(11) unsigned DEFAULT NULL,
+  `cpu_thermal_crit` int(11) unsigned DEFAULT NULL,
+  `gpu_thermal_cur` int(11) unsigned DEFAULT NULL,
+  `gpu_thermal_high` int(11) unsigned DEFAULT NULL,
+  `gpu_thermal_crit` int(11) unsigned DEFAULT NULL,
+  `ve_thermal_cur` int(11) unsigned DEFAULT NULL,
+  `ddr_thermal_cur` int(11) unsigned DEFAULT NULL,
+  `net_bytes_sent` int(11) unsigned DEFAULT NULL,
+  `net_bytes_recv` int(11) unsigned DEFAULT NULL,
+  `net_packets_sent` int(11) unsigned DEFAULT NULL,
+  `net_packets_recv` int(11) unsigned DEFAULT NULL,
+  `net_errin` int(11) unsigned DEFAULT NULL,
+  `net_errout` int(11) unsigned DEFAULT NULL,
+  `net_dropin` int(11) unsigned DEFAULT NULL,
+  `net_dropout` int(11) unsigned DEFAULT NULL,
+  `disk_read_count` int(11) unsigned DEFAULT NULL,
+  `disk_write_count` int(11) unsigned DEFAULT NULL,
+  `disk_read_bytes` int(11) unsigned DEFAULT NULL,
+  `disk_write_bytes` int(11) unsigned DEFAULT NULL,
+  `disk_read_time` int(11) unsigned DEFAULT NULL,
+  `disk_write_time` int(11) unsigned DEFAULT NULL,
+  `disk_busy_time` int(11) unsigned DEFAULT NULL,
+  `disk_usage_total` int(11) unsigned DEFAULT NULL,
+  `disk_usage_used` int(11) unsigned DEFAULT NULL,
+  `disk_usage_free` int(11) unsigned DEFAULT NULL,
+  `disk_usage_percent` int(11) unsigned DEFAULT NULL,
+  PRIMARY KEY (`Id`) USING BTREE,
+  KEY `Datetime` (`Datetime`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
 -- Dumping data for table AquaCore.psutil: ~0 rows (approximately)
 
--- Dumping data for table AquaCore.status: ~0 rows (approximately)
+-- Dumping structure for table AquaCore.status
+CREATE TABLE IF NOT EXISTS `status` (
+  `co2_status` char(10) DEFAULT NULL,
+  `o2_status` char(10) DEFAULT NULL,
+  `UV_status` char(10) DEFAULT NULL,
+  `heater_status` char(10) DEFAULT NULL,
+  `MasterL_status` char(10) DEFAULT NULL,
+  `RedL_status` char(10) DEFAULT NULL,
+  `BlueL_status` char(10) DEFAULT NULL,
+  `MoonL_status` char(10) DEFAULT NULL,
+  `Projector_status` char(10) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- Dumping data for table AquaCore.status: ~1 rows (approximately)
 INSERT INTO `status` (`co2_status`, `o2_status`, `UV_status`, `heater_status`, `MasterL_status`, `RedL_status`, `BlueL_status`, `MoonL_status`, `Projector_status`) VALUES
 	('unchecked', 'unchecked', 'unchecked', 'unchecked', 'unchecked', 'unchecked', 'unchecked', 'unchecked', 'unchecked');
 
--- Dumping data for table AquaCore.users: ~0 rows (approximately)
+-- Dumping structure for table AquaCore.users
+CREATE TABLE IF NOT EXISTS `users` (
+  `U_Id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `Username` varchar(50) DEFAULT NULL,
+  `UserPassword` varchar(50) DEFAULT NULL,
+  `email` varchar(50) DEFAULT NULL,
+  `Role` int(1) unsigned zerofill NOT NULL,
+  PRIMARY KEY (`U_Id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- Dumping data for table AquaCore.users: ~2 rows (approximately)
 INSERT INTO `users` (`U_Id`, `Username`, `UserPassword`, `email`, `Role`) VALUES
 	(6, 'admin', 'd0e55cb7bc9e2a359b5f550973d7ab0c', 'tomahawksmail@gmail.com', 1),
 	(7, 'skhashimi', '0facfc27ebdd34037d3542cac206439a', NULL, 1);
