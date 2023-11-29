@@ -13,32 +13,32 @@ board	    socket / number  -   Description
 12 - Button
 13 -  X
 14 - GND
-15 - GPIO        R2 / 7
+15 - GPIO        R2_7/PI0/29
 16 - PWM4
 17 -  X
 18 - GPIO        R1 / 3
-19 - GPIO        R2 / 6
+19 - GPIO        R2_6/PH8/21
 20 - GND
-21 - GPIO        R2 / 5
+21 - GPIO        R2_5/PH7/19
 22 - GPIO        R1 / 4
-23 - GPIO        R2 / 4
+23 - GPIO        R2_4/P15/15
 24 - GPIO        R1 / 5
 25 - GND
 26 - GPIO        R1 / 6
 27 - SDA2
 28 - SCL2
-29 - GPIO        R2 / 3
+29 - GPIO        R2_3/PH2/11
 30 - GND
 31 -  X
 32 - PWM1
 33 - PWM2
 34 - GND
 35 -  X
-36 - GPIO        R1 / 8
+36 - GPIO        R1_8/PC12/36
 37 - GPIO        R1 / 7
-38 - GPIO        R1 / 9
+38 - GPIO        R1_9/P14/38
 39 - GND
-40- GPIO         R1 / 10
+40- GPIO         R1_10/P13/40
 
 
 light 6500K
