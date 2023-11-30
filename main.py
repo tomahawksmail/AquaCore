@@ -1,19 +1,13 @@
-from flask import Flask, render_template, request, session, send_file, redirect, flash
+from flask import Flask, render_template, request, session, redirect, flash
 from datetime import datetime
 import os
 path = 'lock'
 from dotenv import load_dotenv
 import pymysql
 import hashlib
-# from syssensors import get_uptime
-
-import csv
 import logging
 
 app = Flask(__name__)
-# logging.basicConfig(filename='app.log',
-#                     level=logging.WARNING,
-#                     format='%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
 
 load_dotenv()
 connection = pymysql.connect(host=os.environ.get('HOST'),
