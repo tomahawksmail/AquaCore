@@ -1,4 +1,5 @@
-import RPi.GPIO as GPIO
+# https://opi-gpio.readthedocs.io/en/latest/api-documentation.html
+import OPi.GPIO as GPIO
 import pymysql
 import time
 from datetime import datetime

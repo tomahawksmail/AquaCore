@@ -38,7 +38,7 @@ board	    socket / number  -   Description
 37 - GPIO        R1 / 7
 38 - GPIO        R1_9/P14/38
 39 - GND
-40- GPIO         R1_10/P13/40
+40 - GPIO        R1_10/P13/40
 
 
 light 6500K
@@ -47,4 +47,6 @@ sudo orangepi-config
 sudo nmcli dev wifi
 sudo nmcli dev wifi connect wifi_name password wifi_password
 
-sudo create_ap -n wlan0 AquaCore orangepi --no-virt
+sudo create_ap -g 192.168.50.1 -n wlan0 AquaCore orangepi --no-virt
+
+sudo nano /etc/NetworkManager/NetworkManager.conf

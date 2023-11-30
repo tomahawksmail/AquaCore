@@ -3,7 +3,6 @@ import os
 import pymysql
 import psutil
 import sys
-from datetime import datetime
 from dotenv import load_dotenv
 
 
