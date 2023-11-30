@@ -9,12 +9,12 @@ GPIO.setmode(GPIO.BOARD)
 
 
 
-GPIO.setup(12, GPIO.IN, pull_up_down=GPIO.PUD_UP) # Button
+# GPIO.setup(12, GPIO.IN, pull_up_down=GPIO.PUD_UP) # Button
 #
 #                    ### R1 ###
 #                                                           # 1 pin
 #                                                           # 2 pin
-# GPIO.setup(18, GPIO.OUT, initial=GPIO.LOW)        # 3 pin
+GPIO.setup(18, GPIO.OUT, initial=GPIO.LOW)        # 3 pin
 # GPIO.setup(22, GPIO.OUT, initial=GPIO.LOW)        # 4 pin
 # GPIO.setup(24, GPIO.OUT, initial=GPIO.LOW)        # 5 pin
 # GPIO.setup(26, GPIO.OUT, initial=GPIO.LOW)        # 6 pin
