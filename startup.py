@@ -1,6 +1,5 @@
 import os
-from main import app, ap
-host = '0.0.0.0'
+host = '192.168.50.1'
 port = 80
 path = 'lock1'
 

@@ -4,13 +4,16 @@ import pymysql
 import time
 from datetime import datetime
 
-GPIO.setmode(GPIO.BOARD)
 GPIO.cleanup()
+GPIO.setmode(GPIO.BOARD)
+
+
 
 GPIO.setup(12, GPIO.IN, pull_up_down=GPIO.PUD_UP) # Button
+
                    ### R1 ###
-                                                  # 1 pin
-                                                  # 2 pin
+                                                          # 1 pin
+                                                          # 2 pin
 GPIO.setup(18, GPIO.OUT, initial=GPIO.LOW)        # 3 pin
 GPIO.setup(22, GPIO.OUT, initial=GPIO.LOW)        # 4 pin
 GPIO.setup(24, GPIO.OUT, initial=GPIO.LOW)        # 5 pin
@@ -21,8 +24,8 @@ GPIO.setup(38, GPIO.OUT, initial=GPIO.LOW)        # 9 pin
 GPIO.setup(40, GPIO.OUT, initial=GPIO.LOW)        #10 pin
 
                    ### R2 ###
-                                                  # 1 pin
-                                                  # 2 pin
+                                                          # 1 pin
+                                                          # 2 pin
 GPIO.setup(29, GPIO.OUT, initial=GPIO.LOW)        # 3 pin
 GPIO.setup(23, GPIO.OUT, initial=GPIO.LOW)        # 4 pin
 GPIO.setup(21, GPIO.OUT, initial=GPIO.LOW)        # 5 pin
