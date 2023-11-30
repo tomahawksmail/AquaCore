@@ -3,10 +3,10 @@ import OPi.GPIO as GPIO
 import pymysql
 import time
 from datetime import datetime
-
+import os
 GPIO.cleanup()
 GPIO.setmode(GPIO.BOARD)
-
+from subprocess import call
 
 
 # GPIO.setup(12, GPIO.IN, pull_up_down=GPIO.PUD_UP) # Button

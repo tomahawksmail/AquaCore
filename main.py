@@ -5,6 +5,9 @@ path = 'lock'
 from dotenv import load_dotenv
 import pymysql
 import hashlib
+from syssensors import *
+test = get_uptime()
+print(test)
 import csv
 import logging
 
@@ -288,6 +291,19 @@ def options():
         flash("You are not logged in")
         return redirect("/login")
 
+def get_core_data():
+    SQLrequest = """SELECT * FROM (SELECT * FROM psutil ORDER BY id DESC LIMIT 10) AS sub ORDER BY id ASC"""
+    try:
+        connection.connect()
+        with connection.cursor() as cursor:
+            cursor.execute(SQLrequest)
+        data = cursor.fetchall()
+        cursor.close()
+        connection.close()
+    except Exception as E:
+        log(E)
+    return data
+
 
 @app.route("/alerts", methods=['POST', 'GET'])
 def alerts():
@@ -306,7 +322,10 @@ def alerts():
 
 @app.route("/core_dashboard", methods=['POST', 'GET'])
 def core_dashboard():
-    return render_template('core_dashboard.html', version=version)
+    data = get_core_data()
+    const_data = get_uptime()
+    print(const_data)
+    return render_template('core_dashboard.html', version=version, data=data, const_data=const_data)
 
 
 
