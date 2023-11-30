@@ -20,9 +20,7 @@ def load():
     data = []
 
 
-    data.append(int(psutil.cpu_freq()[0]))
-    # data.append(int(psutil.cpu_freq()[1]))
-    # data.append(int(psutil.cpu_freq()[2]))
+    # data.append(int(psutil.cpu_freq()[0]))
 
     data.append(int(psutil.cpu_percent(percpu=True)[0]))
     data.append(int(psutil.cpu_percent(percpu=True)[1]))
@@ -80,14 +78,14 @@ def insert_data_to_SQL():
     data = load()
 
     SQLrequest = """
-    insert into psutil (Dttm, scpufreq_cur, cpus_percent_0, cpus_percent_1, cpus_percent_2, 
+    insert into psutil (Dttm, cpus_percent_0, cpus_percent_1, cpus_percent_2, 
     cpus_percent_3, RAM_total, RAM_available, RAM_percent, RAM_used, RAM_free, RAM_active, RAM_inactive, RAM_buffers, 
     RAM_cached, RAM_shared, RAM_slab, cpu_thermal_cur, gpu_thermal_cur, ve_thermal_cur, ddr_thermal_cur, net_bytes_sent, net_bytes_recv, 
     net_packets_sent, net_packets_recv, net_errin, net_errout, net_dropin, net_dropout, disk_read_count, 
     disk_write_count, disk_read_bytes, disk_write_bytes, disk_read_time, disk_write_time, disk_busy_time, 
     disk_usage_total, disk_usage_used, disk_usage_free, disk_usage_percent) 
     values
-    (now(), %s, %s, %s, %s, %s, %s, %s, %s, %s, 
+    (now(), %s, %s, %s, %s, %s, %s, %s, %s, 
      %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, 
      %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
      %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)

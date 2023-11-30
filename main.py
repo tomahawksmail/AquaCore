@@ -295,6 +295,7 @@ def get_core_data():
         data = cursor.fetchall()
         cursor.close()
         connection.close()
+
     except Exception as E:
         log(E)
     return data
@@ -302,7 +303,8 @@ def get_core_data():
 def get_cur_data():
     cpu_count = psutil.cpu_count()  # cpu_count
     uptime = int((time.time() - psutil.boot_time()) / 60)  # uptime
-    return cpu_count, uptime
+    cur_freq = int(psutil.cpu_freq()[0])
+    return cpu_count, uptime, cur_freq
 
 @app.route("/alerts", methods=['POST', 'GET'])
 def alerts():
