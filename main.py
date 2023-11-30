@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, session, redirect, flash
 from datetime import datetime
+import time
 import os
+import psutil
 path = 'lock'
 from dotenv import load_dotenv
 import pymysql
@@ -297,6 +299,10 @@ def get_core_data():
         log(E)
     return data
 
+def get_cur_data():
+    cpu_count = psutil.cpu_count()  # cpu_count
+    uptime = int((time.time() - psutil.boot_time()) / 60)  # uptime
+    return cpu_count, uptime
 
 @app.route("/alerts", methods=['POST', 'GET'])
 def alerts():
@@ -316,14 +322,15 @@ def alerts():
 @app.route("/core_dashboard", methods=['POST', 'GET'])
 def core_dashboard():
     data = get_core_data()
-    return render_template('core_dashboard.html', version=version, data=data)
+    cur_data = get_cur_data()
+    return render_template('core_dashboard.html', version=version, data=data, cur_data=cur_data)
 
 
 
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0', port=80, threaded=True)
+    app.run(debug=True, host='0.0.0.0', port=5000, threaded=True)
     # if not os.path.isfile('lock'):
     #     app.run(debug=False, passthrough_errors=True, use_reloader=False, host='0.0.0.0', port=80)
 
