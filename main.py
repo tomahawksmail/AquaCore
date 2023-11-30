@@ -304,7 +304,8 @@ def get_cur_data():
     cpu_count = psutil.cpu_count()  # cpu_count
     uptime = int((time.time() - psutil.boot_time()) / 60)  # uptime
     cur_freq = int(psutil.cpu_freq()[0])
-    return cpu_count, uptime, cur_freq
+    RAM_total = int(psutil.virtual_memory()[0]/1048576)
+    return cpu_count, uptime, cur_freq, RAM_total
 
 @app.route("/alerts", methods=['POST', 'GET'])
 def alerts():
@@ -325,6 +326,7 @@ def alerts():
 def core_dashboard():
     data = get_core_data()
     cur_data = get_cur_data()
+    print(cur_data)
     return render_template('core_dashboard.html', version=version, data=data, cur_data=cur_data)
 
 
