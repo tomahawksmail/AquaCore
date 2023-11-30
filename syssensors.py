@@ -72,12 +72,10 @@ def load():
     data.append(psutil.disk_usage("/")[2]/1048576)  # disk_usage_free, Mb
     data.append(psutil.disk_usage("/")[3])  # disk_usage_percent, %
 
-    return data
+    data.append(psutil.cpu_count())  # cpu_count
+    data.append((time.time() - psutil.boot_time()) / 60)  # uptime
 
-def get_uptime():
-    num_cpus = psutil.cpu_count()
-    uptime = (time.time() - psutil.boot_time()) / 60
-    return num_cpus, uptime
+    return data
 
 
 def insert_data_to_SQL():
@@ -89,12 +87,12 @@ def insert_data_to_SQL():
     RAM_cached, RAM_shared, RAM_slab, cpu_thermal_cur, gpu_thermal_cur, ve_thermal_cur, ddr_thermal_cur, net_bytes_sent, net_bytes_recv, 
     net_packets_sent, net_packets_recv, net_errin, net_errout, net_dropin, net_dropout, disk_read_count, 
     disk_write_count, disk_read_bytes, disk_write_bytes, disk_read_time, disk_write_time, disk_busy_time, 
-    disk_usage_total, disk_usage_used, disk_usage_free, disk_usage_percent) 
+    disk_usage_total, disk_usage_used, disk_usage_free, disk_usage_percent, cpu_count, uptime) 
     values
     (now(), %s, %s, %s, %s, %s, %s, %s, %s, %s, 
      %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, 
      %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
-     %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+     %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
     """
     try:
         connection.connect()

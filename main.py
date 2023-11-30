@@ -5,7 +5,7 @@ path = 'lock'
 from dotenv import load_dotenv
 import pymysql
 import hashlib
-from syssensors import get_uptime
+# from syssensors import get_uptime
 
 import csv
 import logging
@@ -322,8 +322,7 @@ def alerts():
 @app.route("/core_dashboard", methods=['POST', 'GET'])
 def core_dashboard():
     data = get_core_data()
-    const_data = get_uptime()
-    return render_template('core_dashboard.html', version=version, data=data, const_data=const_data)
+    return render_template('core_dashboard.html', version=version, data=data)
 
 
 
