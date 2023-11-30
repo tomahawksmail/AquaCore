@@ -331,6 +331,6 @@ def core_dashboard():
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port=80, threaded=True)
-    if not os.path.isfile('lock'):
-        app.run(debug=False, passthrough_errors=True, use_reloader=False, host='0.0.0.0', port=80)
+    # if not os.path.isfile('lock'):
+    #     app.run(debug=False, passthrough_errors=True, use_reloader=False, host='0.0.0.0', port=80)
 
