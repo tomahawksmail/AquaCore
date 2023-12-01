@@ -37,7 +37,7 @@ def load():
     data.append(int(psutil.virtual_memory()[7]/1048576))  # buffers
     data.append(int(psutil.virtual_memory()[8]/1048576))  # cached
     data.append(int(psutil.virtual_memory()[9]/1048576))  # shared
-    data.append((psutil.virtual_memory()[10]))  # slab
+    data.append((psutil.virtual_memory()[10])/1048576)  # slab
 
     data.append(psutil.sensors_temperatures().get('cpu_thermal')[0][1])  # cpu_thermal_cur
     # data.append(psutil.sensors_temperatures().get('cpu_thermal')[0][2])  # cpu_thermal_high

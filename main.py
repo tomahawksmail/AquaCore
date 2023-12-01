@@ -311,7 +311,7 @@ def get_temp_data():
                     round(AVG(ve_thermal_cur),1), round(AVG(ddr_thermal_cur), 1)
                     FROM psutil WHERE 
                     (Dttm >= NOW() - INTERVAL 1 DAY) 
-                    GROUP BY HOUR(Dttm) ;"""
+                    GROUP BY HOUR(Dttm)"""
     try:
         connection.connect()
         with connection.cursor() as cursor:
@@ -323,6 +323,29 @@ def get_temp_data():
     except Exception as E:
         log(E)
     return data
+
+def get_RAM_data():
+    SQLrequest = """SELECT HOUR(Dttm), round(AVG(RAM_available),0), round(AVG(RAM_used), 0),
+                    round(AVG(RAM_free),0), round(AVG(RAM_active), 0),
+                    round(AVG(RAM_inactive),0), round(AVG(RAM_buffers), 0),
+                    round(AVG(RAM_cached),0), round(AVG(RAM_shared), 0),
+                    round(AVG(RAM_slab),0)
+                    FROM psutil WHERE 
+                    (Dttm >= NOW() - INTERVAL 1 DAY) 
+                    GROUP BY HOUR(Dttm)"""
+    try:
+        connection.connect()
+        with connection.cursor() as cursor:
+            cursor.execute(SQLrequest)
+        data = cursor.fetchall()
+        cursor.close()
+        connection.close()
+
+    except Exception as E:
+        log(E)
+    return data
+
+
 
 def get_cur_data():
     cpu_count = psutil.cpu_count()  # cpu_count
@@ -373,8 +396,12 @@ def get_cur_data():
     disku.append(psutil.disk_io_counters()[5])
     disku.append(psutil.disk_io_counters()[8])
 
+    RAM_cur = []
+    RAM_cur.append(int(psutil.virtual_memory()[2])) #Used
+    RAM_cur.append(100 - int(psutil.virtual_memory()[2])) #free
 
-    return cpu_count, uptime, cur_freq, RAM_total, cpu_thermal_cur, gpu_thermal_cur, ve_thermal_cur, ddr_thermal_cur, net, cpu_perc_load, WIFI, disk, disku
+
+    return cpu_count, uptime, cur_freq, RAM_total, cpu_thermal_cur, gpu_thermal_cur, ve_thermal_cur, ddr_thermal_cur, net, cpu_perc_load, WIFI, disk, disku, RAM_cur
 
 
 @app.route("/alerts", methods=['POST', 'GET'])
@@ -397,7 +424,8 @@ def core_dashboard():
     data = get_core_data()
     temp_data = get_temp_data()
     cur_data = get_cur_data()
-    return render_template('core_dashboard.html', version=version, data=data, cur_data=cur_data, temp_data=temp_data)
+    RAM_data = get_RAM_data()
+    return render_template('core_dashboard.html', version=version, data=data, cur_data=cur_data, temp_data=temp_data, RAM_data=RAM_data)
 
 
 
