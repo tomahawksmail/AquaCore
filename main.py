@@ -326,12 +326,13 @@ def get_cur_data():
     WIFI.append(WIFIcmd[2].replace('          ', ''))
     WIFI.append(WIFIcmd[5].replace('          ', '').split('  ')[0])
     WIFI.append(WIFIcmd[5].replace('          ', '').split('  ')[1])
-    print(WIFI)
+
 
     cpu_thermal_cur = round(psutil.sensors_temperatures().get('cpu_thermal')[0][1], 1)
     gpu_thermal_cur = round(psutil.sensors_temperatures().get('gpu_thermal')[0][1], 1)
     ve_thermal_cur = round(psutil.sensors_temperatures().get('ve_thermal')[0][1], 1)
     ddr_thermal_cur = round(psutil.sensors_temperatures().get('ddr_thermal')[0][1], 1)
+
     net = []
     net.append(round(psutil.net_io_counters()[0]/1024))  # net_bytes_sent
     net.append(round(psutil.net_io_counters()[1]/1024))  # net_bytes_recv
@@ -341,7 +342,22 @@ def get_cur_data():
     net.append(psutil.net_io_counters()[5])  # net_errout
     net.append(psutil.net_io_counters()[6])  # net_dropin
     net.append(psutil.net_io_counters()[7])  # net_dropout
-    return cpu_count, uptime, cur_freq, RAM_total, cpu_thermal_cur, gpu_thermal_cur, ve_thermal_cur, ddr_thermal_cur, net, cpu_perc_load, WIFI
+
+    disk = []
+    disk.append(int(psutil.disk_usage("/")[1]/1048576))  # disk_usage_used, Mb
+    disk.append(int(psutil.disk_usage("/")[2]/1048576))  # disk_usage_free, Mb
+
+    disku = []
+    disku.append(psutil.disk_io_counters()[0])
+    disku.append(psutil.disk_io_counters()[1])
+    disku.append(psutil.disk_io_counters()[2])
+    disku.append(psutil.disk_io_counters()[3])
+    disku.append(psutil.disk_io_counters()[4])
+    disku.append(psutil.disk_io_counters()[5])
+    disku.append(psutil.disk_io_counters()[8])
+
+
+    return cpu_count, uptime, cur_freq, RAM_total, cpu_thermal_cur, gpu_thermal_cur, ve_thermal_cur, ddr_thermal_cur, net, cpu_perc_load, WIFI, disk, disku
 
 
 @app.route("/alerts", methods=['POST', 'GET'])
