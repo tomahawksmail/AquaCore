@@ -368,9 +368,9 @@ def get_cur_data():
     WIFI.append(WIFIcmd[5].replace('          ', '').split('  ')[1])
 
 
-    cpu_thermal_cur = round(psutil.sensors_temperatures().get('cpu_thermal')[0][1], 1)
+    cpu_thermal_cur = (round(psutil.sensors_temperatures().get('cpu_thermal')[0][1], 1), )
     gpu_thermal_cur = round(psutil.sensors_temperatures().get('gpu_thermal')[0][1], 1)
-    ve_thermal_cur = round(psutil.sensors_temperatures().get('ve_thermal')[0][1], 1)
+    ve_thermal_cur =  round(psutil.sensors_temperatures().get( 've_thermal')[0][1], 1)
     ddr_thermal_cur = round(psutil.sensors_temperatures().get('ddr_thermal')[0][1], 1)
 
     net = []
