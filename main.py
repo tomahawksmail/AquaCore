@@ -365,7 +365,8 @@ def get_cur_data():
     WIFI.append('MAC ' + WIFIcmd[1].split(" ")[17])
     WIFI.append(WIFIcmd[2].replace('          ', ''))
     WIFI.append(WIFIcmd[5].replace('          ', '').split('  ')[0])
-    WIFI.append(WIFIcmd[5].replace('          ', '').split('  ')[1])
+    WIFI.append(int(WIFIcmd[5].replace('          ', '').split('  ')[1].split("=")[1].split(" ")[0]))
+    print(WIFI)
 
 
     cpu_thermal_cur = round(psutil.sensors_temperatures().get('cpu_thermal')[0][1], 1)
