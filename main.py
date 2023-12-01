@@ -1,8 +1,10 @@
 from flask import Flask, render_template, request, session, redirect, flash
 from datetime import datetime
 import time
+from subprocess import Popen, PIPE
 import os
 import psutil
+import subprocess
 path = 'lock'
 from dotenv import load_dotenv
 import pymysql
@@ -313,6 +315,19 @@ def get_cur_data():
                          psutil.cpu_percent(percpu=True)[2] + psutil.cpu_percent(percpu=True)[3]) / 4)
     RAM_total = int(psutil.virtual_memory()[0]/1000000)
 
+
+    cmd_output = Popen(["iwconfig", "wlan0"], stdout=PIPE)
+
+    WIFIcmd = (cmd_output.communicate()[0].decode('UTF-8')).split("\n")
+    WIFI = []
+    WIFI.append(WIFIcmd[0].replace('     ', ' ').replace(':', ': '))
+    WIFI.append(WIFIcmd[1].split(" ")[12] + WIFIcmd[1].split(" ")[13].replace(':', ': '))
+    WIFI.append('MAC ' + WIFIcmd[1].split(" ")[17])
+    WIFI.append(WIFIcmd[2].replace('          ', ''))
+    WIFI.append(WIFIcmd[5].replace('          ', '').split('  ')[0])
+    WIFI.append(WIFIcmd[5].replace('          ', '').split('  ')[1])
+    print(WIFI)
+
     cpu_thermal_cur = round(psutil.sensors_temperatures().get('cpu_thermal')[0][1], 1)
     gpu_thermal_cur = round(psutil.sensors_temperatures().get('gpu_thermal')[0][1], 1)
     ve_thermal_cur = round(psutil.sensors_temperatures().get('ve_thermal')[0][1], 1)
@@ -326,7 +341,7 @@ def get_cur_data():
     net.append(psutil.net_io_counters()[5])  # net_errout
     net.append(psutil.net_io_counters()[6])  # net_dropin
     net.append(psutil.net_io_counters()[7])  # net_dropout
-    return cpu_count, uptime, cur_freq, RAM_total, cpu_thermal_cur, gpu_thermal_cur, ve_thermal_cur, ddr_thermal_cur, net, cpu_perc_load
+    return cpu_count, uptime, cur_freq, RAM_total, cpu_thermal_cur, gpu_thermal_cur, ve_thermal_cur, ddr_thermal_cur, net, cpu_perc_load, WIFI
 
 
 @app.route("/alerts", methods=['POST', 'GET'])
@@ -348,7 +363,6 @@ def alerts():
 def core_dashboard():
     data = get_core_data()
     cur_data = get_cur_data()
-    print(cur_data[8])
     return render_template('core_dashboard.html', version=version, data=data, cur_data=cur_data)
 
 
