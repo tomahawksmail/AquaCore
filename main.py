@@ -287,7 +287,12 @@ def options():
         return redirect("/login")
 
 def get_core_data():
-    SQLrequest = """SELECT * FROM (SELECT * FROM psutil ORDER BY id DESC LIMIT 10) AS sub ORDER BY id ASC"""
+
+    SQLrequest = """SELECT HOUR(Dttm), AVG(cpus_percent_0), AVG(cpus_percent_1), 
+                    AVG(cpus_percent_2), AVG(cpus_percent_3) 
+                    FROM psutil WHERE 
+                    (Dttm >= NOW() - INTERVAL 1 DAY) 
+                    GROUP BY HOUR(Dttm) """
     try:
         connection.connect()
         with connection.cursor() as cursor:
@@ -304,8 +309,25 @@ def get_cur_data():
     cpu_count = psutil.cpu_count()  # cpu_count
     uptime = int((time.time() - psutil.boot_time()) / 60)  # uptime
     cur_freq = int(psutil.cpu_freq()[0])
-    RAM_total = int(psutil.virtual_memory()[0]/1048576)
-    return cpu_count, uptime, cur_freq, RAM_total
+    cpu_perc_load = int((psutil.cpu_percent(percpu=True)[0] + psutil.cpu_percent(percpu=True)[1] +
+                         psutil.cpu_percent(percpu=True)[2] + psutil.cpu_percent(percpu=True)[3]) / 4)
+    RAM_total = int(psutil.virtual_memory()[0]/1000000)
+
+    cpu_thermal_cur = round(psutil.sensors_temperatures().get('cpu_thermal')[0][1], 1)
+    gpu_thermal_cur = round(psutil.sensors_temperatures().get('gpu_thermal')[0][1], 1)
+    ve_thermal_cur = round(psutil.sensors_temperatures().get('ve_thermal')[0][1], 1)
+    ddr_thermal_cur = round(psutil.sensors_temperatures().get('ddr_thermal')[0][1], 1)
+    net = []
+    net.append(round(psutil.net_io_counters()[0]/1024))  # net_bytes_sent
+    net.append(round(psutil.net_io_counters()[1]/1024))  # net_bytes_recv
+    net.append(psutil.net_io_counters()[2])  # net_packets_sent
+    net.append(psutil.net_io_counters()[3])  # net_packets_recv
+    net.append(psutil.net_io_counters()[4])  # net_errin
+    net.append(psutil.net_io_counters()[5])  # net_errout
+    net.append(psutil.net_io_counters()[6])  # net_dropin
+    net.append(psutil.net_io_counters()[7])  # net_dropout
+    return cpu_count, uptime, cur_freq, RAM_total, cpu_thermal_cur, gpu_thermal_cur, ve_thermal_cur, ddr_thermal_cur, net, cpu_perc_load
+
 
 @app.route("/alerts", methods=['POST', 'GET'])
 def alerts():
@@ -326,7 +348,7 @@ def alerts():
 def core_dashboard():
     data = get_core_data()
     cur_data = get_cur_data()
-    print(cur_data)
+    print(cur_data[8])
     return render_template('core_dashboard.html', version=version, data=data, cur_data=cur_data)
 
 

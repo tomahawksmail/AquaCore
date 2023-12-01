@@ -46,7 +46,7 @@ def load():
     # data.append(psutil.sensors_temperatures().get('gpu_thermal')[0][2])  # gpu_thermal_high
     # data.append(psutil.sensors_temperatures().get('gpu_thermal')[0][3])  # gpu_thermal_crit
     data.append(psutil.sensors_temperatures().get('ve_thermal')[0][1])  # ve_thermal_cur
-    data.append(psutil.sensors_temperatures().get('ddr_thermal')[0][1])  # gpu_thermal_cur
+    data.append(psutil.sensors_temperatures().get('ddr_thermal')[0][1])  # ddr_thermal_cur
 
     data.append(psutil.net_io_counters()[0])  # net_bytes_sent
     data.append(psutil.net_io_counters()[1])  # net_bytes_recv
