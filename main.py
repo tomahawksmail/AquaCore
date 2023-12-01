@@ -306,6 +306,23 @@ def get_core_data():
     except Exception as E:
         log(E)
     return data
+def get_temp_data():
+    SQLrequest = """SELECT HOUR(Dttm), round(AVG(cpu_thermal_cur),1), round(AVG(gpu_thermal_cur), 1),
+                    round(AVG(ve_thermal_cur),1), round(AVG(ddr_thermal_cur), 1)
+                    FROM psutil WHERE 
+                    (Dttm >= NOW() - INTERVAL 1 DAY) 
+                    GROUP BY HOUR(Dttm) ;"""
+    try:
+        connection.connect()
+        with connection.cursor() as cursor:
+            cursor.execute(SQLrequest)
+        data = cursor.fetchall()
+        cursor.close()
+        connection.close()
+
+    except Exception as E:
+        log(E)
+    return data
 
 def get_cur_data():
     cpu_count = psutil.cpu_count()  # cpu_count
@@ -378,8 +395,9 @@ def alerts():
 @app.route("/core_dashboard", methods=['POST', 'GET'])
 def core_dashboard():
     data = get_core_data()
+    temp_data = get_temp_data()
     cur_data = get_cur_data()
-    return render_template('core_dashboard.html', version=version, data=data, cur_data=cur_data)
+    return render_template('core_dashboard.html', version=version, data=data, cur_data=cur_data, temp_data=temp_data)
 
 
 
