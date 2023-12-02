@@ -4,7 +4,6 @@ import time
 from subprocess import Popen, PIPE
 import os
 import psutil
-import subprocess
 path = 'lock'
 from dotenv import load_dotenv
 import pymysql
