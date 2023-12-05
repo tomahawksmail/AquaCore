@@ -4,7 +4,6 @@ import time
 from subprocess import Popen, PIPE
 import os
 import psutil
-path = 'lock'
 from dotenv import load_dotenv
 import pymysql
 import hashlib
@@ -28,9 +27,7 @@ app.config['SESSION_PERMANENT'] = False
 
 
 
-@app.route("/ap", methods=['POST', 'GET'])
-def ap():
-    return render_template('ap.html', version=version)
+
 
 
 @app.route("/", methods=['POST', 'GET'])
