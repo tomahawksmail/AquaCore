@@ -361,7 +361,6 @@ def get_cur_data():
     WIFI = []
     WIFI.append(WIFIcmd[0].replace('     ', ' ').replace('ESSID', ', SSID').replace(':', ': '))
     WIFI.append(WIFIcmd[1].split(" ")[12] + WIFIcmd[1].split(" ")[13].replace("Frequency:", ""))
-    print(WIFIcmd[1].split(" ")[12] + WIFIcmd[1].split(" ")[13])
     WIFI.append('MAC ' + WIFIcmd[1].split(" ")[17])
     WIFI.append(WIFIcmd[2].replace('          ', ''))
     WIFI.append(WIFIcmd[5].replace('          ', '').split('  ')[0])
