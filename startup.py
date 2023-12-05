@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, flash
+from flask import Flask, render_template
 import os
 from dotenv import load_dotenv
 import pymysql
@@ -16,7 +16,7 @@ connection = pymysql.connect(host=os.environ.get('HOST'),
                              database=os.environ.get('DATABASE'))
 
 version = os.environ.get('VERSION')
-apoint.secret_key = os.environ.get('SECRET_KEY')
+# apoint.secret_key = os.environ.get('SECRET_KEY')
 
 @apoint.route("/", methods=['POST', 'GET'])
 def ap():
@@ -30,7 +30,7 @@ def stopAP(): #hotspot
     time.sleep(1)
 
 def startAP(): #hotspot
-    subprocess.run('create_ap -g 192.168.50.1 -n wlan0 AquaCore orangepi --no-virt'.split(),check=True)
+    subprocess.run('sudo create_ap -g 192.168.50.1 -n wlan0 AquaCore orangepi --no-virt'.split(),check=True)
 
 def safeSSID():
     pass
