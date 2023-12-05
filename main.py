@@ -360,7 +360,7 @@ def get_cur_data():
     WIFIcmd = (cmd_output.communicate()[0].decode('UTF-8')).split("\n")
     WIFI = []
     WIFI.append(WIFIcmd[0].replace('     ', ' ').replace('ESSID', ', SSID').replace(':', ': '))
-    WIFI.append(WIFIcmd[1].split(" ")[12] + WIFIcmd[1].split(" ")[13].replace("Frequency:", ""))
+    WIFI.append("Frequency: " + WIFIcmd[1].split(" ")[12].replace("Frequency:", "") + " GHz")
     WIFI.append('MAC ' + WIFIcmd[1].split(" ")[17])
     WIFI.append(WIFIcmd[2].replace('          ', ''))
     WIFI.append(WIFIcmd[5].replace('          ', '').split('  ')[0])
@@ -370,7 +370,7 @@ def get_cur_data():
 
     cpu_thermal_cur = round(psutil.sensors_temperatures().get('cpu_thermal')[0][1], 1)
     gpu_thermal_cur = round(psutil.sensors_temperatures().get('gpu_thermal')[0][1], 1)
-    ve_thermal_cur =  round(psutil.sensors_temperatures().get( 've_thermal')[0][1], 1)
+    ve_thermal_cur  = round(psutil.sensors_temperatures().get( 've_thermal')[0][1], 1)
     ddr_thermal_cur = round(psutil.sensors_temperatures().get('ddr_thermal')[0][1], 1)
 
     net = []
