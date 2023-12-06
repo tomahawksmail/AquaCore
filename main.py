@@ -24,7 +24,7 @@ appAP.secret_key = os.environ.get('SECRET_KEY')
 app.config['SESSION_PERMANENT'] = False
 
 
-import startup
+import accesspoint
 
 
 
