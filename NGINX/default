@@ -1,5 +1,5 @@
 server {
-    listen 80 192.168.50.1;
+    listen 81;
     location / {
         include proxy_params;
         proxy_pass http://unix:/home/sammy/myproject/myproject.sock;

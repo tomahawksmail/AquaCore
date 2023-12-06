@@ -10,7 +10,7 @@ import hashlib
 import logging
 
 app = Flask(__name__)
-
+appAP = Flask(__name__)
 load_dotenv()
 connection = pymysql.connect(host=os.environ.get('HOST'),
                              user=os.environ.get('USER'),
@@ -19,7 +19,9 @@ connection = pymysql.connect(host=os.environ.get('HOST'),
 
 version = os.environ.get('VERSION')
 app.secret_key = os.environ.get('SECRET_KEY')
+appAP.secret_key = os.environ.get('SECRET_KEY')
 app.config['SESSION_PERMANENT'] = False
+
 
 import startup
 
@@ -440,18 +442,35 @@ def terminal():
         flash("You are not logged in")
         return redirect("/login")
 
-@app.route('/ap')
-def Index():
-    return render_template('ap.html', message="Once connected you'll find IP address @ <a href='https://snaptext.live/{}' target='_blank'>snaptext.live/{}</a>.")
+@appAP.route('/', methods=['POST', 'GET'])
+def index():
+    return redirect("/ap")
+
+@appAP.route('/ap', methods=['POST', 'GET'])
+def ap():
+    if request.method == 'GET':
+        return render_template("ap.html")
+    elif request.method == 'POST':
+        if "submit" in request.form:
+            ssid = request.form["ssid"]
+            password = request.form["password"]
+            print(ssid, password)
+        return redirect("/")
+
+
+def updateWiFiCreds():
+    SQLselect = """Select SSID, PASSWORD from WiFi"""
+    SQLupdate = """Update WiFi set SSID, PASSWORD values ()"""
+
+
 
 if __name__ == "__main__":
-    if startup.checkwifi():
+    if not startup.checkwifi():
         print("connected")
         app.run(debug=True, host='0.0.0.0', port=5000, threaded=True)
     else:
         print("not connected, creating AP")
-        startup.startAP()
-        app.run(debug=True, host='0.0.0.0', port=81, threaded=True)
-    # if not os.path.isfile('lock'):
-    #     app.run(debug=False, passthrough_errors=True, use_reloader=False, host='0.0.0.0', port=80)
+        # startup.startAP()
+        appAP.run(debug=True, host='0.0.0.0', port=8080, threaded=True)
+
 
