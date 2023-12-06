@@ -487,12 +487,14 @@ def conncetToWiFi():
         passwd = result[1]
         cmd = f'sudo nmcli dev wifi connect {ssid} password {passwd}'
         run(cmd, check=True)
+        cmd = f'sudo reboot'
+        run(cmd, check=True)
     except Exception as E:
         print(E)
 
 
 if __name__ == "__main__":
-    if not startup.checkwifi():
+    if startup.checkwifi():
         print("connected")
         app.run(debug=True, host='0.0.0.0', port=5000, threaded=True)
     else:
