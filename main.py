@@ -1,13 +1,14 @@
 from flask import Flask, render_template, request, session, redirect, flash
 from datetime import datetime
 import time
-from subprocess import Popen, PIPE
+from subprocess import Popen, PIPE, run
 import os
 import psutil
 from dotenv import load_dotenv
 import pymysql
 import hashlib
 import logging
+
 
 app = Flask(__name__)
 appAP = Flask(__name__)
@@ -454,14 +455,40 @@ def ap():
         if "submit" in request.form:
             ssid = request.form["ssid"]
             password = request.form["password"]
+            updateWiFiCreds(ssid, password)
             print(ssid, password)
         return redirect("/")
 
 
-def updateWiFiCreds():
+def updateWiFiCreds(ssid, password):
     SQLselect = """Select SSID, PASSWORD from WiFi"""
-    SQLupdate = """Update WiFi set SSID, PASSWORD values ()"""
+    SQLupdate = f"Update WiFi set SSID = '{ssid}', PASSWORD = '{password}'"
+    print(SQLupdate)
+    try:
+        connection.connect()
+        with connection.cursor() as cursor:
+            cursor.execute(SQLupdate)
+            connection.commit()
+        cursor.close()
+        connection.close()
+    except Exception as E:
+        print(E)
 
+
+def conncetToWiFi():
+    SQLselect = """Select SSID, PASSWORD from WiFi"""
+    try:
+        connection.connect()
+        with connection.cursor() as cursor:
+            cursor.execute(SQLselect)
+            result = cursor.fetchone()
+        print(result)
+        ssid = result[0]
+        passwd = result[1]
+        cmd = f'sudo nmcli dev wifi connect {ssid} password {passwd}'
+        run(cmd, check=True)
+    except Exception as E:
+        print(E)
 
 
 if __name__ == "__main__":
@@ -471,6 +498,7 @@ if __name__ == "__main__":
     else:
         print("not connected, creating AP")
         # startup.startAP()
+        conncetToWiFi()
         appAP.run(debug=True, host='0.0.0.0', port=8080, threaded=True)
 
 
