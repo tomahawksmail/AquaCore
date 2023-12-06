@@ -1,12 +1,14 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect
 import os
 from dotenv import load_dotenv
 import pymysql
 import time
 import subprocess
+import threading
 
-host = '192.168.50.1'
-port = 80
+host = 'http://192.168.150.5'
+port = 81
+
 apoint = Flask(__name__)
 
 load_dotenv()
@@ -18,22 +20,26 @@ connection = pymysql.connect(host=os.environ.get('HOST'),
 version = os.environ.get('VERSION')
 # apoint.secret_key = os.environ.get('SECRET_KEY')
 
-@apoint.route("/", methods=['POST', 'GET'])
-def ap():
-    return render_template('ap.html', version=version)
 
-def stopAP(): #hotspot
-    print("Stopping AP...")
-    subprocess.call('ls -la', shell=True)
-    # subprocess.run(['systemctl', "stop", "hostapd", "dnsmasq", "dhcpcd"],check=True)
-    # subprocess.run(['nmcli','radio', 'wifi', 'on'],check=True)
-    time.sleep(1)
+# @apoint.route('/')
+# def Index():
+#     return render_template('ap.html', message="Once connected you'll find IP address @ <a href='https://snaptext.live/{}' target='_blank'>snaptext.live/{}</a>.")
+#
+# # Captive portal when connected with iOS or Android
+# @apoint.route('/generate_204')
+# def redirect204():
+#     return redirect(host, code=302)
+#
+# @apoint.route('/hotspot-detect.html')
+# def applecaptive():
+#     return redirect(host, code=302)
+
+
 
 def startAP(): #hotspot
-    subprocess.run('sudo create_ap -g 192.168.50.1 -n wlan0 AquaCore orangepi --no-virt'.split(),check=True)
+    subprocess.run(f'sudo create_ap -g {host} -n wlan0 AquaCore orangepi --no-virt'.split(),check=True)
 
-def safeSSID():
-    pass
+
 
 
 def checkwifi():
@@ -44,12 +50,6 @@ def checkwifi():
     return False
 
 
-if __name__ == "__main__":
-    time.sleep(5)
-    if checkwifi():
-        print("connected")
-    else:
-        print("creating AP")
-        startAP()
-        apoint.run(debug=True, host=host, port=port, threaded=True)
+
+
 

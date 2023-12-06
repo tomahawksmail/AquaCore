@@ -21,7 +21,7 @@ version = os.environ.get('VERSION')
 app.secret_key = os.environ.get('SECRET_KEY')
 app.config['SESSION_PERMANENT'] = False
 
-
+import startup
 
 
 
@@ -440,10 +440,18 @@ def terminal():
         flash("You are not logged in")
         return redirect("/login")
 
-
+@app.route('/ap')
+def Index():
+    return render_template('ap.html', message="Once connected you'll find IP address @ <a href='https://snaptext.live/{}' target='_blank'>snaptext.live/{}</a>.")
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0', port=5000, threaded=True)
+    if startup.checkwifi():
+        print("connected")
+        app.run(debug=True, host='0.0.0.0', port=5000, threaded=True)
+    else:
+        print("not connected, creating AP")
+        startup.startAP()
+        app.run(debug=True, host='0.0.0.0', port=81, threaded=True)
     # if not os.path.isfile('lock'):
     #     app.run(debug=False, passthrough_errors=True, use_reloader=False, host='0.0.0.0', port=80)
 
