@@ -434,9 +434,8 @@ def core_dashboard():
 def terminal():
     if 'user' in session:
         if request.method == 'GET':
-            from gpio import readall
-
-            return render_template('terminal.html', version=version, readall=readall)
+            from gpio import readGPIO
+            return render_template('terminal.html', version=version, readall=readGPIO())
         else:
             pass
     else:
@@ -494,7 +493,7 @@ def conncetToWiFi():
 
 
 if __name__ == "__main__":
-    if startup.checkwifi():
+    if accesspoint.checkwifi():
         print("connected")
         app.run(debug=True, host='0.0.0.0', port=5000, threaded=True)
     else:
