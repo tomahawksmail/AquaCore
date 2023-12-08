@@ -31,22 +31,23 @@ Popen(["gpio", "mode", "27", "out"]) #02
 ###gpio readall###
 def readGPIO():
     readall = (Popen(["gpio", "readall"], stdout=PIPE).communicate()[0].decode('UTF-8').split("\n"))
-    res  = []
-    for i in readall:
-        i.split("|")
-        print(i)
+    return readall
+    # res  = []
+    # for i in readall:
+    #     i.split("|")
+    #     print(i)
 
 
-def infinity():
-    from main import connection
-    try:
-        connection.connect()
-        with connection.cursor() as cursor:
-            SQLoptions =
-
-                cursor.execute(SQL)
-                connection.commit()
-            cursor.close()
-        connection.close()
-    except Exception as E:
-        log(E)
+# def infinity():
+#     from main import connection
+#     try:
+#         connection.connect()
+#         with connection.cursor() as cursor:
+#             SQLoptions = """Select * from options"""
+#
+#                 cursor.execute(SQL)
+#                 connection.commit()
+#             cursor.close()
+#         connection.close()
+#     except Exception as E:
+#         log(E)

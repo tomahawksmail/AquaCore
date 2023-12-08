@@ -455,14 +455,13 @@ def ap():
             ssid = request.form["ssid"]
             password = request.form["password"]
             updateWiFiCreds(ssid, password)
-            print(ssid, password)
+            run('sudo reboot', check=True)
         return redirect("/")
 
 
 def updateWiFiCreds(ssid, password):
-    SQLselect = """Select SSID, PASSWORD from WiFi"""
-    SQLupdate = f"Update WiFi set SSID = '{ssid}', PASSWORD = '{password}'"
-    print(SQLupdate)
+    status = 0
+    SQLupdate = f"Update WiFi set SSID = '{ssid}', PASSWORD = '{password}', `status` = {status}"
     try:
         connection.connect()
         with connection.cursor() as cursor:
@@ -481,15 +480,28 @@ def conncetToWiFi():
         with connection.cursor() as cursor:
             cursor.execute(SQLselect)
             result = cursor.fetchone()
-        print(result)
         ssid = result[0]
         passwd = result[1]
         cmd = f'sudo nmcli dev wifi connect {ssid} password {passwd}'
         run(cmd, check=True)
-        cmd = f'sudo reboot'
-        run(cmd, check=True)
     except Exception as E:
         print(E)
+
+def checkWiFiStatus():
+    SQL = """Select status from WiFi"""
+    connection.connect()
+    with connection.cursor() as cursor:
+        cursor.execute(SQL)
+        result = cursor.fetchone()[0]
+    return result
+
+def changeWiFIStatus(status):
+    SQL = f"""Update WiFi set `status` = {status}"""
+    connection.connect()
+    with connection.cursor() as cursor:
+        cursor.execute(SQL)
+        result = cursor.fetchone()[0]
+    return result
 
 
 if __name__ == "__main__":
@@ -498,8 +510,14 @@ if __name__ == "__main__":
         app.run(debug=True, host='0.0.0.0', port=5000, threaded=True)
     else:
         print("not connected, creating AP")
-        # startup.startAP()
-        conncetToWiFi()
-        appAP.run(debug=True, host='0.0.0.0', port=8080, threaded=True)
+        time.sleep(3)
+        if checkWiFiStatus() == 1:
+            accesspoint.startAP()
+            appAP.run(debug=True, host='0.0.0.0', port=8080, threaded=True)
+        elif checkWiFiStatus() == 0:
+            conncetToWiFi()
+            changeWiFIStatus(status=1)
+            run('sudo reboot', check=True)
+
 
 
