@@ -504,7 +504,7 @@ def changeWiFIStatus(status):
     return result
 
 def runFlaskAP():
-    appAP.run(debug=True, host='0.0.0.0', port=8080, threaded=True)
+    appAP.run(debug=True, host='192.168.150.5', port=8080, threaded=True)
 
 
 if __name__ == "__main__":
@@ -517,7 +517,7 @@ if __name__ == "__main__":
         time.sleep(3)
         if checkWiFiStatus() == 1:
             t1 = Thread(target=accesspoint.startAP, args=())
-            t2 = Thread(target=appAP.run, args=())
+            t2 = Thread(target=runFlaskAP, args=())
             t1.start()
             t2.start()
             t1.join()
