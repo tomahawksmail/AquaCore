@@ -503,6 +503,9 @@ def changeWiFIStatus(status):
         result = cursor.fetchone()[0]
     return result
 
+def runFlaskAP():
+    appAP.run(debug=True, host='0.0.0.0', port=8080, threaded=True)
+
 
 if __name__ == "__main__":
     if accesspoint.checkwifi():
@@ -510,10 +513,17 @@ if __name__ == "__main__":
         app.run(debug=True, host='0.0.0.0', port=5000, threaded=True)
     else:
         print("not connected, creating AP")
+        from threading import Thread
         time.sleep(3)
         if checkWiFiStatus() == 1:
-            accesspoint.startAP()
-            appAP.run(debug=True, host='0.0.0.0', port=8080, threaded=True)
+            t1 = Thread(target=accesspoint.startAP, args=())
+            t2 = Thread(target=appAP.run, args=())
+            t1.start()
+            t2.start()
+            t1.join()
+            t2.join()
+            # accesspoint.startAP()
+            # appAP.run(debug=True, host='0.0.0.0', port=8080, threaded=True)
         elif checkWiFiStatus() == 0:
             conncetToWiFi()
             changeWiFIStatus(status=1)
