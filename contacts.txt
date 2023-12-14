@@ -50,3 +50,6 @@ sudo nmcli dev wifi connect wifi_name password wifi_password
 sudo create_ap -g 192.168.50.1 -n wlan0 AquaCore orangepi --no-virt
 
 sudo nano /etc/NetworkManager/NetworkManager.conf
+
+40 lm/l
+227 x 40 = 9000 lm

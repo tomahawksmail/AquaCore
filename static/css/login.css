@@ -9,7 +9,7 @@ h1 {
     color: #3798db;
     text-transform: uppercase;
     padding-left: 40px;
-    font-family: cursive;
+    font-family: Lucida Console;
     text-align: center;
     text-shadow: #374444;
 
@@ -59,7 +59,8 @@ h3 {
     width: 240px;
     height: 40px;
     color: #3798db;
-    font-family: cursive;
+    font-family: Arial;
+    font-size: large;
     box-shadow: 0 0 20px #3798db;
 }
 
@@ -68,7 +69,7 @@ h3 {
     border-radius: 4px;
     width: 240px;
     height: 40px;
-    font-family: cursive;
+    font-size: large;
     color: #3798db;
     box-shadow: 0 0 20px #3798db;
 }

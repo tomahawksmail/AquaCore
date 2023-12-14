@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 import pymysql
 import hashlib
 import logging
+import accesspoint
 
 
 app = Flask(__name__)
@@ -16,18 +17,15 @@ load_dotenv()
 connection = pymysql.connect(host=os.environ.get('HOST'),
                              user=os.environ.get('USER'),
                              password=os.environ.get('PASSWORD'),
-                             database=os.environ.get('DATABASE'))
+                             database=os.environ.get('DATABASE'),
+                             autocommit=True)
+
 
 version = os.environ.get('VERSION')
 app.secret_key = os.environ.get('SECRET_KEY')
 appAP.secret_key = os.environ.get('SECRET_KEY')
 app.config['SESSION_PERMANENT'] = False
-
-
-import accesspoint
-
-
-
+appAP.config['SESSION_PERMANENT'] = False
 
 
 
@@ -455,22 +453,22 @@ def ap():
             ssid = request.form["ssid"]
             password = request.form["password"]
             updateWiFiCreds(ssid, password)
-            run('sudo reboot', check=True)
-        return redirect("/")
+            flash("Credentials are saved")
+            time.sleep(2)
+        return redirect("/ap")
 
 
 def updateWiFiCreds(ssid, password):
-    status = 0
-    SQLupdate = f"Update WiFi set SSID = '{ssid}', PASSWORD = '{password}', `status` = {status}"
     try:
         connection.connect()
         with connection.cursor() as cursor:
+            SQLupdate = f"Update `WiFi` set SSID = '{ssid}', PASSWORD = '{password}'"
             cursor.execute(SQLupdate)
             connection.commit()
-        cursor.close()
-        connection.close()
     except Exception as E:
         print(E)
+    finally:
+        connection.close()
 
 
 def conncetToWiFi():
@@ -504,10 +502,12 @@ def changeWiFIStatus(status):
     return result
 
 def runFlaskAP():
-    appAP.run(debug=True, host='192.168.150.5', port=8080, threaded=True)
+    appAP.run(debug=False, host='0.0.0.0', port=8080)
+
 
 
 if __name__ == "__main__":
+
     if accesspoint.checkwifi():
         print("connected")
         app.run(debug=True, host='0.0.0.0', port=5000, threaded=True)
@@ -522,6 +522,7 @@ if __name__ == "__main__":
             t2.start()
             t1.join()
             t2.join()
+            changeWiFIStatus(status=0)
             # accesspoint.startAP()
             # appAP.run(debug=True, host='0.0.0.0', port=8080, threaded=True)
         elif checkWiFiStatus() == 0:
