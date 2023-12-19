@@ -119,6 +119,45 @@
                                     <td>{{readall[4][6]}}</td>
                                     <td>{{readall[4][7]}}</td>
                                 </tr>
+                                <tr>
+                                    <td>{{readall[5][0]}}</td>
+                                    <td>{{readall[5][1]}}</td>
+                                    <td style="color: darkslategrey">{{readall[5][2]}}</td>
+                                    <td>{{readall[5][3]}}</td>
+                                    <td>{{readall[5][4]}}</td>
+                                    <td>{{readall[5][5]}} || {{readall[5][6]}}</td>
+                                    <td>{{readall[5][7]}}</td>
+                                    <td style="color: {% if readall[5][8] == "OUT" %}red{% else %}green{% endif %}">{{readall[5][8]}}</td>
+                                    <td style="color: blueviolet">{{readall[5][9]}}</td>
+                                    <td>{{readall[5][10]}}</td>
+                                    <td>{{readall[5][11]}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{readall[6][0]}}</td>
+                                    <td>{{readall[6][1]}}</td>
+                                    <td style="color: darkslategrey">{{readall[6][2]}}</td>
+                                    <td>{{readall[6][3]}}</td>
+                                    <td>{{readall[6][4]}}</td>
+                                    <td>{{readall[6][5]}} || {{readall[6][6]}}</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td style="color: grey">{{readall[6][7]}}</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>{{readall[7][0]}}</td>
+                                    <td>{{readall[7][1]}}</td>
+                                    <td style="color: darkslategrey">{{readall[7][2]}}</td>
+                                    <td>{{readall[7][3]}}</td>
+                                    <td>{{readall[7][4]}}</td>
+                                    <td>{{readall[7][5]}} || {{readall[7][6]}}</td>
+                                    <td>{{readall[7][7]}}</td>
+                                    <td style="color: {% if readall[7][8] == "OUT" %}red{% elif readall[7][8] == "OFF" %}yellow{% else %}green{% endif %}">{{readall[7][8]}}</td>
+                                    <td style="color: #00bbff">{{readall[7][9]}}</td>
+                                    <td>{{readall[7][10]}}</td>
+                                    <td>{{readall[7][11]}}</td>
+                                </tr>
                                 </tbody>
 <!--                                <tbody>-->
 <!--                                {% for item in readall %}-->
