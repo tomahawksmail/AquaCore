@@ -229,6 +229,7 @@
                                     <th>ON</th>
                                     <th>OFF</th>
                                 </tr>
+<!--                                Master Light-->
                                 <tr>
                                     <td>
                                         <div class="custom-switch custom-switch-label-onoff">
@@ -245,16 +246,17 @@
                                     <td><input data-clocklet="class-name: clocklet-color-example; format: HH:mm"
                                                value={{result[14]}} name="Master_light_off"></td>
                                 </tr>
+<!--                                Projector Light-->
                                 <tr>
                                     <td>
                                         <div class="custom-switch custom-switch-label-onoff">
-                                            <input class="custom-switch-input" name="RedL_status" id="Red Light 675nm"
+                                            <input class="custom-switch-input" name="Projector_status" id="Projector Light"
                                                    type="checkbox" {{
                                                    status[5]}}>
-                                            <label class="custom-switch-btn" for="Red Light 675nm"></label>
+                                            <label class="custom-switch-btn" for="Projector Light"></label>
                                         </div>
                                     </td>
-                                    <td>Plant Light</td>
+                                    <td>Projector Light</td>
                                     <td>PI0/29</td>
                                     <td><input data-clocklet="class-name: clocklet-color-example; format: HH:mm"
                                                value={{result[21]}} name="ProjectorL_on"></td>
@@ -262,28 +264,13 @@
                                                value={{result[22]}} name="ProjectorL_off"></td>
 
                                 </tr>
-                                <tr>
-                                    <td>
-                                        <div class="custom-switch custom-switch-label-onoff">
-                                            <input class="custom-switch-input" name="BlueL_status" id="Blue Light 425nm"
-                                                   type="checkbox" {{
-                                                   status[6]}}>
-                                            <label class="custom-switch-btn" for="Blue Light 425nm"></label>
-                                        </div>
-                                    </td>
-                                    <td>Blue Light 425nm</td>
-                                    <td>PH7/19</td>
-                                    <td><input data-clocklet="class-name: clocklet-color-example; format: HH:mm"
-                                               value={{result[17]}} name="BlueL_on"><br></td>
-                                    <td><input data-clocklet="class-name: clocklet-color-example; format: HH:mm"
-                                               value={{result[18]}} name="BlueL_off"><br></td>
-                                </tr>
+<!--                                Moon Light-->
                                 <tr>
                                     <td>
                                         <div class="custom-switch custom-switch-label-onoff">
                                             <input class="custom-switch-input" name="MoonL_status" id="Moon Light"
                                                    type="checkbox" {{
-                                                   status[7]}}>
+                                                   status[6]}}>
                                             <label class="custom-switch-btn" for="Moon Light"></label>
                                         </div>
                                     </td>
@@ -295,22 +282,24 @@
                                                value={{result[20]}} name="MoonL_off"><br></td>
 
                                 </tr>
+<!--                                Plant Light-->
                                 <tr>
                                     <td>
                                         <div class="custom-switch custom-switch-label-onoff">
-                                            <input class="custom-switch-input" name="Projector_status"
-                                                   id="Projector_status" type="checkbox"
-                                                   {{status[8]}}>
-                                            <label class="custom-switch-btn" for="Projector_status"></label>
+                                            <input class="custom-switch-input" name="PlantL_status"
+                                                   id="PlantL_status" type="checkbox"
+                                                   {{status[7]}}>
+                                            <label class="custom-switch-btn" for="PlantL_status"></label>
                                         </div>
                                     </td>
-                                    <td>Red Light 675nm</td>
+                                    <td>Plant Light</td>
                                     <td>P15/15</td>
                                     <td><input data-clocklet="class-name: clocklet-color-example; format: HH:mm"
                                                value={{result[15]}} name="RedL_on"><br></td>
                                     <td><input data-clocklet="class-name: clocklet-color-example; format: HH:mm"
                                                value={{result[16]}} name="RedL_off"><br></td>
                                 </tr>
+
                             </table>
                         </div>
                     </div>

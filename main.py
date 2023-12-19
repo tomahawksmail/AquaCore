@@ -260,19 +260,15 @@ def options():
                 formoptions.append(('Master_light_on', request.form.get("Master_light_on")))
                 formoptions.append(('Master_light_off', request.form.get("Master_light_off")))
 
-                formstatus.append(('RedL_status', request.form.get("RedL_status")))
+                formstatus.append(('Projector_status', request.form.get("Projector_status")))
                 formoptions.append(('RedL_on', request.form.get("RedL_on")))
                 formoptions.append(('RedL_off', request.form.get("RedL_off")))
-
-                formstatus.append(('BlueL_status', request.form.get("BlueL_status")))
-                formoptions.append(('BlueL_on', request.form.get("BlueL_on")))
-                formoptions.append(('BlueL_off', request.form.get("BlueL_off")))
 
                 formstatus.append(('MoonL_status', request.form.get("MoonL_status")))
                 formoptions.append(('MoonL_on', request.form.get("MoonL_on")))
                 formoptions.append(('MoonL_off', request.form.get("MoonL_off")))
 
-                formstatus.append(('Projector_status', request.form.get("Projector_status")))
+                formstatus.append(('PlantL_status', request.form.get("PlantL_status")))
                 formoptions.append(('ProjectorL_on', request.form.get("ProjectorL_on")))
                 formoptions.append(('ProjectorL_off', request.form.get("ProjectorL_off")))
 
