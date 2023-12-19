@@ -399,8 +399,8 @@ def get_cur_data():
     return cpu_count, uptime, cur_freq, RAM_total, cpu_thermal_cur, gpu_thermal_cur, ve_thermal_cur, ddr_thermal_cur, net, cpu_perc_load, WIFI, disk, disku, RAM_cur
 
 
-@app.route("/alerts", methods=['POST', 'GET'])
-def alerts():
+@app.route("/log", methods=['POST', 'GET'])
+def log():
     SQLrequest = """SELECT * FROM loging ORDER BY id DESC LIMIT 30"""
     try:
         connection.connect()
@@ -411,7 +411,7 @@ def alerts():
         connection.close()
     except Exception as E:
         log(E)
-    return render_template('alerts.html', version=version, log=log)
+    return render_template('log.html', version=version, log=log)
 
 
 @app.route("/core_dashboard", methods=['POST', 'GET'])
