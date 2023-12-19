@@ -183,6 +183,7 @@ def setDataOptions(formoptions):
         with connection.cursor() as cursor:
             for i in formoptions:
                 SQL = f"UPDATE `options` SET {i[0]} = '{i[1]}'"
+                print(SQL)
                 event = f"SET {i[0]} = {i[1]}"
                 log(event)
                 cursor.execute(SQL)
@@ -261,16 +262,16 @@ def options():
                 formoptions.append(('Master_light_off', request.form.get("Master_light_off")))
 
                 formstatus.append(('Projector_status', request.form.get("Projector_status")))
-                formoptions.append(('RedL_on', request.form.get("RedL_on")))
-                formoptions.append(('RedL_off', request.form.get("RedL_off")))
+                formoptions.append(('ProjectorL_on', request.form.get("ProjectorL_on")))
+                formoptions.append(('ProjectorL_off', request.form.get("ProjectorL_off")))
 
                 formstatus.append(('MoonL_status', request.form.get("MoonL_status")))
                 formoptions.append(('MoonL_on', request.form.get("MoonL_on")))
                 formoptions.append(('MoonL_off', request.form.get("MoonL_off")))
 
                 formstatus.append(('PlantL_status', request.form.get("PlantL_status")))
-                formoptions.append(('ProjectorL_on', request.form.get("ProjectorL_on")))
-                formoptions.append(('ProjectorL_off', request.form.get("ProjectorL_off")))
+                formoptions.append(('PlantL_on', request.form.get("PlantL_on")))
+                formoptions.append(('PlantL_off', request.form.get("PlantL_off")))
 
                 setDataOptions(formoptions)
                 setDataStatus(formstatus)
