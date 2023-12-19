@@ -1,0 +1,16 @@
+table.terminal {
+    border-collapse: collapse;
+    width: 100%;
+    text-align: center;
+}
+
+
+table.terminal th {
+    border: 1px solid #fff;
+   }
+table.terminal tr {
+    border: 1px solid #fff;
+   }
+table.terminal td {
+    border: 1px solid #fff;
+   }

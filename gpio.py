@@ -30,12 +30,15 @@ Popen(["gpio", "mode", "27", "out"]) #02
 
 ###gpio readall###
 def readGPIO():
+    result = []
     readall = (Popen(["gpio", "readall"], stdout=PIPE).communicate()[0].decode('UTF-8').split("\n"))
-    return readall
-    # res  = []
-    # for i in readall:
-    #     i.split("|")
-    #     print(i)
+    for i in range(3, 23, 1):
+        l = readall[i].replace("|"," ").split()
+        result.append(l)
+
+
+    return result
+
 
 
 # def infinity():

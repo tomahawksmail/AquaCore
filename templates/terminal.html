@@ -6,14 +6,16 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>
-    setTimeout(function () {location.reload();}, 600000);
+    setTimeout(function () {
+        location.reload();
+    }, 600000);
 </script>
 <style>
     INPUT[type="text"] {
-         background-color: #525f7f;
-         color: #b1b1b1;
-         border:0px solid #b1b1b1;
-     border-radius:7px;
+        background-color: #525f7f;
+        color: #b1b1b1;
+        border: 0px solid #b1b1b1;
+        border-radius: 7px;
     }
 </style>
 {% endblock %}
@@ -29,30 +31,107 @@
                 <div class="card-header">
                     <div class="card-body">
                         <div>
-                            <table>
-                        <thead>
-                        <tr>
-<!--                            <th>ID</th>-->
+                            <table class="terminal">
+                                <thead>
+                                <tr>
+                                    <th>GPIO</th>
+                                    <th>wPi</th>
+                                    <th>Name</th>
+                                    <th>Mode</th>
+                                    <th>V</th>
+                                    <th>Physical</th>
+                                    <th>V</th>
+                                    <th>Mode</th>
+                                    <th>Name</th>
+                                    <th>wPi</th>
+                                    <th>GPIO</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td style="color: red">
+                                        {{readall[0][0]}}
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>
+                                        {{readall[0][1]}} || {{readall[0][2]}}
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td style="color: red">
+                                        {{readall[0][3]}}
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>{{readall[1][0]}}</td>
+                                    <td>{{readall[1][1]}}</td>
+                                    <td style="color: yellowgreen">{{readall[1][2]}}</td>
+                                    <td>{{readall[1][3]}}</td>
+                                    <td>{{readall[1][4]}}</td>
+                                    <td>{{readall[1][5]}} || {{readall[1][6]}}</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td style="color: red">{{readall[1][7]}}</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>{{readall[2][0]}}</td>
+                                    <td>{{readall[2][1]}}</td>
+                                    <td style="color: yellowgreen">{{readall[2][2]}}</td>
+                                    <td>{{readall[2][3]}}</td>
+                                    <td>{{readall[2][4]}}</td>
+                                    <td>{{readall[2][5]}} || {{readall[2][6]}}</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td style="color: grey">{{readall[2][7]}}</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>{{readall[3][0]}}</td>
+                                    <td>{{readall[3][1]}}</td>
+                                    <td style="color: #00bbff">{{readall[3][2]}}</td>
+                                    <td>{{readall[3][3]}}</td>
+                                    <td>{{readall[3][4]}}</td>
+                                    <td>{{readall[3][5]}} || {{readall[3][6]}}</td>
+                                    <td>{{readall[3][7]}}</td>
+                                    <td>{{readall[3][8]}}</td>
+                                    <td style="color: darkslategrey">{{readall[3][9]}}</td>
+                                    <td>{{readall[3][10]}}</td>
+                                    <td>{{readall[3][11]}}</td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td style="color: gray">{{readall[4][0]}}</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>{{readall[4][1]}} || {{readall[4][2]}}</td>
+                                    <td>{{readall[4][3]}}</td>
+                                    <td>{{readall[4][4]}}</td>
+                                    <td style="color: darkslategrey">{{readall[4][5]}}</td>
+                                    <td>{{readall[4][6]}}</td>
+                                    <td>{{readall[4][7]}}</td>
+                                </tr>
+                                </tbody>
+<!--                                <tbody>-->
+<!--                                {% for item in readall %}-->
 
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for item in readall %}
-                        <tr>
-                            <td>{{ item|safe }}</td>
-<!--                            <td>{{ item[1] }}</td>-->
-<!--                            <td>{{ item[2] }}</td>-->
-<!--                            <td>{{ item[3] }}</td>-->
-<!--                            <td>{{ item[4] }}</td>-->
-<!--                            <td>{{ item[5] }}</td>-->
-<!--                            <td>{{ item[6] }}</td>-->
-<!--                            <td>{{ item[7] }}</td>-->
-<!--                            <td>{{ item[8] }}</td>-->
-<!--                            <td>{{ item[9] }}</td>-->
-                        </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
+<!--                                <tr>-->
+<!--                                    {% for cell in item %}-->
+<!--                                    <td>{{ cell }}</td>-->
+<!--                                    {% endfor %}-->
+<!--                                </tr>-->
+<!--                                {% endfor %}-->
+
+<!--                                </tbody>-->
+                            </table>
                         </div>
                     </div>
 
