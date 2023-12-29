@@ -1,13 +1,10 @@
 from flask import Flask, render_template, request, session, redirect, flash
-from datetime import datetime
+import functions
 import time
-from subprocess import Popen, PIPE, run
 import os
-import psutil
 from dotenv import load_dotenv
 import pymysql
 import hashlib
-import logging
 import accesspoint
 
 
@@ -38,7 +35,7 @@ def start():
 
 @app.route("/logout", methods=['POST', 'GET'])
 def logout():
-    log("logout")
+    functions.log("logout")
     session.pop('user', None)
     return redirect("/login")
 
@@ -67,7 +64,7 @@ def login():
                 connection.close()
             except Exception as E:
                 flash("Something wrong...")
-                log(E)
+                functions.log(E)
                 return redirect("/login")
             if password != getpass:
                 flash("Wrong username or password")
@@ -75,7 +72,7 @@ def login():
             else:
                 session['user'] = request.form['user']
                 session['role'] = getrole
-                log("login")
+                functions.log("login")
                 return redirect("/aquarium")
         else:
             return render_template('login.html', version=version)
@@ -111,6 +108,7 @@ def dashboard():
                 max = cursor.fetchone()[0]
                 max_temp = [max for i in range(48)]
 
+
                 with connection.cursor() as cursor:
                     cursor.execute(min_ph_request)
                 minph = cursor.fetchone()[0]
@@ -130,7 +128,7 @@ def dashboard():
                     cursor.execute(current)
                 current = cursor.fetchone()
             except Exception as E:
-                log(E)
+                functions.log(E)
                 return render_template('aquarium.html', version=version)
             else:
                 cursor.close()
@@ -142,77 +140,12 @@ def dashboard():
         flash("You are not logged in")
         return redirect("/login")
 
-def log(event):
-    try:
-        connection.connect()
-        with connection.cursor() as cursor:
-            SQLrequest = """insert into loging (User, Event, Datetime) values (%s, %s, %s)"""
-            cursor.execute(SQLrequest, (session['user'], event, datetime.now()))
-            connection.commit()
-
-    except Exception as E:
-        log(E)
-
-        # cursor.close()
-        connection.close()
-
-
-
-def getDatatoOptions():
-    SQLrequest = """SELECT * FROM options"""
-    status = """SELECT * FROM status"""
-    try:
-        connection.connect()
-        with connection.cursor() as cursor:
-            cursor.execute(SQLrequest)
-        options = cursor.fetchone()
-        with connection.cursor() as cursor:
-            cursor.execute(status)
-        status = cursor.fetchall()[0]
-        result = (options, status)
-        cursor.close()
-        connection.close()
-    except Exception as E:
-        log(E)
-    return result
-
-
-def setDataOptions(formoptions):
-    try:
-        connection.connect()
-        with connection.cursor() as cursor:
-            for i in formoptions:
-                SQL = f"UPDATE `options` SET {i[0]} = '{i[1]}'"
-                print(SQL)
-                event = f"SET {i[0]} = {i[1]}"
-                log(event)
-                cursor.execute(SQL)
-                connection.commit()
-            cursor.close()
-        connection.close()
-    except Exception as E:
-        log(E)
-
-def setDataStatus(formstatus):
-    try:
-        connection.connect()
-        with connection.cursor() as cursor:
-            for i in formstatus:
-                SQL = f"UPDATE `status` SET {i[0]} = '{'checked' if i[1] == 'on' else 'unchecked'}'"
-                cursor.execute(SQL)
-                connection.commit()
-            cursor.close()
-        connection.close()
-    except Exception as E:
-        log(E)
-
-
 
 @app.route("/options", methods=['POST', 'GET'])
 def options():
     if 'user' in session:
         if request.method == 'GET':
-            result = getDatatoOptions()
+            result = functions.getDatatoOptions()
             return render_template('options.html', version=version, result=result[0], status=result[1])
         elif request.method == 'POST':
             if "submit" in request.form:
@@ -273,134 +206,18 @@ def options():
                 formoptions.append(('PlantL_on', request.form.get("PlantL_on")))
                 formoptions.append(('PlantL_off', request.form.get("PlantL_off")))
 
-                setDataOptions(formoptions)
-                setDataStatus(formstatus)
+                functions.setDataOptions(formoptions)
+                functions.setDataStatus(formstatus)
 
-                result = getDatatoOptions()
+                result = functions.getDatatoOptions()
                 return render_template('options.html', version=version, result=result[0], status=result[1])
     else:
         flash("You are not logged in")
         return redirect("/login")
 
-def get_core_data():
 
-    SQLrequest = """SELECT HOUR(Dttm), AVG(cpus_percent_0), AVG(cpus_percent_1), 
-                    AVG(cpus_percent_2), AVG(cpus_percent_3) 
-                    FROM psutil WHERE 
-                    (Dttm >= NOW() - INTERVAL 1 DAY) 
-                    GROUP BY HOUR(Dttm) """
-    try:
-        connection.connect()
-        with connection.cursor() as cursor:
-            cursor.execute(SQLrequest)
-        data = cursor.fetchall()
-        cursor.close()
-        connection.close()
-
-    except Exception as E:
-        log(E)
-    return data
-def get_temp_data():
-    SQLrequest = """SELECT HOUR(Dttm), round(AVG(cpu_thermal_cur),1), round(AVG(gpu_thermal_cur), 1),
-                    round(AVG(ve_thermal_cur),1), round(AVG(ddr_thermal_cur), 1)
-                    FROM psutil WHERE 
-                    (Dttm >= NOW() - INTERVAL 1 DAY) 
-                    GROUP BY HOUR(Dttm)"""
-    try:
-        connection.connect()
-        with connection.cursor() as cursor:
-            cursor.execute(SQLrequest)
-        data = cursor.fetchall()
-        cursor.close()
-        connection.close()
-
-    except Exception as E:
-        log(E)
-    return data
-
-def get_RAM_data():
-    SQLrequest = """SELECT HOUR(Dttm), round(AVG(RAM_available),0), round(AVG(RAM_used), 0),
-                    round(AVG(RAM_free),0), round(AVG(RAM_active), 0),
-                    round(AVG(RAM_inactive),0), round(AVG(RAM_buffers), 0),
-                    round(AVG(RAM_cached),0), round(AVG(RAM_shared), 0),
-                    round(AVG(RAM_slab),0)
-                    FROM psutil WHERE 
-                    (Dttm >= NOW() - INTERVAL 1 DAY) 
-                    GROUP BY HOUR(Dttm)"""
-    try:
-        connection.connect()
-        with connection.cursor() as cursor:
-            cursor.execute(SQLrequest)
-        data = cursor.fetchall()
-        cursor.close()
-        connection.close()
-
-    except Exception as E:
-        log(E)
-    return data
-
-
-
-def get_cur_data():
-    cpu_count = psutil.cpu_count()  # cpu_count
-    uptime = int((time.time() - psutil.boot_time()) / 60)  # uptime
-    cur_freq = int(psutil.cpu_freq()[0])
-    cpu_perc_load = int((psutil.cpu_percent(percpu=True)[0] + psutil.cpu_percent(percpu=True)[1] +
-                         psutil.cpu_percent(percpu=True)[2] + psutil.cpu_percent(percpu=True)[3]) / 4)
-    RAM_total = int(psutil.virtual_memory()[0]/1000000)
-
-
-    cmd_output = Popen(["iwconfig", "wlan0"], stdout=PIPE)
-
-    WIFIcmd = (cmd_output.communicate()[0].decode('UTF-8')).split("\n")
-    WIFI = []
-    WIFI.append(WIFIcmd[0].replace('     ', ' ').replace('ESSID', ', SSID').replace(':', ': '))
-    WIFI.append("Frequency: " + WIFIcmd[1].split(" ")[12].replace("Frequency:", "") + " GHz")
-    WIFI.append('MAC ' + WIFIcmd[1].split(" ")[17])
-    WIFI.append(WIFIcmd[2].replace('          ', ''))
-    WIFI.append(WIFIcmd[5].replace('          ', '').split('  ')[0])
-    WIFI.append(int(WIFIcmd[5].replace('          ', '').split('  ')[1].split("=")[1].split(" ")[0]))
-
-
-
-    cpu_thermal_cur = round(psutil.sensors_temperatures().get('cpu_thermal')[0][1], 1)
-    gpu_thermal_cur = round(psutil.sensors_temperatures().get('gpu_thermal')[0][1], 1)
-    ve_thermal_cur  = round(psutil.sensors_temperatures().get( 've_thermal')[0][1], 1)
-    ddr_thermal_cur = round(psutil.sensors_temperatures().get('ddr_thermal')[0][1], 1)
-
-    net = []
-    net.append(round(psutil.net_io_counters()[0]/1024))  # net_bytes_sent
-    net.append(round(psutil.net_io_counters()[1]/1024))  # net_bytes_recv
-    net.append(psutil.net_io_counters()[2])  # net_packets_sent
-    net.append(psutil.net_io_counters()[3])  # net_packets_recv
-    net.append(psutil.net_io_counters()[4])  # net_errin
-    net.append(psutil.net_io_counters()[5])  # net_errout
-    net.append(psutil.net_io_counters()[6])  # net_dropin
-    net.append(psutil.net_io_counters()[7])  # net_dropout
-
-    disk = []
-    disk.append(int(psutil.disk_usage("/")[1]/1048576))  # disk_usage_used, Mb
-    disk.append(int(psutil.disk_usage("/")[2]/1048576))  # disk_usage_free, Mb
-
-    disku = []
-    disku.append(psutil.disk_io_counters()[0])
-    disku.append(psutil.disk_io_counters()[1])
-    disku.append(psutil.disk_io_counters()[2])
-    disku.append(psutil.disk_io_counters()[3])
-    disku.append(psutil.disk_io_counters()[4])
-    disku.append(psutil.disk_io_counters()[5])
-    disku.append(psutil.disk_io_counters()[8])
-
-    RAM_cur = []
-    RAM_cur.append(int(psutil.virtual_memory()[2])) #Used
-    RAM_cur.append(100 - int(psutil.virtual_memory()[2])) #free
-
-
-    return cpu_count, uptime, cur_freq, RAM_total, cpu_thermal_cur, gpu_thermal_cur, ve_thermal_cur, ddr_thermal_cur, net, cpu_perc_load, WIFI, disk, disku, RAM_cur
-
-
-@app.route("/log", methods=['POST', 'GET'])
-def log():
+@app.route("/loging", methods=['POST', 'GET'])
+def loging():
     SQLrequest = """SELECT * FROM loging ORDER BY id DESC LIMIT 30"""
     try:
         connection.connect()
@@ -410,19 +227,17 @@ def log():
         cursor.close()
         connection.close()
     except Exception as E:
-        log(E)
+        functions.log(E)
     return render_template('log.html', version=version, log=log)
 
 
 @app.route("/core_dashboard", methods=['POST', 'GET'])
 def core_dashboard():
-    data = get_core_data()
-    temp_data = get_temp_data()
-    cur_data = get_cur_data()
-    RAM_data = get_RAM_data()
+    data = functions.get_core_data()
+    temp_data = functions.get_temp_data()
+    cur_data = functions.get_cur_data()
+    RAM_data = functions.get_RAM_data()
     return render_template('core_dashboard.html', version=version, data=data, cur_data=cur_data, temp_data=temp_data, RAM_data=RAM_data)
-
-
 
 
 @app.route("/terminal", methods=['POST', 'GET'])
@@ -437,6 +252,9 @@ def terminal():
         flash("You are not logged in")
         return redirect("/login")
 
+
+
+
 @appAP.route('/', methods=['POST', 'GET'])
 def index():
     return redirect("/ap")
@@ -449,54 +267,14 @@ def ap():
         if "submit" in request.form:
             ssid = request.form["ssid"]
             password = request.form["password"]
-            updateWiFiCreds(ssid, password)
+            functions.updateWiFiCreds(ssid, password)
             flash("Credentials are saved")
             time.sleep(2)
+            functions.conncetToWiFi()
+            time.sleep(2)
+            # run('sudo reboot', check=True)
         return redirect("/ap")
 
-
-def updateWiFiCreds(ssid, password):
-    try:
-        connection.connect()
-        with connection.cursor() as cursor:
-            SQLupdate = f"Update `WiFi` set SSID = '{ssid}', PASSWORD = '{password}'"
-            cursor.execute(SQLupdate)
-            connection.commit()
-    except Exception as E:
-        print(E)
-    finally:
-        connection.close()
-
-
-def conncetToWiFi():
-    SQLselect = """Select SSID, PASSWORD from WiFi"""
-    try:
-        connection.connect()
-        with connection.cursor() as cursor:
-            cursor.execute(SQLselect)
-            result = cursor.fetchone()
-        ssid = result[0]
-        passwd = result[1]
-        cmd = f'sudo nmcli dev wifi connect {ssid} password {passwd}'
-        run(cmd, check=True)
-    except Exception as E:
-        print(E)
-
-def checkWiFiStatus():
-    SQL = """Select status from WiFi"""
-    connection.connect()
-    with connection.cursor() as cursor:
-        cursor.execute(SQL)
-        result = cursor.fetchone()[0]
-    return result
-
-def changeWiFIStatus(status):
-    SQL = f"""Update WiFi set `status` = {status}"""
-    connection.connect()
-    with connection.cursor() as cursor:
-        cursor.execute(SQL)
-        result = cursor.fetchone()[0]
-    return result
 
 def runFlaskAP():
     appAP.run(debug=False, host='0.0.0.0', port=8080)
@@ -512,20 +290,16 @@ if __name__ == "__main__":
         print("not connected, creating AP")
         from threading import Thread
         time.sleep(3)
-        if checkWiFiStatus() == 1:
-            t1 = Thread(target=accesspoint.startAP, args=())
-            t2 = Thread(target=runFlaskAP, args=())
-            t1.start()
-            t2.start()
-            t1.join()
-            t2.join()
-            changeWiFIStatus(status=0)
-            # accesspoint.startAP()
-            # appAP.run(debug=True, host='0.0.0.0', port=8080, threaded=True)
-        elif checkWiFiStatus() == 0:
-            conncetToWiFi()
-            changeWiFIStatus(status=1)
-            run('sudo reboot', check=True)
+
+        t1 = Thread(target=accesspoint.startAP, args=())
+        t2 = Thread(target=runFlaskAP, args=())
+        t1.start()
+        t2.start()
+        t1.join()
+        t2.join()
+
+
+
 
 
 

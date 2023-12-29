@@ -19,9 +19,7 @@ if not hasattr(psutil.Process, "cpu_num"):
 def load():
     data = []
 
-
     # data.append(int(psutil.cpu_freq()[0]))
-
     data.append(int(psutil.cpu_percent(percpu=True)[0]))
     data.append(int(psutil.cpu_percent(percpu=True)[1]))
     data.append(int(psutil.cpu_percent(percpu=True)[2]))

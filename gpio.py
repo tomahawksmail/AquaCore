@@ -35,8 +35,6 @@ def readGPIO():
     for i in range(3, 23, 1):
         l = readall[i].replace("|"," ").split()
         result.append(l)
-
-
     return result
 
 
