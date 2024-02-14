@@ -284,7 +284,7 @@ def runFlaskAP():
 if __name__ == "__main__":
     if accesspoint.checkwifi():
         print("connected")
-        app.run(debug=True, host='0.0.0.0', port=5000, threaded=True)
+        app.run(debug=True, host='0.0.0.0', port=5001, threaded=True)
     else:
         print("not connected, creating AP")
         from threading import Thread
