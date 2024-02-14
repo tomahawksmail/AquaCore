@@ -178,28 +178,5 @@ def get_cur_data():
 
     return cpu_count, uptime, cur_freq, RAM_total, cpu_thermal_cur, gpu_thermal_cur, ve_thermal_cur, ddr_thermal_cur, net, cpu_perc_load, WIFI, disk, disku, RAM_cur
 
-def updateWiFiCreds(ssid, password):
-    try:
-        connection.connect()
-        with connection.cursor() as cursor:
-            SQLupdate = f"Update `WiFi` set SSID = '{ssid}', PASSWORD = '{password}'"
-            cursor.execute(SQLupdate)
-            connection.commit()
-    except Exception as E:
-        print(E)
-    finally:
-        connection.close()
 
-def conncetToWiFi():
-    SQLselect = """Select SSID, PASSWORD from WiFi"""
-    try:
-        connection.connect()
-        with connection.cursor() as cursor:
-            cursor.execute(SQLselect)
-            result = cursor.fetchone()
-        ssid = result[0]
-        passwd = result[1]
-        cmd = f'sudo nmcli dev wifi connect {ssid} password {passwd}'
-        run(cmd, check=True)
-    except Exception as E:
-        print(E)
+

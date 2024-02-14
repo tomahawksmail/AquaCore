@@ -254,7 +254,7 @@ def terminal():
 
 
 
-
+                             ### AP ###
 @appAP.route('/', methods=['POST', 'GET'])
 def index():
     return redirect("/ap")
@@ -270,7 +270,7 @@ def ap():
             functions.updateWiFiCreds(ssid, password)
             flash("Credentials are saved")
             time.sleep(2)
-            functions.conncetToWiFi()
+            accesspoint.conncetToWiFi()
             time.sleep(2)
             # run('sudo reboot', check=True)
         return redirect("/ap")
@@ -282,7 +282,6 @@ def runFlaskAP():
 
 
 if __name__ == "__main__":
-
     if accesspoint.checkwifi():
         print("connected")
         app.run(debug=True, host='0.0.0.0', port=5000, threaded=True)

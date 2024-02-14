@@ -26,7 +26,7 @@ def connect_to_wifi(ssid, password):
         print(f"Error: {e}")
 
 # Replace 'your_ssid' and 'your_password' with your Wi-Fi credentials
-connect_to_wifi('test', 'Qwerty12345')
+#connect_to_wifi('test', 'your_password')
 
 
 
