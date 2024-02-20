@@ -267,11 +267,10 @@ def ap():
         if "submit" in request.form:
             ssid = request.form["ssid"]
             password = request.form["password"]
-            functions.updateWiFiCreds(ssid, password)
-            flash("Credentials are saved")
-            time.sleep(2)
-            accesspoint.conncetToWiFi()
-            time.sleep(2)
+            accesspoint.stopAP()
+            time.sleep(1)
+            accesspoint.connect_to_wifi(ssid, password)
+            time.sleep(1)
             # run('sudo reboot', check=True)
         return redirect("/ap")
 

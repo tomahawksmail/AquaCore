@@ -1,4 +1,4 @@
-# import subprocess
+import time
 from subprocess import Popen, PIPE
 
 Popen(["gpio", "mode", "6", "in"]) #Button
@@ -24,6 +24,8 @@ Popen(["gpio", "mode", "24", "out"]) #06
 Popen(["gpio", "mode", "26", "out"]) #01
 Popen(["gpio", "mode", "27", "out"]) #02
 
+
+
 ### PWM ###
 
 
@@ -37,18 +39,22 @@ def readGPIO():
         result.append(l)
     return result
 
+def gpioON(num):
+    Popen(["gpio", "write", str(num), "up"])
+
+def gpioOFF(num):
+    Popen(["gpio", "write", str(num), "down"])
 
 
-# def infinity():
-#     from main import connection
-#     try:
-#         connection.connect()
-#         with connection.cursor() as cursor:
-#             SQLoptions = """Select * from options"""
-#
-#                 cursor.execute(SQL)
-#                 connection.commit()
-#             cursor.close()
-#         connection.close()
-#     except Exception as E:
-#         log(E)
+
+
+
+list = [11, 12, 14, 19]
+
+
+for i in list:
+    gpioON(i)
+    time.sleep(1)
+    gpioOFF(i)
+    time.sleep(1)
+
