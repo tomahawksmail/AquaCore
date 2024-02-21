@@ -22,8 +22,9 @@ def connect_to_wifi(ssid, password):
             print(f"Already connected to {ssid}")
         else:
             # Connect to the Wi-Fi network
-            connect_command = f"nmcli device wifi connect '{ssid}' password '{password}'"
+            connect_command = f"sudo nmcli device wifi connect '{ssid}' password '{password}'"
             subprocess.run(connect_command, shell=True, check=True)
+
             print(f"Connected to {ssid}")
     except subprocess.CalledProcessError as e:
         print(f"Error: {e}")
