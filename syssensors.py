@@ -67,7 +67,6 @@ def load():
     data.append(psutil.disk_usage("/")[2]/1048576)  # disk_usage_free, Mb
     data.append(psutil.disk_usage("/")[3])  # disk_usage_percent, %
 
-
     return data
 
 
@@ -75,7 +74,7 @@ def insert_data_to_SQL():
     data = load()
 
     SQLrequest = """
-    insert into psutil (Dttm, cpus_percent_0, cpus_percent_1, cpus_percent_2, 
+    insert into psutil (Datetime, cpus_percent_0, cpus_percent_1, cpus_percent_2, 
     cpus_percent_3, RAM_available, RAM_percent, RAM_used, RAM_free, RAM_active, RAM_inactive, RAM_buffers, 
     RAM_cached, RAM_shared, RAM_slab, cpu_thermal_cur, gpu_thermal_cur, ve_thermal_cur, ddr_thermal_cur, net_bytes_sent, net_bytes_recv, 
     net_packets_sent, net_packets_recv, net_errin, net_errout, net_dropin, net_dropout, disk_read_count, 

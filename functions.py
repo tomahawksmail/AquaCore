@@ -64,11 +64,11 @@ def setDataStatus(formstatus):
         log(E)
 
 def get_core_data():
-    SQLrequest = """SELECT HOUR(Dttm), AVG(cpus_percent_0), AVG(cpus_percent_1), 
+    SQLrequest = """SELECT HOUR(Datetime), AVG(cpus_percent_0), AVG(cpus_percent_1), 
                     AVG(cpus_percent_2), AVG(cpus_percent_3) 
                     FROM psutil WHERE 
-                    (Dttm >= NOW() - INTERVAL 1 DAY) 
-                    GROUP BY HOUR(Dttm) """
+                    (Datetime >= NOW() - INTERVAL 1 DAY) 
+                    GROUP BY HOUR(Datetime) """
     try:
         connection.connect()
         with connection.cursor() as cursor:
@@ -76,17 +76,18 @@ def get_core_data():
         data = cursor.fetchall()
         cursor.close()
         connection.close()
-
+        print(data)
     except Exception as E:
         log(E)
+
     return data
 
 def get_temp_data():
-    SQLrequest = """SELECT HOUR(Dttm), round(AVG(cpu_thermal_cur),1), round(AVG(gpu_thermal_cur), 1),
+    SQLrequest = """SELECT HOUR(Datetime), round(AVG(cpu_thermal_cur),1), round(AVG(gpu_thermal_cur), 1),
                     round(AVG(ve_thermal_cur),1), round(AVG(ddr_thermal_cur), 1)
                     FROM psutil WHERE 
-                    (Dttm >= NOW() - INTERVAL 1 DAY) 
-                    GROUP BY HOUR(Dttm)"""
+                    (Datetime >= NOW() - INTERVAL 1 DAY) 
+                    GROUP BY HOUR(Datetime)"""
     try:
         connection.connect()
         with connection.cursor() as cursor:
@@ -101,14 +102,14 @@ def get_temp_data():
 
 
 def get_RAM_data():
-    SQLrequest = """SELECT HOUR(Dttm), round(AVG(RAM_available),0), round(AVG(RAM_used), 0),
+    SQLrequest = """SELECT HOUR(Datetime), round(AVG(RAM_available),0), round(AVG(RAM_used), 0),
                     round(AVG(RAM_free),0), round(AVG(RAM_active), 0),
                     round(AVG(RAM_inactive),0), round(AVG(RAM_buffers), 0),
                     round(AVG(RAM_cached),0), round(AVG(RAM_shared), 0),
                     round(AVG(RAM_slab),0)
                     FROM psutil WHERE 
-                    (Dttm >= NOW() - INTERVAL 1 DAY) 
-                    GROUP BY HOUR(Dttm)"""
+                    (Datetime >= NOW() - INTERVAL 1 DAY) 
+                    GROUP BY HOUR(Datetime)"""
     try:
         connection.connect()
         with connection.cursor() as cursor:
