@@ -5,3 +5,11 @@ sudo timedatectl set-timezone America/Los_Angeles
 sudo apt install mysql-server
 sudo apt install nginx
 
+!!!/home/orangepi/.virtualenvs.....python -m pip install package!!!
+
+
+###
+CREATE USER 'orangepi'@'localhost' IDENTIFIED BY 'orangepi';
+GRANT ALL PRIVILEGES ON *.* TO 'orangepi'@'localhost' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+###
