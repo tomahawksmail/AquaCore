@@ -57,4 +57,6 @@ for i in list:
     time.sleep(1)
     gpioOFF(i)
     time.sleep(1)
+    gpioON(i)
+    time.sleep(1)
 

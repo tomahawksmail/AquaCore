@@ -4,8 +4,8 @@ import psutil
 import sys
 from dotenv import load_dotenv
 
-
-load_dotenv()
+dotenv_path = '/home/orangepi/AquaCore/.env'
+load_dotenv(dotenv_path)
 connection = pymysql.connect(host=os.environ.get('HOST'),
                              user=os.environ.get('USER'),
                              password=os.environ.get('PASSWORD'),
