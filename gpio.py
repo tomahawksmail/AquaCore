@@ -1,4 +1,5 @@
 import time
+from datetime import datetime
 from subprocess import Popen, PIPE
 import pymysql
 import os
@@ -96,14 +97,33 @@ def turnRelay():
     elif status[3] == 'unchecked':
         gpioOFF(11)
 
+def checktime():
+    SQLrequest = """SELECT * FROM options"""
+    try:
+        connection.connect()
+        with connection.cursor() as cursor:
+            cursor.execute(SQLrequest)
+        status = cursor.fetchone()
 
+
+
+        if datetime.strptime(status[6], '%H:%M').time() <= datetime.now().time():
+            print('act')
+
+
+        cursor.close()
+        connection.close()
+        return status
+    except Exception as E:
+        print(E)
 
 
 
 if __name__ == "__main__":
     while True:
         turnRelay()
-        time.sleep(1)
+        checktime()
+        time.sleep(0.5)
 
 # r2 = [11, 12, 14, 19]
 #
