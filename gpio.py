@@ -74,11 +74,27 @@ def getStatusFromDB():
 
 def turnRelay():
     status = getStatusFromDB()
+    # R2
+    # 1
     if status[0] == 'checked':
         gpioON(12)
     elif status[0] == 'unchecked':
         gpioOFF(12)
-
+    # 2
+    if status[1] == 'checked':
+        gpioON(14)
+    elif status[1] == 'unchecked':
+        gpioOFF(14)
+    # 3
+    if status[2] == 'checked':
+        gpioON(19)
+    elif status[2] == 'unchecked':
+        gpioOFF(19)
+    # 4
+    if status[3] == 'checked':
+        gpioON(11)
+    elif status[3] == 'unchecked':
+        gpioOFF(11)
 
 
 
