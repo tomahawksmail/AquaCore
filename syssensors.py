@@ -11,6 +11,11 @@ connection = pymysql.connect(host=os.environ.get('HOST'),
                              password=os.environ.get('PASSWORD'),
                              database=os.environ.get('DATABASE'))
 
+# connection = pymysql.connect(host='localhost',
+#                              user='orangepi',
+#                              password='orangepi',
+#                              database='AquaCore')
+
 if not hasattr(psutil.Process, "cpu_num"):
     sys.exit("platform not supported")
 
@@ -86,6 +91,7 @@ def insert_data_to_SQL():
      %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
      %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
     """
+
     try:
         connection.connect()
         with connection.cursor() as cursor:

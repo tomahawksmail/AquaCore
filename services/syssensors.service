@@ -1,0 +1,8 @@
+# sudo nano /etc/systemd/system/syssensors.service
+[Unit]
+Description=Syssensors service control
+After=network.target
+[Service]
+ExecStart=/home/orangepi/AquaCore/services/syssensors.sh
+[Install]
+WantedBy=default.target

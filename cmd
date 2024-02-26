@@ -13,3 +13,5 @@ CREATE USER 'orangepi'@'localhost' IDENTIFIED BY 'orangepi';
 GRANT ALL PRIVILEGES ON *.* TO 'orangepi'@'localhost' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
 ###
+
+

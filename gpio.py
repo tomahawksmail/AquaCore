@@ -1,14 +1,25 @@
 import time
 from subprocess import Popen, PIPE
+import pymysql
+import os
+
+from dotenv import load_dotenv
+
+dotenv_path = '/home/orangepi/AquaCore/.env'
+load_dotenv(dotenv_path)
+connection = pymysql.connect(host=os.environ.get('HOST'),
+                             user=os.environ.get('USER'),
+                             password=os.environ.get('PASSWORD'),
+                             database=os.environ.get('DATABASE'))
 
 Popen(["gpio", "mode", "6", "in"]) #Button
 Popen(["gpio", "mode", "6", "down"]) #Button
 
 ### R2 ###
-Popen(["gpio", "mode", "19", "out"]) #01
-Popen(["gpio", "mode", "14", "out"]) #02
-Popen(["gpio", "mode", "12", "out"]) #03
-Popen(["gpio", "mode", "11", "out"]) #04
+Popen(["gpio", "mode", "19", "out"]) #01 CO2
+Popen(["gpio", "mode", "14", "out"]) #02 O2
+Popen(["gpio", "mode", "12", "out"]) #03 UV
+Popen(["gpio", "mode", "11", "out"]) #04 Heater
 ### U9 ###
 Popen(["gpio", "mode", "2", "out"])  #01
 Popen(["gpio", "mode", "5", "out"])  #02
@@ -40,23 +51,53 @@ def readGPIO():
     return result
 
 def gpioON(num):
-    Popen(["gpio", "write", str(num), "up"])
-
-def gpioOFF(num):
     Popen(["gpio", "write", str(num), "down"])
 
+def gpioOFF(num):
+    Popen(["gpio", "write", str(num), "up"])
 
 
 
 
-list = [11, 12, 14, 19]
+def getStatusFromDB():
+    SQLrequest = """SELECT * FROM status"""
+    try:
+        connection.connect()
+        with connection.cursor() as cursor:
+            cursor.execute(SQLrequest)
+        status = cursor.fetchone()
+        cursor.close()
+        connection.close()
+        return status
+    except Exception as E:
+        print(E)
+
+def turnRelay():
+    status = getStatusFromDB()
+    if status[0] == 'checked':
+        gpioON(12)
+    elif status[0] == 'unchecked':
+        gpioOFF(12)
 
 
-for i in list:
-    gpioON(i)
-    time.sleep(1)
-    gpioOFF(i)
-    time.sleep(1)
-    gpioON(i)
-    time.sleep(1)
+
+
+
+
+if __name__ == "__main__":
+    while True:
+        turnRelay()
+        time.sleep(1)
+
+# r2 = [11, 12, 14, 19]
+#
+#
+# for i in r2:
+#     pass
+    # gpioOFF(i)
+    # time.sleep(1)
+    # gpioON(12)
+    # time.sleep(1)
+    # gpioON(i)
+    # time.sleep(1)
 
