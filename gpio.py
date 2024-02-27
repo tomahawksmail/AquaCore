@@ -117,15 +117,4 @@ if __name__ == "__main__":
         checktime()
         time.sleep(0.5)
 
-# r2 = [11, 12, 14, 19]
-#
-#
-# for i in r2:
-#     pass
-    # gpioOFF(i)
-    # time.sleep(1)
-    # gpioON(12)
-    # time.sleep(1)
-    # gpioON(i)
-    # time.sleep(1)
 

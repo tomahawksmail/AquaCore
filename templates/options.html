@@ -141,7 +141,7 @@
                             <table class="table_light_left">
                                 <tr>
                                     <th>Name</th>
-                                    <th>Value</th>
+                                    <th>Limit</th>
 
                                 </tr>
                                 <tr>
@@ -264,42 +264,42 @@
                                                value={{result[20]}} name="ProjectorL_off"></td>
 
                                 </tr>
-<!--                                Moon Light-->
-                                <tr>
-                                    <td>
-                                        <div class="custom-switch custom-switch-label-onoff">
-                                            <input class="custom-switch-input" name="MoonL_status" id="Moon Light"
-                                                   type="checkbox" {{
-                                                   status[6]}}>
-                                            <label class="custom-switch-btn" for="Moon Light"></label>
-                                        </div>
-                                    </td>
-                                    <td>Moon Light</td>
-                                    <td>PH8/21</td>
-                                    <td><input data-clocklet="class-name: clocklet-color-example; format: HH:mm"
-                                               value={{result[17]}} name="MoonL_on"><br></td>
-                                    <td><input data-clocklet="class-name: clocklet-color-example; format: HH:mm"
-                                               value={{result[18]}} name="MoonL_off"><br></td>
 
-                                </tr>
 <!--                                Plant Light-->
                                 <tr>
                                     <td>
                                         <div class="custom-switch custom-switch-label-onoff">
                                             <input class="custom-switch-input" name="PlantL_status"
                                                    id="PlantL_status" type="checkbox"
-                                                   {{status[7]}}>
+                                                   {{status[6]}}>
                                             <label class="custom-switch-btn" for="PlantL_status"></label>
                                         </div>
                                     </td>
                                     <td>Plant Light</td>
                                     <td>P15/15</td>
                                     <td><input data-clocklet="class-name: clocklet-color-example; format: HH:mm"
-                                               value={{result[15]}} name="PlantL_on"><br></td>
+                                               value={{result[17]}} name="PlantL_on"><br></td>
+                                    <td><input data-clocklet="class-name: clocklet-color-example; format: HH:mm"
+                                               value={{result[18]}} name="PlantL_off"><br></td>
+                                </tr>
+<!--                                Moon Light-->
+                                <tr>
+                                    <td>
+                                        <div class="custom-switch custom-switch-label-onoff">
+                                            <input class="custom-switch-input" name="MoonL_status" id="Moon Light"
+                                                   type="checkbox" {{
+                                                   status[7]}}>
+                                            <label class="custom-switch-btn" for="Moon Light"></label>
+                                        </div>
+                                    </td>
+                                    <td>Moon Light</td>
+                                    <td>PH8/21</td>
+                                    <td><input data-clocklet="class-name: clocklet-color-example; format: HH:mm"
+                                              value={{result[15]}} name="PlantL_on"><br></td>
                                     <td><input data-clocklet="class-name: clocklet-color-example; format: HH:mm"
                                                value={{result[16]}} name="PlantL_off"><br></td>
-                                </tr>
 
+                                </tr>
                             </table>
                         </div>
                     </div>
