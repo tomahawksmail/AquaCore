@@ -40,7 +40,6 @@ def setDataOptions(formoptions):
         with connection.cursor() as cursor:
             for i in formoptions:
                 SQL = f"UPDATE `options` SET {i[0]} = '{i[1]}'"
-                print(SQL)
                 event = f"SET {i[0]} = {i[1]}"
                 log(event)
                 cursor.execute(SQL)
@@ -129,7 +128,6 @@ def get_cur_data():
     cpu_perc_load = int((psutil.cpu_percent(percpu=True)[0] + psutil.cpu_percent(percpu=True)[1] +
                          psutil.cpu_percent(percpu=True)[2] + psutil.cpu_percent(percpu=True)[3]) / 4)
     RAM_total = int(psutil.virtual_memory()[0]/1000000)
-
 
     cmd_output = Popen(["iwconfig", "wlan0"], stdout=PIPE)
 

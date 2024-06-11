@@ -215,7 +215,6 @@ def options():
         flash("You are not logged in")
         return redirect("/login")
 
-
 @app.route("/loging", methods=['POST', 'GET'])
 def loging():
     SQLrequest = """SELECT * FROM loging ORDER BY id DESC LIMIT 30"""
@@ -254,48 +253,9 @@ def terminal():
 
 
 
-#                              ### AP ###
-# @appAP.route('/', methods=['POST', 'GET'])
-# def index():
-#     return redirect("/ap")
-#
-# @appAP.route('/ap', methods=['POST', 'GET'])
-# def ap():
-#     if request.method == 'GET':
-#         return render_template("ap.html")
-#     elif request.method == 'POST':
-#         if "submit" in request.form:
-#             ssid = request.form["ssid"]
-#             password = request.form["password"]
-#             accesspoint.stopAP()
-#             time.sleep(1)
-#             accesspoint.connect_to_wifi(ssid, password)
-#             time.sleep(1)
-#             # run('sudo reboot', check=True)
-#         return redirect("/ap")
-#
-#
-# def runFlaskAP():
-#     appAP.run(debug=False, host='0.0.0.0', port=8080)
-
-
-
 if __name__ == "__main__":
-    if accesspoint.checkwifi():
-        print("connected")
-        app.run(debug=True, host='0.0.0.0', port=5001, threaded=True)
-    else:
-        pass
-        # print("not connected, creating AP")
-        # from threading import Thread
-        # time.sleep(3)
-        #
-        # t1 = Thread(target=accesspoint.startAP, args=())
-        # t2 = Thread(target=runFlaskAP, args=())
-        # t1.start()
-        # t2.start()
-        # t1.join()
-        # t2.join()
+    app.run(debug=True, host='0.0.0.0', port=5001, threaded=True)
+
 
 
 

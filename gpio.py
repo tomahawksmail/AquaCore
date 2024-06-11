@@ -89,7 +89,24 @@ def turnRelay():
 
 
 
-def checktime():
+def write_option_values(name, value):
+    try:
+        connection.connect()
+        with connection.cursor() as cursor:
+            SQL = f"UPDATE `status` SET {name} = '{value}'"
+            print(SQL)
+
+            cursor.execute(SQL)
+            connection.commit()
+            cursor.close()
+        connection.close()
+    except Exception as E:
+        print(E)
+
+
+
+def checkvalues():
+
     SQLrequest = """SELECT * FROM options"""
     try:
         connection.connect()
@@ -97,10 +114,8 @@ def checktime():
             cursor.execute(SQLrequest)
         status = cursor.fetchone()
 
-
-
-        # if datetime.strptime(status[6], '%H:%M').time() <= datetime.now().time():
-        #     gpioON(12)
+        if datetime.strptime(status[6], '%H:%M').time() <= datetime.now().time():
+            write_option_values('co2_status', 'checked')
 
 
         cursor.close()
@@ -114,7 +129,7 @@ def checktime():
 if __name__ == "__main__":
     while True:
         turnRelay()
-        checktime()
+        checkvalues()
         time.sleep(0.5)
 
 

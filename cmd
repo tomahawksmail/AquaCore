@@ -1,3 +1,4 @@
+$https://drive.google.com/drive/folders/1g806xyPnVFyM8Dz_6wAWeoTzaDg3PH4Z
 nmcli dev wifi
 sudo nmcli dev wifi connect "test" password "Qwerty123456"
 
