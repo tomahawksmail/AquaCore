@@ -4,3 +4,10 @@ sudo apt install mariadb-server -y
 sudo apt install nginx -y
 sudo apt install python3-pip
 pip install -r requirements.txt
+
+sudo mariadb
+  CREATE USER 'orangepi'@'localhost' IDENTIFIED BY 'orangepi';
+  GRANT ALL PRIVILEGES ON * . * TO 'orangepi'@'localhost';
+  FLUSH PRIVILEGES;
+  exit
+
