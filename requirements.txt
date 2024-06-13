@@ -1,4 +1,4 @@
 Flask
-dotenv 
+python-dotenv 
 pymysql
 hashlib
