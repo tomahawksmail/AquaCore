@@ -19,7 +19,7 @@ adc = Adafruit_ADS1x15.ADS1115(address=0x54, busnum=1)
 # GAIN1 = 2/3
 # GAIN2 = 2/3
 # GAIN3 = 2/3
-GAIN = [8, 8, 8, 8]
+GAIN = 8
 # Start continuous ADC conversions on channel 0 using the previously set gain
 # value.  Note you can also pass an optional data_rate parameter, see the simpletest.py
 # example and read_adc function for more infromation.
@@ -40,17 +40,12 @@ def analogportsread():
 
 
     try:
-        #val = adc.read_adc(p, gain=GAIN[p], data_rate=128)
         val = adc.read_adc(p, gain=GAIN[3], data_rate=128) * (5.0 / 327670) * 100
     except Exception as E:
         print(E)
         val = 0
     else:
-        value[p] = val
-    print(val)
-
-   # SQLfunction.WriteToADS1115Table(value)
-    # print(value) # Список из 4 int
+        print(val)
 
 
 if __name__ == '__main__':
