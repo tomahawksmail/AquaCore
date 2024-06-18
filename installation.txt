@@ -13,3 +13,11 @@ sudo mariadb
   FLUSH PRIVILEGES;
   exit
 
+
+
+
+sudo chmod a+rw /dev/i2c-*
+This is temporary and is lost at next boot so, to fix it permanently you need to do the following:
+Edit the file /etc/udev/rules.d/99-com.rules
+If this line exists:
+SUBSYSTEM=="ic2-dev", GROUP="i2c", MODE="0660"
