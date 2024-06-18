@@ -3,7 +3,8 @@ import time
 #from library import Adafruit_ADS1x15
 import Adafruit_ADS1x15
 #import SQLfunction
-adc = Adafruit_ADS1x15.ADS1115(address=0x48, busnum=0)
+#adc = Adafruit_ADS1x15.ADS1115(address=0x48, busnum=0)
+adc = Adafruit_ADS1x15.ADS1115(address=0x30, busnum=1)
 
 # Choose a gain of 1 for reading voltages from 0 to 4.09V.
 # Or pick a different gain to change the range of voltages that are read:
