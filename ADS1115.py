@@ -29,7 +29,7 @@ GAIN = [8, 8, 8, 8]
 # Note you can also call start_adc_difference() to take continuous differential
 # readings.  See the read_adc_difference() function in differential.py for more
 # information and parameter description.
-delay = 300
+delay = 1
 def analogportsread():
     # ch1 = adc.read_adc(0, gain=GAIN[0]) * (5.0 / 327670) #volts
     # ch1 = ch1 * 100 # temp
