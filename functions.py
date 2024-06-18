@@ -174,7 +174,6 @@ def get_cur_data():
     RAM_cur.append(int(psutil.virtual_memory()[2])) #Used
     RAM_cur.append(100 - int(psutil.virtual_memory()[2])) #free
 
-
     return cpu_count, uptime, cur_freq, RAM_total, cpu_thermal_cur, gpu_thermal_cur, ve_thermal_cur, ddr_thermal_cur, net, cpu_perc_load, WIFI, disk, disku, RAM_cur
 
 
