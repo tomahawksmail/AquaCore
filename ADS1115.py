@@ -7,7 +7,7 @@ delay = 1
 def analogportsread():
     value = 0
     try:
-        val = adc.read_adc(3, gain=GAIN)
+        val = adc.read_adc(p, gain=GAIN[p], data_rate=128) * (5.0 / 327670) * 100
     except Exception as E:
         print(E)
         val = 0
