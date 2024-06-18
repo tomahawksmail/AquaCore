@@ -40,7 +40,7 @@ def analogportsread():
 
 
     try:
-        val = adc.read_adc(p, gain=GAIN[3], data_rate=128) * (5.0 / 327670) * 100
+        val = adc.read_adc(3, gain=GAIN[3], data_rate=128) * (5.0 / 327670) * 100
     except Exception as E:
         print(E)
         val = 0
