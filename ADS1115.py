@@ -42,7 +42,7 @@ def getTDS():
 
         compensationVolatge = averageVoltage / compensationCoefficient
         tds = compensationVolatge * 0.000125
-        val = adc.read_adc(3, gain=GAIN, data_rate=128) * 5 * 1.686 / 65535
+        # val = adc.read_adc(3, gain=GAIN, data_rate=128) * 5 * 1.686 / 65535
     except Exception as E:
         print(E)
         tds = 0
@@ -58,7 +58,7 @@ def getPH():
 if __name__ == '__main__':
     try:
         while True:
-            analogportsread()
+            getTDS()
             time.sleep(delay)
     except KeyboardInterrupt:
         adc.stop_adc()
