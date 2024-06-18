@@ -1,7 +1,8 @@
 # sudo pip3 install Adafruit-ADS1x15
 import time
-from library import Adafruit_ADS1x15
-import SQLfunction
+#from library import Adafruit_ADS1x15
+import Adafruit_ADS1x15
+#import SQLfunction
 adc = Adafruit_ADS1x15.ADS1115(address=0x48, busnum=0)
 
 # Choose a gain of 1 for reading voltages from 0 to 4.09V.
@@ -46,7 +47,7 @@ def analogportsread():
             value[p] = val
         print(val)
 
-    SQLfunction.WriteToADS1115Table(value)
+   # SQLfunction.WriteToADS1115Table(value)
     # print(value) # Список из 4 int
 
 
