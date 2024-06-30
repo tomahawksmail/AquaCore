@@ -31,7 +31,8 @@ def getTDS():
     TDS_massive = []
     try:
         for i in range(10):
-            volts = adc.read_adc(3, gain=GAIN, data_rate=128)
+            #val =  adc.read_adc(p, gain=GAIN[p], data_rate=128) * (5.0 / 327670) * 100
+            volts = adc.read_adc(3, gain=GAIN, data_rate=128)  * (5.0 / 327670) * 100
             TDS_massive.append(volts)
         averageVoltage = sum(TDS_massive) / len(TDS_massive)
         print(averageVoltage)
