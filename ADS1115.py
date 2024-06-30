@@ -34,6 +34,7 @@ def getTDS():
             volts = adc.read_adc(3, gain=GAIN, data_rate=128)
             TDS_massive.append(volts)
         averageVoltage = sum(TDS_massive) / len(TDS_massive)
+        print(averageVoltage)
 
 
         temp = 21
