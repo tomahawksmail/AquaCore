@@ -146,7 +146,8 @@ def options():
     if 'user' in session:
         if request.method == 'GET':
             result = functions.getDatatoOptions()
-            return render_template('options.html', version=version, result=result[0], status=result[1], auto=result[2])
+            ver = functions.getver()
+            return render_template('options.html', version=version, result=result[0], status=result[1], auto=result[2], ver=ver)
         elif request.method == 'POST':
             if "submit" in request.form:
                 formstatus = []
@@ -219,8 +220,11 @@ def options():
                 functions.setDataStatus(formstatus)
                 functions.a_setDataStatus(a_formstatus)
 
+                ver = functions.getver()
+
+
                 result = functions.getDatatoOptions()
-                return render_template('options.html', version=version, result=result[0], status=result[1], auto=result[2])
+                return render_template('options.html', version=version, result=result[0], status=result[1], auto=result[2], ver=ver)
     else:
         flash("You are not logged in")
         return redirect("/login")

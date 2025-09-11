@@ -1,5 +1,6 @@
 from main import connection, session
 from datetime import datetime
+import sys
 import psutil
 import time
 from subprocess import Popen, PIPE, run
@@ -57,6 +58,8 @@ def setDataOptions(formoptions):
         connection.close()
     except Exception as E:
         log(E)
+
+
 
 def setDataStatus(formstatus):
     try:
@@ -198,6 +201,27 @@ def get_cur_data():
     RAM_cur.append(100 - int(psutil.virtual_memory()[2])) #free
 
     return cpu_count, uptime, cur_freq, RAM_total, cpu_thermal_cur, gpu_thermal_cur, ve_thermal_cur, ddr_thermal_cur, net, cpu_perc_load, WIFI, disk, disku, RAM_cur
+
+def getver():
+    ver = []
+    SQLrequest = """SELECT VERSION()"""
+    python_ver = f"{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}"
+
+
+    try:
+        connection.connect()
+        with connection.cursor() as cursor:
+            cursor.execute(SQLrequest)
+        SQLversion = cursor.fetchone()[0]
+        cursor.close()
+        connection.close()
+    except Exception as E:
+        log(E)
+        SQLversion = None
+    else:
+        ver.append(SQLversion)
+        ver.append(python_ver)
+    return ver
 
 def getAquaMetrics():
     connection.connect()
