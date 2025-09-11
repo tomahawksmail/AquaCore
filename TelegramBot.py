@@ -43,8 +43,6 @@ async def get_SystemMetrics(message: types.Message):
     metrics = functions.get_core_data()
     if not metrics:
         metrics = "No Data"
-    else:
-        print(metrics)
     await message.answer(f"📊 System Metrics:\n{metrics}")
 
 
@@ -163,7 +161,7 @@ async def handle_management(message: types.Message):
     }
 
     mssg = actions.get(message.text, "⚠️ Unknown action")
-    print(mssg)
+    functions.setOptionsFromTG(mssg)
     await message.answer(mssg)
 
 

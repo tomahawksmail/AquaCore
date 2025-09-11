@@ -2,14 +2,8 @@ table.table_light {
     border-collapse: collapse;
     width: 100%;
     text-align: center;
-
-
 }
-
-
-
 
 table.table_light th {
     border-bottom: 1px solid #fff;
-
    }

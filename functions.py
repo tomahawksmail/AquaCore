@@ -37,8 +37,6 @@ def getDatatoOptions():
         auto = cursor.fetchall()[0]
 
         result = (options, status, auto)
-        # print(result[1])
-        # print(result[2])
         cursor.close()
         connection.close()
 
@@ -78,13 +76,11 @@ def setDataStatus(formstatus):
 
 
 def a_setDataStatus(a_formstatus):
-    print(a_formstatus)
     try:
         connection.connect()
         with connection.cursor() as cursor:
             for i in a_formstatus:
                 SQL = f"UPDATE `a_status` SET {i[0]} = '{'checked' if i[1] == 'on' else 'unchecked'}'"
-                print(SQL)
                 cursor.execute(SQL)
                 connection.commit()
             cursor.close()
@@ -236,3 +232,89 @@ def getAquaMetrics():
     cursor.close()
     connection.close()
     return current
+
+def setOptionsFromTG(option):
+    connection.connect()
+    sql = ""
+    asql = ""
+    if "AUTO" in option:
+        if "CO2" in option:
+            sql = f"UPDATE `status` SET co2_status = 'unchecked'"
+            asql = f"UPDATE `a_status` SET a_co2_status = 'checked'"
+
+        elif "O2" in option:
+            sql = f"UPDATE `status` SET o2_status = 'unchecked'"
+            asql = f"UPDATE `a_status` SET a_o2_status = 'checked'"
+
+
+        elif "UV" in option:
+            sql = f"UPDATE `status` SET UV_status = 'unchecked'"
+            asql = f"UPDATE `a_status` SET a_UV_status = 'checked'"
+
+
+        elif "Heating" in option:
+            sql = f"UPDATE `status` SET heater_status = 'unchecked'"
+            asql = f"UPDATE `a_status` SET a_heater_status = 'checked'"
+
+        elif "Master" in option:
+            sql = f"UPDATE `status` SET MasterL_status = 'unchecked'"
+            asql = f"UPDATE `a_status` SET a_MasterL_status = 'checked'"
+
+        elif "Projector" in option:
+            sql = f"UPDATE `status` SET Projector_status = 'unchecked'"
+            asql = f"UPDATE `a_status` SET a_Projector_status = 'checked'"
+
+        elif "Plant" in option:
+            sql = f"UPDATE `status` SET PlantL_status = 'unchecked'"
+            asql = f"UPDATE `a_status` SET a_PlantL_status = 'checked'"
+
+        elif "Moon" in option:
+            sql = f"UPDATE `status` SET MoonL_status = 'unchecked'"
+            asql = f"UPDATE `a_status` SET a_MoonL_status = 'checked'"
+
+
+    else:
+        ###CO2###
+        if "CO2" in option and "started" in option:
+            sql = """UPDATE `status` SET co2_status = 'checked'"""
+            asql = """UPDATE `a_status` SET a_co2_status = 'unchecked'"""
+
+        elif "CO2" in option and "stopped" in option:
+            sql = """UPDATE `status` SET co2_status = 'unchecked'"""
+            asql = """UPDATE `a_status` SET a_co2_status = 'unchecked'"""
+
+        ###O2###
+        elif "O2" in option and "started" in option:
+            sql = """UPDATE `status` SET o2_status = 'checked'"""
+            asql = """UPDATE `a_status` SET a_o2_status = 'unchecked'"""
+
+        elif "O2" in option and "stopped" in option:
+            sql = """UPDATE `status` SET o2_status = 'unchecked'"""
+            asql = """UPDATE `a_status` SET a_o2_status = 'unchecked'"""
+
+        elif "UV" in option:
+            print("UV", "without AUTO")
+
+        elif "Heating" in option:
+            print("Heating", "without AUTO")
+
+        elif "Master" in option:
+            print("Master", "without AUTO")
+
+        elif "Projector" in option:
+            print("Projector", "without AUTO")
+
+        elif "Plant" in option:
+            print("Plant", "without AUTO")
+
+        elif "Moon" in option:
+            print("Moon", "without AUTO")
+
+    with connection.cursor() as cursor:
+        cursor.execute(sql)
+        cursor.execute(asql)
+
+    cursor.close()
+    connection.close()
+
+    print(sql, asql )
