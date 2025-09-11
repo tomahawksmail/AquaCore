@@ -1,76 +1,128 @@
-import asyncio
-import logging
-import sys
 from dotenv import load_dotenv
 import os
-from aiogram import Bot, Dispatcher, Router, types
-from aiogram.methods import SendMessage
-from aiogram.enums import ParseMode
-from aiogram.filters import CommandStart
-from aiogram.types import Message
-from aiogram.utils.markdown import hbold
+import logging
+from aiogram import Bot, Dispatcher, types
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
+from aiogram.filters import Command
+import asyncio
+import functions
 from time import sleep
 load_dotenv()
-# @Aquacore_bot id=6775200253 - 'Aquacore'
-# Bot token can be obtained via https://t.me/BotFather
-TOKEN = os.environ.get('BOTTOKEN')
-
-# All handlers should be attached to the Router (or Dispatcher)
+TOKEN = os.environ.get('BOT_TOKEN')
 dp = Dispatcher()
 
+ALLOWED_USERS = [1078017641]
+
+# --- MENU ---
+main_menu = ReplyKeyboardMarkup(
+    keyboard=[
+        [KeyboardButton(text="📊 Get System Metrics")],
+        [KeyboardButton(text="📊 Get Aqua Metrics")],
+        [KeyboardButton(text="📡 Get Status")],
+        [KeyboardButton(text="⚙️ Management")],
+    ],
+    resize_keyboard=True
+)
+
+
+def is_allowed(user_id: int) -> bool:
+    return user_id in ALLOWED_USERS
+
+
+@dp.message(Command("start"))
+async def cmd_start(message: types.Message):
+    if not is_allowed(message.from_user.id):
+        return  # 🚫 silently ignore
+    await message.answer("✅ Welcome, authorized user!")
+
+
+@dp.message(lambda msg: msg.text == "📊 Get System Metrics")
+async def get_SystemMetrics(message: types.Message):
+    # Example metrics
+    metrics = functions.get_core_data()
+    if not metrics:
+        metrics = "No Data"
+    else:
+        print(metrics)
+    await message.answer(f"📊 System Metrics:\n{metrics}")
+
+@dp.message(lambda msg: msg.text == "📊 Get Aqua Metrics")
+async def get_AquaMetrics(message: types.Message):
+    # Example metrics
+    metrics = functions.getAquaMetrics()
+    if not metrics:
+        metrics = "No Data"
+    else:
+        temp = metrics[0]
+        ph   = metrics[1]
+        tds  = metrics[2]
+        metrics = f"temp: {temp}, °C\nPH: {ph}\nTDS: {tds}"
+    await message.answer(f"📊 Curent Aqua Metrics:\n{metrics}")
+
+
+@dp.message(lambda msg: msg.text == "📡 Get Status")
+async def get_status(message: types.Message):
+    # Example status
+    status = "✅ Service is running\n✅ Database connected"
+    await message.answer(f"📡 Status Report:\n{status}")
+
+
+@dp.message(lambda msg: msg.text == "⚙️ Management")
+async def management(message: types.Message):
+    # Example management options
+    mgmt_menu = ReplyKeyboardMarkup(
+        keyboard=[
+            [KeyboardButton(text="▶️ Start CO2 Diffuser"), KeyboardButton(text="⏹ Stop CO2 Diffuser"), KeyboardButton(text="🔄 CO2 Auto")],
+            [KeyboardButton(text="▶️ Start O2 Diffuser"),  KeyboardButton(text="🛑 Stop O2 Diffuser"),  KeyboardButton(text="🔄 Auto")],
+            [KeyboardButton(text="▶️ Start Service"), KeyboardButton(text="⏹ Stop Service")],
+            [KeyboardButton(text="▶️ Start Service"), KeyboardButton(text="⏹ Stop Service")],
+            [KeyboardButton(text="▶️ Start Service"), KeyboardButton(text="⏹ Stop Service")],
+            [KeyboardButton(text="⬅️ Back")],
+        ],
+        resize_keyboard=True
+    )
+    await message.answer("⚙️ Management Options:", reply_markup=mgmt_menu)
+
+
+@dp.message(lambda msg: msg.text == "▶️ Start CO2 Diffuser")
+async def start_service(message: types.Message):
+    mssg = "✅ CO2 Diffuser started successfully!"
+    print(mssg)
+    await message.answer(mssg)
+
+@dp.message(lambda msg: msg.text == "⏹ Stop CO2 Diffuser")
+async def stop_service(message: types.Message):
+    mssg = "✅ CO2 Diffuser stoped successfully!"
+    print(mssg)
+    await message.answer(mssg)
+
+@dp.message(lambda msg: msg.text == "🔄 CO2 Auto")
+async def stop_service(message: types.Message):
+    mssg = "✅ CO2 turned to auto successfully!"
+    print(mssg)
+    await message.answer(mssg)
 
 
 
-@dp.message(CommandStart())
-async def command_start_handler(message: Message) -> None:
-    """
-    This handler receives messages with `/start` command
-    """
-    # Most event objects have aliases for API methods that can be called in events' context
-    # For example if you want to answer to incoming message you can use `message.answer(...)` alias
-    # and the target chat will be passed to :ref:`aiogram.methods.send_message.SendMessage`
-    # method automatically or call API method directly via
-    # Bot instance: `bot.send_message(chat_id=message.chat.id, ...)`
-    kb = [
-        [types.KeyboardButton(text="С пюрешкой")],
-        [types.KeyboardButton(text="Без пюрешки")]
-    ]
-
-    keyboard = types.ReplyKeyboardMarkup(keyboard=kb)
-    await message.answer("Как подавать котлеты?", reply_markup=keyboard)
-    await Bot.send_message(6775200253, "sgsgfds")
 
 
-    # await message.answer(f"Hello, {hbold(message.from_user.full_name)}!")
 
 
-@dp.message()
-async def echo_handler(message: types.Message) -> None:
-    """
-    Handler will forward receive a message back to the sender
-
-    By default, message handler will handle all message types (like a text, photo, sticker etc.)
-    """
-    try:
-        # Send a copy of the received message
-        await message.send_copy(chat_id=message.chat.id)
-    except TypeError:
-        # But not all the types is supported to be copied so need to handle it
-        await message.answer("Nice try!")
 
 
-async def main() -> None:
-    # Initialize Bot instance with a default parse mode which will be passed to all API calls
-    bot = Bot(TOKEN, parse_mode=ParseMode.HTML)
-    # And the run events dispatching
+
+@dp.message(lambda msg: msg.text == "⬅️ Back")
+async def back_to_main(message: types.Message):
+    await message.answer("🔙 Back to main menu", reply_markup=main_menu)
+
+
+# --- MAIN ENTRY ---
+async def main():
+    bot = Bot(token=TOKEN)
     await dp.start_polling(bot)
 
-
-
-
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO, stream=sys.stdout)
-
     asyncio.run(main())
+
 
 

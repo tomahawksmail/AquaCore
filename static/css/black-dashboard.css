@@ -6564,12 +6564,12 @@ a.close.disabled {
 .modal-dialog-centered {
   display: flex;
   align-items: center;
-  min-height: calc(100% - 1rem);
+  min-height: calc(100% - 2rem);
 }
 
 .modal-dialog-centered::before {
   display: block;
-  height: calc(100vh - 1rem);
+  height: calc(100vh - 2rem);
   content: "";
 }
 
@@ -6686,7 +6686,7 @@ a.close.disabled {
   }
 
   .modal-dialog-centered {
-    min-height: calc(100% - 3.5rem);
+    min-height: calc(100% - 4.5rem);
   }
 
   .modal-dialog-centered::before {
@@ -20264,7 +20264,7 @@ Copyright (c) 2015 Daniel Eden
 }
 /*высота блока*/
 .card-chart .chart-area {
-  height: 220px;
+  min-height: 200px;
   width: 100%;
 }
 

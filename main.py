@@ -146,10 +146,11 @@ def options():
     if 'user' in session:
         if request.method == 'GET':
             result = functions.getDatatoOptions()
-            return render_template('options.html', version=version, result=result[0], status=result[1])
+            return render_template('options.html', version=version, result=result[0], status=result[1], auto=result[2])
         elif request.method == 'POST':
             if "submit" in request.form:
                 formstatus = []
+                a_formstatus = []
                 formoptions = []
                 # get all data from form and save to list "formstatus"
                 # history
@@ -169,20 +170,24 @@ def options():
 
                 # co2
                 formstatus.append(('co2_status', request.form.get("co2")))
+                a_formstatus.append(('a_co2_status', request.form.get("a_co2")))
                 formoptions.append(('co2_on', request.form.get("co2_on")))
                 formoptions.append(('co2_off', request.form.get("co2_off")))
 
                 # o2
                 formstatus.append(('o2_status', request.form.get("o2")))
+                a_formstatus.append(('a_o2_status', request.form.get("a_o2")))
                 formoptions.append(('o2_on', request.form.get("o2_on")))
                 formoptions.append(('o2_off', request.form.get("o2_off")))
 
                 # heater
                 formstatus.append(('heater_status', request.form.get("heater_status")))
+                a_formstatus.append(('a_heater_status', request.form.get("a_heater_status")))
                 formoptions.append(('heater_temp', request.form.get("heater_temp")))
 
                 # UV
                 formstatus.append(('UV_status', request.form.get("UV_status")))
+                a_formstatus.append(('a_UV_status', request.form.get("a_UV_status")))
                 formoptions.append(('UV_on', request.form.get("UV_on")))
                 formoptions.append(('UV_off', request.form.get("UV_off")))
 
@@ -191,26 +196,31 @@ def options():
                 # light
                 # Master Light
                 formstatus.append(('MasterL_status', request.form.get("MasterL_status")))
+                a_formstatus.append(('a_MasterL_status', request.form.get("a_MasterL_status")))
                 formoptions.append(('Master_light_on', request.form.get("Master_light_on")))
                 formoptions.append(('Master_light_off', request.form.get("Master_light_off")))
 
                 formstatus.append(('Projector_status', request.form.get("Projector_status")))
+                a_formstatus.append(('a_Projector_status', request.form.get("a_Projector_status")))
                 formoptions.append(('ProjectorL_on', request.form.get("ProjectorL_on")))
                 formoptions.append(('ProjectorL_off', request.form.get("ProjectorL_off")))
 
-                formstatus.append(('MoonL_status', request.form.get("MoonL_status")))
-                formoptions.append(('MoonL_on', request.form.get("MoonL_on")))
-                formoptions.append(('MoonL_off', request.form.get("MoonL_off")))
-
                 formstatus.append(('PlantL_status', request.form.get("PlantL_status")))
+                a_formstatus.append(('a_PlantL_status', request.form.get("a_PlantL_status")))
                 formoptions.append(('PlantL_on', request.form.get("PlantL_on")))
                 formoptions.append(('PlantL_off', request.form.get("PlantL_off")))
 
+                formstatus.append(('MoonL_status', request.form.get("MoonL_status")))
+                a_formstatus.append(('a_MoonL_status', request.form.get("a_MoonL_status")))
+                formoptions.append(('MoonL_on', request.form.get("MoonL_on")))
+                formoptions.append(('MoonL_off', request.form.get("MoonL_off")))
+
                 functions.setDataOptions(formoptions)
                 functions.setDataStatus(formstatus)
+                functions.a_setDataStatus(a_formstatus)
 
                 result = functions.getDatatoOptions()
-                return render_template('options.html', version=version, result=result[0], status=result[1])
+                return render_template('options.html', version=version, result=result[0], status=result[1], auto=result[2])
     else:
         flash("You are not logged in")
         return redirect("/login")

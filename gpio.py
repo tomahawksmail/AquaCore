@@ -45,11 +45,15 @@ Popen(["gpio", "mode", "27", "out"]) #02
 ###gpio readall###
 def readGPIO():
     result = []
-    readall = (Popen(["gpio", "readall"], stdout=PIPE).communicate()[0].decode('UTF-8').split("\n"))
-    for i in range(3, 23, 1):
-        l = readall[i].replace("|"," ").split()
-        result.append(l)
-    return result
+    try:
+        readall = (Popen(["gpio", "readall"], stdout=PIPE).communicate()[0].decode('UTF-8').split("\n"))
+        for i in range(3, 23, 1):
+            l = readall[i].replace("|"," ").split()
+            result.append(l)
+    except Exception as E:
+        return E
+    else:
+        return result
 
 def gpioON(num):
     Popen(["gpio", "write", str(num), "down"])

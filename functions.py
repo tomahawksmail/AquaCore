@@ -17,8 +17,9 @@ def log(event):
         connection.close()
 
 def getDatatoOptions():
-    SQLrequest = """SELECT * FROM options"""
-    status = """SELECT * FROM status"""
+    SQLrequest = """SELECT * FROM options        """
+    status     = """SELECT * FROM status"""
+    auto       = """SELECT * FROM a_status"""
     try:
         connection.connect()
         with connection.cursor() as cursor:
@@ -27,9 +28,17 @@ def getDatatoOptions():
         with connection.cursor() as cursor:
             cursor.execute(status)
         status = cursor.fetchall()[0]
-        result = (options, status)
+
+        with connection.cursor() as cursor:
+            cursor.execute(auto)
+        auto = cursor.fetchall()[0]
+
+        result = (options, status, auto)
+        # print(result[1])
+        # print(result[2])
         cursor.close()
         connection.close()
+
     except Exception as E:
         log(E)
     return result
@@ -62,6 +71,21 @@ def setDataStatus(formstatus):
     except Exception as E:
         log(E)
 
+def a_setDataStatus(a_formstatus):
+    print(a_formstatus)
+    try:
+        connection.connect()
+        with connection.cursor() as cursor:
+            for i in a_formstatus:
+                SQL = f"UPDATE `a_status` SET {i[0]} = '{'checked' if i[1] == 'on' else 'unchecked'}'"
+                print(SQL)
+                cursor.execute(SQL)
+                connection.commit()
+            cursor.close()
+        connection.close()
+    except Exception as E:
+        log(E)
+
 def get_core_data():
     SQLrequest = """SELECT HOUR(Datetime), AVG(cpus_percent_0), AVG(cpus_percent_1), 
                     AVG(cpus_percent_2), AVG(cpus_percent_3) 
@@ -75,7 +99,6 @@ def get_core_data():
         data = cursor.fetchall()
         cursor.close()
         connection.close()
-        print(data)
     except Exception as E:
         log(E)
 
@@ -176,5 +199,13 @@ def get_cur_data():
 
     return cpu_count, uptime, cur_freq, RAM_total, cpu_thermal_cur, gpu_thermal_cur, ve_thermal_cur, ddr_thermal_cur, net, cpu_perc_load, WIFI, disk, disku, RAM_cur
 
-
+def getAquaMetrics():
+    connection.connect()
+    current = """SELECT temp, ph, tds FROM `data` ORDER BY id DESC LIMIT 1"""
+    with connection.cursor() as cursor:
+        cursor.execute(current)
+    current = cursor.fetchone()
+    cursor.close()
+    connection.close()
+    return current
 
