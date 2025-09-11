@@ -7,6 +7,7 @@ from aiogram.filters import Command
 import asyncio
 import functions
 from time import sleep
+
 load_dotenv()
 TOKEN = os.environ.get('BOT_TOKEN')
 dp = Dispatcher()
@@ -46,6 +47,7 @@ async def get_SystemMetrics(message: types.Message):
         print(metrics)
     await message.answer(f"📊 System Metrics:\n{metrics}")
 
+
 @dp.message(lambda msg: msg.text == "📊 Get Aqua Metrics")
 async def get_AquaMetrics(message: types.Message):
     # Example metrics
@@ -54,8 +56,8 @@ async def get_AquaMetrics(message: types.Message):
         metrics = "No Data"
     else:
         temp = metrics[0]
-        ph   = metrics[1]
-        tds  = metrics[2]
+        ph = metrics[1]
+        tds = metrics[2]
         metrics = f"temp: {temp}, °C\nPH: {ph}\nTDS: {tds}"
     await message.answer(f"📊 Curent Aqua Metrics:\n{metrics}")
 
@@ -72,8 +74,10 @@ async def management(message: types.Message):
     # Example management options
     mgmt_menu = ReplyKeyboardMarkup(
         keyboard=[
-            [KeyboardButton(text="▶️ Start CO2 Diffuser"), KeyboardButton(text="⏹ Stop CO2 Diffuser"), KeyboardButton(text="🔄 CO2 Auto")],
-            [KeyboardButton(text="▶️ Start O2 Diffuser"),  KeyboardButton(text="🛑 Stop O2 Diffuser"),  KeyboardButton(text="🔄 Auto")],
+            [KeyboardButton(text="▶️ Start CO2 Diffuser"), KeyboardButton(text="⏹ Stop CO2 Diffuser"),
+             KeyboardButton(text="🔄 CO2 Auto")],
+            [KeyboardButton(text="▶️ Start O2 Diffuser"), KeyboardButton(text="🛑 Stop O2 Diffuser"),
+             KeyboardButton(text="🔄 Auto")],
             [KeyboardButton(text="▶️ Start Service"), KeyboardButton(text="⏹ Stop Service")],
             [KeyboardButton(text="▶️ Start Service"), KeyboardButton(text="⏹ Stop Service")],
             [KeyboardButton(text="▶️ Start Service"), KeyboardButton(text="⏹ Stop Service")],
@@ -90,25 +94,19 @@ async def start_service(message: types.Message):
     print(mssg)
     await message.answer(mssg)
 
+
 @dp.message(lambda msg: msg.text == "⏹ Stop CO2 Diffuser")
 async def stop_service(message: types.Message):
     mssg = "✅ CO2 Diffuser stoped successfully!"
     print(mssg)
     await message.answer(mssg)
 
+
 @dp.message(lambda msg: msg.text == "🔄 CO2 Auto")
 async def stop_service(message: types.Message):
     mssg = "✅ CO2 turned to auto successfully!"
     print(mssg)
     await message.answer(mssg)
-
-
-
-
-
-
-
-
 
 
 @dp.message(lambda msg: msg.text == "⬅️ Back")
@@ -121,8 +119,6 @@ async def main():
     bot = Bot(token=TOKEN)
     await dp.start_polling(bot)
 
+
 if __name__ == "__main__":
     asyncio.run(main())
-
-
-

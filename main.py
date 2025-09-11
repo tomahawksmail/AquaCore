@@ -7,7 +7,6 @@ import pymysql
 import hashlib
 import accesspoint
 
-
 app = Flask(__name__)
 appAP = Flask(__name__)
 load_dotenv()
@@ -17,15 +16,11 @@ connection = pymysql.connect(host=os.environ.get('HOST'),
                              database=os.environ.get('DATABASE'),
                              autocommit=True)
 
-
 version = os.environ.get('VERSION')
 app.secret_key = os.environ.get('SECRET_KEY')
 appAP.secret_key = os.environ.get('SECRET_KEY')
 app.config['SESSION_PERMANENT'] = False
 appAP.config['SESSION_PERMANENT'] = False
-
-
-
 
 
 @app.route("/", methods=['POST', 'GET'])
@@ -108,7 +103,6 @@ def dashboard():
                 max = cursor.fetchone()[0]
                 max_temp = [max for i in range(48)]
 
-
                 with connection.cursor() as cursor:
                     cursor.execute(min_ph_request)
                 minph = cursor.fetchone()[0]
@@ -133,7 +127,8 @@ def dashboard():
             else:
                 cursor.close()
                 connection.close()
-            return render_template('aquarium.html', version=version, result=result, min_temp=min_temp, max_temp=max_temp, min_ph=min_ph, max_ph=max_ph, tds=tds, current=current)
+            return render_template('aquarium.html', version=version, result=result, min_temp=min_temp,
+                                   max_temp=max_temp, min_ph=min_ph, max_ph=max_ph, tds=tds, current=current)
         else:
             return render_template('aquarium.html', version=version, result=None)
     else:
@@ -147,7 +142,8 @@ def options():
         if request.method == 'GET':
             result = functions.getDatatoOptions()
             ver = functions.getver()
-            return render_template('options.html', version=version, result=result[0], status=result[1], auto=result[2], ver=ver)
+            return render_template('options.html', version=version, result=result[0], status=result[1], auto=result[2],
+                                   ver=ver)
         elif request.method == 'POST':
             if "submit" in request.form:
                 formstatus = []
@@ -167,7 +163,6 @@ def options():
 
                 # tds
                 formoptions.append(('tds', request.form.get("tds")))
-
 
                 # co2
                 formstatus.append(('co2_status', request.form.get("co2")))
@@ -191,8 +186,6 @@ def options():
                 a_formstatus.append(('a_UV_status', request.form.get("a_UV_status")))
                 formoptions.append(('UV_on', request.form.get("UV_on")))
                 formoptions.append(('UV_off', request.form.get("UV_off")))
-
-
 
                 # light
                 # Master Light
@@ -222,12 +215,13 @@ def options():
 
                 ver = functions.getver()
 
-
                 result = functions.getDatatoOptions()
-                return render_template('options.html', version=version, result=result[0], status=result[1], auto=result[2], ver=ver)
+                return render_template('options.html', version=version, result=result[0], status=result[1],
+                                       auto=result[2], ver=ver)
     else:
         flash("You are not logged in")
         return redirect("/login")
+
 
 @app.route("/loging", methods=['POST', 'GET'])
 def loging():
@@ -250,7 +244,8 @@ def core_dashboard():
     temp_data = functions.get_temp_data()
     cur_data = functions.get_cur_data()
     RAM_data = functions.get_RAM_data()
-    return render_template('core_dashboard.html', version=version, data=data, cur_data=cur_data, temp_data=temp_data, RAM_data=RAM_data)
+    return render_template('core_dashboard.html', version=version, data=data, cur_data=cur_data, temp_data=temp_data,
+                           RAM_data=RAM_data)
 
 
 @app.route("/terminal", methods=['POST', 'GET'])
@@ -266,13 +261,5 @@ def terminal():
         return redirect("/login")
 
 
-
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port=5001, threaded=True)
-
-
-
-
-
-
-
