@@ -399,10 +399,10 @@
             <div class="card card-chart">
                 <div class="card-header">
                     <div class="card-body">
-<!--                        <div class="chart-area">-->
-                            <input type="submit" value="Apply" name="submit" class="blue_button"><br>
-                        </div>
-<!--                      </div>-->
+                        <!--                        <div class="chart-area">-->
+                        <input type="submit" value="Apply" name="submit" class="blue_button"><br>
+                    </div>
+                    <!--                      </div>-->
                 </div>
             </div>
         </div>
@@ -410,6 +410,34 @@
 
 
     <script src="https://cdn.jsdelivr.net/npm/clocklet"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+          // handle AUTO checkboxes
+          const autos = document.querySelectorAll("input[name^='a_']");
+
+          autos.forEach(auto => {
+            const name = auto.name.replace("a_", ""); // e.g. "MasterL_status"
+            const manual = document.querySelector(`input[name="${name}"]`);
+
+            // initial state (on page load)
+            if (auto.checked) {
+              manual.disabled = true;
+            }
+
+            // event listener
+            auto.addEventListener("change", () => {
+              if (auto.checked) {
+                manual.checked = false;  // ensure manual is off
+                manual.disabled = true;  // block it
+              } else {
+                manual.disabled = false; // allow using manual
+              }
+            });
+          });
+        });
+    </script>
+
 </form>
 
 {% endblock %}

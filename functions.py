@@ -206,8 +206,6 @@ def getver():
     ver = []
     SQLrequest = """SELECT VERSION()"""
     python_ver = f"{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}"
-
-
     try:
         connection.connect()
         with connection.cursor() as cursor:
