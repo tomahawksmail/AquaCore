@@ -10,10 +10,11 @@ from time import sleep
 
 load_dotenv()
 TOKEN = os.environ.get('BOT_TOKEN')
+MyTGaccount = int(os.environ.get('MyTGaccount'))
 dp = Dispatcher()
 
-ALLOWED_USERS = [1078017641]
-
+ALLOWED_USERS = [MyTGaccount]
+print(ALLOWED_USERS)
 # --- MENU ---
 main_menu = ReplyKeyboardMarkup(
     keyboard=[
