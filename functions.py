@@ -311,24 +311,41 @@ def setOptionsFromTG(option):
             asql = """UPDATE `a_status` SET a_heater_status = 'unchecked'"""
 
         ###Master###
-        elif "Master" in option and "started" in option:
+        elif "Master" in option and "turned ON" in option:
             sql = """UPDATE `status` SET MasterL_status = 'checked'"""
             asql = """UPDATE `a_status` SET a_MasterL_status = 'unchecked'"""
 
-        elif "Master" in option and "stopped" in option:
+        elif "Master" in option and "turned OFF" in option:
             sql = """UPDATE `status` SET MasterL_status = 'unchecked'"""
             asql = """UPDATE `a_status` SET a_MasterL_status = 'unchecked'"""
 
+        ###Projector###
+        elif "Projector" in option and "turned ON" in option:
+            sql = """UPDATE `status` SET Projector_status = 'checked'"""
+            asql = """UPDATE `a_status` SET a_Projector_status = 'unchecked'"""
 
+        elif "Projector" in option and "turned OFF" in option:
+            sql = """UPDATE `status` SET Projector_status = 'unchecked'"""
+            asql = """UPDATE `a_status` SET a_Projector_status = 'unchecked'"""
 
-        elif "Projector" in option:
-            print("Projector", "without AUTO")
+        ###Plant###
+        elif "Plant" in option and "turned ON" in option:
+            sql = """UPDATE `status` SET PlantL_status = 'checked'"""
+            asql = """UPDATE `a_status` SET a_PlantL_status = 'unchecked'"""
 
-        elif "Plant" in option:
-            print("Plant", "without AUTO")
+        elif "Plant" in option and "turned OFF" in option:
+            sql = """UPDATE `status` SET PlantL_status = 'unchecked'"""
+            asql = """UPDATE `a_status` SET a_PlantL_status = 'unchecked'"""
 
-        elif "Moon" in option:
-            print("Moon", "without AUTO")
+        ###Moon###
+        elif "Moon" in option and "turned ON" in option:
+            sql = """UPDATE `status` SET MoonL_status = 'checked'"""
+            asql = """UPDATE `a_status` SET a_MoonL_status = 'unchecked'"""
+
+        elif "Moon" in option and "turned OFF" in option:
+            sql = """UPDATE `status` SET MoonL_status = 'unchecked'"""
+            asql = """UPDATE `a_status` SET a_MoonL_status = 'unchecked'"""
+
 
     with connection.cursor() as cursor:
         cursor.execute(sql)
