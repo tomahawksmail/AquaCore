@@ -292,14 +292,34 @@ def setOptionsFromTG(option):
             sql = """UPDATE `status` SET o2_status = 'unchecked'"""
             asql = """UPDATE `a_status` SET a_o2_status = 'unchecked'"""
 
-        elif "UV" in option:
-            print("UV", "without AUTO")
+        ###UV###
+        elif "UV" in option and "started" in option:
+            sql = """UPDATE `status` SET UV_status = 'checked'"""
+            asql = """UPDATE `a_status` SET a_UV_status = 'unchecked'"""
 
-        elif "Heating" in option:
-            print("Heating", "without AUTO")
+        elif "UV" in option and "stopped" in option:
+            sql = """UPDATE `status` SET UV_status = 'unchecked'"""
+            asql = """UPDATE `a_status` SET a_UV_status = 'unchecked'"""
 
-        elif "Master" in option:
-            print("Master", "without AUTO")
+        ###Heating###
+        elif "Heating" in option and "started" in option:
+            sql = """UPDATE `status` SET heater_status = 'checked'"""
+            asql = """UPDATE `a_status` SET a_heater_status = 'unchecked'"""
+
+        elif "Heating" in option and "stopped" in option:
+            sql = """UPDATE `status` SET heater_status = 'unchecked'"""
+            asql = """UPDATE `a_status` SET a_heater_status = 'unchecked'"""
+
+        ###Master###
+        elif "Master" in option and "started" in option:
+            sql = """UPDATE `status` SET MasterL_status = 'checked'"""
+            asql = """UPDATE `a_status` SET a_MasterL_status = 'unchecked'"""
+
+        elif "Master" in option and "stopped" in option:
+            sql = """UPDATE `status` SET MasterL_status = 'unchecked'"""
+            asql = """UPDATE `a_status` SET a_MasterL_status = 'unchecked'"""
+
+
 
         elif "Projector" in option:
             print("Projector", "without AUTO")
