@@ -353,5 +353,3 @@ def setOptionsFromTG(option):
 
     cursor.close()
     connection.close()
-
-    print(sql, asql )
