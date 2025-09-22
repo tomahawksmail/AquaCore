@@ -4,7 +4,10 @@ import sys
 import psutil
 import time
 from subprocess import Popen, PIPE, run
-
+import subprocess
+import re
+import platform
+import ipaddress
 
 def log(event):
     try:
@@ -59,6 +62,37 @@ def setDataOptions(formoptions):
         connection.close()
     except Exception as E:
         log(E)
+
+def getNetworksData():
+    system = platform.system()
+
+    if system == "Windows":
+        output = subprocess.check_output("ipconfig", shell=True, text=True)
+
+        # Grab IPv4 and Mask
+        ipv4_match = re.search(r"IPv4 Address.*?:\s*([\d.]+)", output)
+        mask_match = re.search(r"Subnet Mask.*?:\s*([\d.]+)", output)
+
+        if ipv4_match and mask_match:
+            ip = ipv4_match.group(1)
+            mask = mask_match.group(1)
+            prefix = ipaddress.IPv4Network(f"0.0.0.0/{mask}").prefixlen
+            return f"{ip}/{prefix}"
+
+    elif system == "Linux":
+        output = subprocess.check_output("ifconfig", shell=True, text=True)
+
+        ipv4_match = re.search(r"inet (?!127\.0\.0\.1)(\d+\.\d+\.\d+\.\d+)", output)
+        mask_match = re.search(r"netmask (\d+\.\d+\.\d+\.\d+)", output)
+
+        if ipv4_match and mask_match:
+            ip = ipv4_match.group(1)
+            mask = mask_match.group(1)
+            prefix = ipaddress.IPv4Network(f"0.0.0.0/{mask}").prefixlen
+            return f"{ip}/{prefix}"
+    else:
+        raise NotImplementedError(f"{system} not supported")
+
 
 
 def setDataStatus(formstatus):

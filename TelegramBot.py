@@ -65,7 +65,8 @@ async def get_AquaMetrics(message: types.Message):
 async def get_status(message: types.Message):
     # Example status
     result = functions.getver()
-    status = f"✅ BD Engine: {result[0]}\n✅ Python: {result[1]}"
+    network = functions.getNetworksData()
+    status = f"✅ BD Engine: {result[0]}\n✅ Python: {result[1]}\n✅ IP address: {network}"
     await message.answer(f"📡 Status Report:\n{status}")
 
 
