@@ -14,7 +14,7 @@ MyTGaccount = int(os.environ.get('MyTGaccount'))
 dp = Dispatcher()
 
 ALLOWED_USERS = [MyTGaccount]
-print(ALLOWED_USERS)
+
 # --- MENU ---
 main_menu = ReplyKeyboardMarkup(
     keyboard=[

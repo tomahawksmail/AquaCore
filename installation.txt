@@ -21,3 +21,64 @@ This is temporary and is lost at next boot so, to fix it permanently you need to
 Edit the file /etc/udev/rules.d/99-com.rules
 If this line exists:
 SUBSYSTEM=="ic2-dev", GROUP="i2c", MODE="0660"
+
+
+
+captive-portal-style Wi-Fi setup on Orange Pi Zero 2W
+sudo apt update
+sudo apt install hostapd dnsmasq python3-flask python3-gpiozero lighttpd
+
+sudo nano /etc/systemd/system/wifi_setup.service
+
+```
+[Unit]
+Description=WiFi Setup Web Server
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python3 /var/www/html/wifi_setup.py
+Restart=always
+User=root
+
+[Install]
+WantedBy=multi-user.target
+```
+
+sudo systemctl enable wifi_setup
+
+
+Make a script: /usr/local/bin/wifi_boot_check.sh
+
+```
+#!/bin/bash
+
+# Try Wi-Fi for 20 seconds
+for i in {1..20}; do
+    if ping -c1 8.8.8.8 &>/dev/null; then
+        exit 0  # Connected, do nothing
+    fi
+    sleep 1
+done
+
+# If no internet, start AP mode
+systemctl stop wpa_supplicant
+systemctl start hostapd
+systemctl start dnsmasq
+systemctl start wifi_setup
+```
+
+chmod +x /usr/local/bin/wifi_boot_check.sh
+sudo nano /etc/systemd/system/wifi_boot_check.service
+```
+[Unit]
+Description=Check WiFi on Boot
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/wifi_boot_check.sh
+Type=oneshot
+
+[Install]
+WantedBy=multi-user.target
+```
+sudo systemctl enable wifi_boot_check
