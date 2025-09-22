@@ -245,7 +245,7 @@ def getver():
         connection.connect()
         with connection.cursor() as cursor:
             cursor.execute(SQLrequest)
-        SQLversion = cursor.fetchone()[0]
+        SQLversion = cursor.fetchone()[0].split("-0")[0]
         cursor.close()
         connection.close()
     except Exception as E:
